@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
-import WorkoutForm from './components/WorkoutForm';
-import WorkoutHistory from './components/WorkoutHistory';
-import PersonalBests from './components/PersonalBests';
-import ShareAndInfo from './components/ShareAndInfo';
-import AnalysisModal from './components/AnalysisModal';
-import ExerciseManagerModal from './components/ExerciseManagerModal';
-import ExerciseDetailModal from './components/ExerciseDetailModal';
-import LoginScreen from './components/LoginScreen';
-import TrainingSchedule from './components/TrainingSchedule';
-import ScheduleModal from './components/ScheduleModal';
-import WeightConverter from './components/WeightConverter';
-import PercentageCalculator from './components/PercentageCalculator';
+import UserTour from './components/ui/UserTour';
+import WorkoutForm from './components/workouts/WorkoutForm';
+import WorkoutHistory from './components/workouts/WorkoutHistory';
+import PersonalBests from './components/workouts/PersonalBests';
+import ShareAndInfo from './components/ui/ShareAndInfo';
+import AnalysisModal from './components/analysis/AnalysisModal';
+import ExerciseManagerModal from './components/workouts/ExerciseManagerModal';
+import ExerciseDetailModal from './components/analysis/ExerciseDetailModal';
+import LoginScreen from './components/auth/LoginScreen';
+import TrainingSchedule from './components/schedule/TrainingSchedule';
+import ScheduleModal from './components/schedule/ScheduleModal';
+import WeightConverter from './components/calculators/WeightConverter';
+import PercentageCalculator from './components/calculators/PercentageCalculator';
 import { themes } from './constants';
 import { WorkoutRecord, Theme, ScheduledSession } from './types';
 import { useAuth } from './hooks/useAuth';
@@ -60,21 +61,23 @@ const App: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[var(--background)] text-[var(--text)] font-sans">
-            <Header user={user} onLogout={handleLogout} />
-            <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-1 space-y-6">
+        <div className="min-h-screen bg-[var(--background)] text-[var(--text)] font-sans antialiased overflow-x-hidden">
+            <Header />
+            <main className="p-3 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="md:col-span-2 lg:col-span-1 space-y-4 sm:space-y-6">
                         <WorkoutForm 
                             onAddRecord={addRecord} 
                             onManageExercises={() => openModal('exerciseManager')}
                             exercises={exercises}
                         />
-                         <WeightConverter user={user} />
-                         <PercentageCalculator records={personalBests} user={user} />
+                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
+                            <WeightConverter user={user} />
+                            <PercentageCalculator records={personalBests} user={user} />
+                         </div>
                          <ShareAndInfo />
                     </div>
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="md:col-span-2 lg:col-span-2 space-y-4 sm:space-y-6">
                         <PersonalBests records={personalBests} onShowDetails={handleShowExerciseDetailsInternal} />
                         <TrainingSchedule 
                             sessions={scheduledSessions}
