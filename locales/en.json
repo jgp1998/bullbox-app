@@ -1,0 +1,138 @@
+{
+  "header": {
+    "title": "BULLBOX",
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "selectTheme": "Select theme",
+    "selectLanguage": "Select language"
+  },
+  "login": {
+    "tagline": "Log your lifts. Smash your PRs.",
+    "registerTagline": "Create your account to start tracking.",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "email": "Email",
+    "dob": "Date of Birth",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "loginButton": "Log In",
+    "registerButton": "Register",
+    "forgotPassword": "Forgot Password?",
+    "switchToRegister": "Don't have an account? Register",
+    "switchToLogin": "Already have an account? Log In",
+    "registerSuccess": "Registration successful! A confirmation email has been sent. You can now log in.",
+    "errors": {
+      "invalidCredentials": "Invalid username or password.",
+      "passwordMismatch": "Passwords do not match.",
+      "usernameTaken": "This username is already taken.",
+      "emailTaken": "This email is already registered.",
+      "passwordTooShort": "Password must be at least 6 characters.",
+      "generic": "An unexpected error occurred. Please try again."
+    }
+  },
+  "workoutForm": {
+    "exercise": "Exercise",
+    "manageExercises": "Manage Exercises",
+    "date": "Date",
+    "recordType": "Record Type",
+    "unit": "Unit",
+    "valueLabel": "Value ({unit})",
+    "timeLabel": "Time (mm:ss)",
+    "addRecord": "Add Record",
+    "errors": {
+      "validTime": "Please enter a valid time.",
+      "positiveValue": "Please enter a positive value.",
+      "selectExercise": "Please select an exercise."
+    },
+    "recordTypes": {
+      "Weight": "Weight",
+      "Reps": "Reps",
+      "Time": "Time"
+    }
+  },
+  "weightConverter": {
+    "title": "Weight Converter"
+  },
+  "percentageCalculator": {
+    "title": "RM Percentage Calculator",
+    "exerciseLabel": "Exercise (1RM)",
+    "noPBs": "Log a 'Weight' personal best to use this feature.",
+    "percentageLabel": "Percentage",
+    "calculate": "Calculate",
+    "basedOn": "Based on your 1RM of {value} {unit} for {exercise}.",
+    "plateBreakdown": "Plate Breakdown (per side) for {weight} {unit}",
+    "assumesBarbell": "Assumes a {weight}{unit} barbell.",
+    "lessThanBarbell": "Weight is less than or equal to the barbell."
+  },
+  "shareAndInfo": {
+    "shareTitle": "Share Your Progress",
+    "shareApp": "Share App",
+    "linkCopied": "Link Copied!",
+    "infoTitle": "Install BULLBOX",
+    "infoText": "For an app-like experience, install BULLBOX on your device! Look for the 'Add to Home Screen' or 'Install' option in your browser menu."
+  },
+  "personalBests": {
+    "title": "Personal Bests",
+    "viewDetails": "View details for {exercise}",
+    "noPBs": "Your personal bests will appear here as you log workouts."
+  },
+  "trainingSchedule": {
+    "title": "Training Schedule",
+    "scheduleButton": "Schedule",
+    "editSession": "Edit Session",
+    "deleteSession": "Delete Session",
+    "noSessions": "No upcoming sessions. Schedule a workout to stay on track!"
+  },
+  "workoutHistory": {
+    "title": "Workout History",
+    "allExercises": "All",
+    "getAiAnalysis": "Get AI Analysis",
+    "deleteRecord": "Delete Record",
+    "noRecords": "No records found. Add a workout to get started!",
+    "logTwoRecords": "Log at least two records for this exercise to see a progress chart."
+  },
+  "modals": {
+    "aiPerformanceReview": "AI Performance Review",
+    "loadingAnalysis": "Coach Bull is analyzing your performance...",
+    "errorTitle": "Oops! Something went wrong.",
+    "analysis": "Analysis",
+    "trainingTips": "Training Tips",
+    "nutritionSuggestion": "Nutrition Suggestion",
+    "manageExercises": "Manage Exercises",
+    "addExercisePlaceholder": "e.g., Back Squat",
+    "addNewExercise": "Add new exercise",
+    "deleteExercise": "Delete {exercise}",
+    "noExercises": "No exercises added yet.",
+    "errors": {
+      "emptyExercise": "Exercise name cannot be empty.",
+      "exerciseExists": "This exercise already exists."
+    },
+    "exerciseDetails": "Exercise Details",
+    "loadingDetails": "Fetching exercise details...",
+    "description": "Description",
+    "bestPractices": "Best Practices",
+    "commonMistakes": "Common Mistakes",
+    "close": "Close",
+    "resetPassword": "Reset Password",
+    "resetPasswordPrompt": "Enter your email and we'll send a link to get back into your account.",
+    "emailPlaceholder": "you@example.com",
+    "sendResetLink": "Send Reset Link",
+    "resetSubmitted": "If an account with that email exists, we've sent a password reset link.",
+    "editSession": "Edit Session",
+    "scheduleSession": "Schedule Session",
+    "sessionTitle": "Title",
+    "sessionTitlePlaceholder": "e.g., Heavy Squat Day",
+    "sessionDate": "Date",
+    "sessionTime": "Time",
+    "sessionNotes": "Notes (Optional)",
+    "sessionNotesPlaceholder": "Focus on form, 5x5 sets...",
+    "saveChanges": "Save Changes",
+    "addSession": "Add Session",
+    "errors": {
+      "allFieldsRequired": "Title, date, and time are required."
+    }
+  }
+}

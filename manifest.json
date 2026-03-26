@@ -1,0 +1,21 @@
+{
+  "name": "BULLBOX record",
+  "short_name": "BULLBOX",
+  "description": "An application for users to track their workout history in CrossFit and Olympic lifting, visualize progress, and receive AI-powered recommendations for improvement.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#e63946",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

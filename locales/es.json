@@ -1,0 +1,138 @@
+{
+  "header": {
+    "title": "BULLBOX",
+    "welcome": "Bienvenido(a)",
+    "logout": "Cerrar Sesión",
+    "selectTheme": "Seleccionar tema",
+    "selectLanguage": "Seleccionar idioma"
+  },
+  "login": {
+    "tagline": "Registra tus levantamientos. Rompe tus récords.",
+    "registerTagline": "Crea tu cuenta para empezar a registrar.",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "email": "Correo Electrónico",
+    "dob": "Fecha de Nacimiento",
+    "gender": "Género",
+    "male": "Masculino",
+    "female": "Femenino",
+    "other": "Otro",
+    "loginButton": "Iniciar Sesión",
+    "registerButton": "Registrarse",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "switchToRegister": "¿No tienes una cuenta? Regístrate",
+    "switchToLogin": "¿Ya tienes una cuenta? Inicia Sesión",
+    "registerSuccess": "¡Registro exitoso! Se ha enviado un correo de confirmación. Ahora puedes iniciar sesión.",
+    "errors": {
+      "invalidCredentials": "Usuario o contraseña inválidos.",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "usernameTaken": "Este nombre de usuario ya está en uso.",
+      "emailTaken": "Este correo electrónico ya está registrado.",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+      "generic": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
+    }
+  },
+  "workoutForm": {
+    "exercise": "Ejercicio",
+    "manageExercises": "Gestionar Ejercicios",
+    "date": "Fecha",
+    "recordType": "Tipo de Registro",
+    "unit": "Unidad",
+    "valueLabel": "Valor ({unit})",
+    "timeLabel": "Tiempo (mm:ss)",
+    "addRecord": "Añadir Registro",
+    "errors": {
+      "validTime": "Por favor, introduce un tiempo válido.",
+      "positiveValue": "Por favor, introduce un valor positivo.",
+      "selectExercise": "Por favor, selecciona un ejercicio."
+    },
+    "recordTypes": {
+      "Weight": "Peso",
+      "Reps": "Reps",
+      "Time": "Tiempo"
+    }
+  },
+  "weightConverter": {
+    "title": "Conversor de Peso"
+  },
+  "percentageCalculator": {
+    "title": "Calculadora de % de RM",
+    "exerciseLabel": "Ejercicio (1RM)",
+    "noPBs": "Registra un récord personal de 'Peso' para usar esta función.",
+    "percentageLabel": "Porcentaje",
+    "calculate": "Calcular",
+    "basedOn": "Basado en tu 1RM de {value} {unit} para {exercise}.",
+    "plateBreakdown": "Desglose de Discos (por lado) para {weight} {unit}",
+    "assumesBarbell": "Asume una barra de {weight}{unit}.",
+    "lessThanBarbell": "El peso es menor o igual que la barra."
+  },
+  "shareAndInfo": {
+    "shareTitle": "Comparte tu Progreso",
+    "shareApp": "Compartir App",
+    "linkCopied": "¡Enlace Copiado!",
+    "infoTitle": "Instalar BULLBOX",
+    "infoText": "¡Para una experiencia como la de una app, instala BULLBOX en tu dispositivo! Busca la opción 'Añadir a pantalla de inicio' o 'Instalar' en el menú de tu navegador."
+  },
+  "personalBests": {
+    "title": "Récords Personales",
+    "viewDetails": "Ver detalles de {exercise}",
+    "noPBs": "Tus récords personales aparecerán aquí a medida que registres entrenamientos."
+  },
+  "trainingSchedule": {
+    "title": "Agenda de Entrenamiento",
+    "scheduleButton": "Agendar",
+    "editSession": "Editar Sesión",
+    "deleteSession": "Eliminar Sesión",
+    "noSessions": "No hay sesiones próximas. ¡Agenda un entrenamiento para mantenerte en camino!"
+  },
+  "workoutHistory": {
+    "title": "Historial de Entrenamientos",
+    "allExercises": "Todos",
+    "getAiAnalysis": "Obtener Análisis de IA",
+    "deleteRecord": "Eliminar Registro",
+    "noRecords": "No se encontraron registros. ¡Añade un entrenamiento para empezar!",
+    "logTwoRecords": "Registra al menos dos marcas para este ejercicio para ver un gráfico de progreso."
+  },
+  "modals": {
+    "aiPerformanceReview": "Análisis de Rendimiento por IA",
+    "loadingAnalysis": "El Coach Bull está analizando tu rendimiento...",
+    "errorTitle": "¡Ups! Algo salió mal.",
+    "analysis": "Análisis",
+    "trainingTips": "Consejos de Entrenamiento",
+    "nutritionSuggestion": "Sugerencia de Nutrición",
+    "manageExercises": "Gestionar Ejercicios",
+    "addExercisePlaceholder": "Ej., Back Squat",
+    "addNewExercise": "Añadir nuevo ejercicio",
+    "deleteExercise": "Eliminar {exercise}",
+    "noExercises": "Aún no hay ejercicios añadidos.",
+    "errors": {
+      "emptyExercise": "El nombre del ejercicio no puede estar vacío.",
+      "exerciseExists": "Este ejercicio ya existe."
+    },
+    "exerciseDetails": "Detalles del Ejercicio",
+    "loadingDetails": "Obteniendo detalles del ejercicio...",
+    "description": "Descripción",
+    "bestPractices": "Mejores Prácticas",
+    "commonMistakes": "Errores Comunes",
+    "close": "Cerrar",
+    "resetPassword": "Restablecer Contraseña",
+    "resetPasswordPrompt": "Introduce tu email y te enviaremos un enlace para recuperar tu cuenta.",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "sendResetLink": "Enviar Enlace",
+    "resetSubmitted": "Si existe una cuenta con ese email, hemos enviado un enlace para restablecer la contraseña.",
+    "editSession": "Editar Sesión",
+    "scheduleSession": "Agendar Sesión",
+    "sessionTitle": "Título",
+    "sessionTitlePlaceholder": "Ej., Día de Squat Pesado",
+    "sessionDate": "Fecha",
+    "sessionTime": "Hora",
+    "sessionNotes": "Notas (Opcional)",
+    "sessionNotesPlaceholder": "Enfocarse en la técnica, series 5x5...",
+    "saveChanges": "Guardar Cambios",
+    "addSession": "Añadir Sesión",
+    "errors": {
+      "allFieldsRequired": "El título, la fecha y la hora son obligatorios."
+    }
+  }
+}
