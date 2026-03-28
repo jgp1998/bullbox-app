@@ -31,13 +31,7 @@ export interface ExerciseDetail {
     commonMistakes: string[];
 }
 
-export interface User {
-    username: string;
-    gender: 'Male' | 'Female' | 'Other';
-    email: string;
-    dob: string;
-    password?: string; 
-}
+export type { User } from '@/src/features/auth';
 
 export interface AdminEvent {
     id: string;

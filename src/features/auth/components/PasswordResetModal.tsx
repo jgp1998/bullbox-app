@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { MailIcon } from '../Icons';
-import { useI18n } from '../../context/i18n';
-import Modal from '../ui/Modal';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
+import { MailIcon } from '@/components/Icons';
+import { useI18n } from '@/context/i18n';
+import Modal from '@/components/ui/Modal';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import { authService } from '../services/auth.service';
 
 interface PasswordResetModalProps {
   isOpen: boolean;
@@ -14,19 +15,30 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ isOpen, onClose
   const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`Password reset requested for: ${email}`);
-    setIsSubmitted(true);
+    setIsLoading(true);
+    setError('');
     
-    setTimeout(() => {
-        onClose();
+    try {
+        await authService.resetUserPassword(email);
+        setIsSubmitted(true);
         setTimeout(() => {
-            setIsSubmitted(false);
-            setEmail('');
-        }, 300);
-    }, 3000);
+            onClose();
+            setTimeout(() => {
+                setIsSubmitted(false);
+                setEmail('');
+            }, 300);
+        }, 3000);
+    } catch (err: any) {
+        console.error("Reset password error:", err);
+        setError(t('login.errors.generic'));
+    } finally {
+        setIsLoading(false);
+    }
   };
   
   const handleClose = () => {
@@ -34,6 +46,7 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ isOpen, onClose
     setTimeout(() => {
         setIsSubmitted(false);
         setEmail('');
+        setError('');
     }, 300);
   };
 
@@ -66,13 +79,15 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ isOpen, onClose
                     />
                     <MailIcon className="w-5 h-5 text-[var(--muted-text)] absolute left-3 bottom-3.5 pointer-events-none" />
                 </div>
+                {error && <p className="text-sm text-red-500 text-center">{error}</p>}
                 <Button
                     type="submit"
                     className="w-full"
                     variant="primary"
                     size="lg"
+                    disabled={isLoading}
                 >
-                    {t('modals.sendResetLink')}
+                    {isLoading ? '...' : t('modals.sendResetLink')}
                 </Button>
             </form>
         )}

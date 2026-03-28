@@ -2,7 +2,7 @@ import React from 'react';
 import { themes } from '../constants';
 import { useI18n } from '../context/i18n';
 import { useUIStore } from '../store/useUIStore';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '@/src/features/auth';
 import Button from './ui/Button';
 import Input from './ui/Input';
 

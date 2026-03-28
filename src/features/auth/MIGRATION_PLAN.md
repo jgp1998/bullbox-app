@@ -27,35 +27,35 @@ The authentication feature will be self-contained in `src/features/auth` with th
 ## Implementation Checklist
 
 ### 1. Types & Domain (Pre-requisite)
-- [ ] **Extract Types**: Identify and extract `User` interface from `types.ts` to `src/features/auth/types/index.ts`.
-- [ ] **Define Auth State**: Create `AuthState` interface in `src/features/auth/types/index.ts`.
+- [x] **Extract Types**: Identify and extract `User` interface from `types.ts` to `src/features/auth/types/index.ts`.
+- [x] **Define Auth State**: Create `AuthState` interface in `src/features/auth/types/index.ts`.
 
 ### 2. Services & Firebase Infrastructure
-- [ ] **Auth Service Creation**: Create `src/features/auth/services/auth.service.ts`.
-  - [ ] Implement `signInWithEmail(email, password)`.
-  - [ ] Implement `signOut()`.
-  - [ ] Implement `signUpWithEmail(userData, password)`.
-  - [ ] Implement `resetUserPassword(email)`.
-  - [ ] Implement `subscribeToAuthChanges(callback)`.
+- [x] **Auth Service Creation**: Create `src/features/auth/services/auth.service.ts`.
+  - [x] Implement `signInWithEmail(email, password)`.
+  - [x] Implement `signOut()`.
+  - [x] Implement `signUpWithEmail(userData, password)`.
+  - [x] Implement `resetUserPassword(email)`.
+  - [x] Implement `subscribeToAuthChanges(callback)`.
 
 ### 3. State Management (Zustand)
-- [ ] **Auth Store Migration**: Refactor `store/useAuthStore.ts` into `src/features/auth/store/useAuthStore.ts`.
-  - [ ] Update to use the newly created `auth.service.ts`.
-  - [ ] Ensure initialization logic remains consistent.
+- [x] **Auth Store Migration**: Refactor `store/useAuthStore.ts` into `src/features/auth/store/useAuthStore.ts`.
+  - [x] Update to use the newly created `auth.service.ts`.
+  - [x] Ensure initialization logic remains consistent.
 
 ### 4. Custom Hooks
-- [ ] **useAuth Migration**: Move `hooks/useAuth.ts` to `src/features/auth/hooks/useAuth.ts`.
-  - [ ] Update all internal path references.
+- [x] **useAuth Migration**: Move `hooks/useAuth.ts` to `src/features/auth/hooks/useAuth.ts`.
+  - [x] Update all internal path references.
 
 ### 5. UI Components (Interface)
-- [ ] **LoginScreen Migration**: Relocate `components/auth/LoginScreen.tsx` to `src/features/auth/components/LoginScreen.tsx`.
-  - [ ] Resolve imports for shared UI components (`Button`, `Card`, `Input`).
-  - [ ] Resolve i18n context imports.
-- [ ] **ResetModal Migration**: Relocate `components/auth/PasswordResetModal.tsx` to `src/features/auth/components/PasswordResetModal.tsx`.
-  - [ ] Fix respective imports.
+- [x] **LoginScreen Migration**: Relocate `components/auth/LoginScreen.tsx` to `src/features/auth/components/LoginScreen.tsx`.
+  - [x] Resolve imports for shared UI components (`Button`, `Card`, `Input`).
+  - [x] Resolve i18n context imports.
+- [x] **ResetModal Migration**: Relocate `components/auth/PasswordResetModal.tsx` to `src/features/auth/components/PasswordResetModal.tsx`.
+  - [x] Fix respective imports.
 
 ### 6. Public Interface (index.ts)
-- [ ] **Export Definitions**: Update `src/features/auth/index.ts` to export:
+- [x] **Export Definitions**: Update `src/features/auth/index.ts` to export:
   - `LoginScreen`
   - `PasswordResetModal`
   - `useAuth`
@@ -63,8 +63,8 @@ The authentication feature will be self-contained in `src/features/auth` with th
   - `User` type.
 
 ### 7. Application Refactoring
-- [ ] **Update Imports**: Change all occurrences of `useAuthStore` and `useAuth` from old paths to `@features/auth`.
-- [ ] **Root Cleanup**: Remove original files and directories after verification.
+- [x] **Update Imports**: Change all occurrences of `useAuthStore` and `useAuth` from old paths to `@features/auth`.
+- [x] **Root Cleanup**: Remove original files and directories after verification.
 
 ---
 

@@ -21,6 +21,20 @@ export const formatDuration = (seconds: number): string => {
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
+export const formatValue = (value: number, type: string): string => {
+    if (type === 'Time') return formatDuration(value);
+    return value.toFixed(1);
+};
+
+export const getUnit = (type: string): string => {
+    switch (type) {
+        case 'Weight': return 'kg';
+        case 'Reps': return 'reps';
+        case 'Time': return '';
+        default: return '';
+    }
+};
+
 export const formatWorkoutValue = (record: WorkoutRecord): string => {
     const parts: string[] = [];
     if (record.weight) parts.push(`${record.weight} ${record.unit || 'kg'}`);
