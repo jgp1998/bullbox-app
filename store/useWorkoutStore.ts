@@ -15,6 +15,7 @@ import {
     arrayRemove
 } from 'firebase/firestore';
 import { WorkoutRecord } from '../types';
+import { calculate1RM, lbsToKg } from '../utils/formatters';
 
 interface WorkoutState {
     records: WorkoutRecord[];
@@ -102,16 +103,36 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
 
     getPersonalBests: () => {
         const bests = new Map<string, WorkoutRecord>();
+
         get().records.forEach(record => {
-            const existingBest = bests.get(record.exercise);
+            const exercise = record.exercise;
+            const existingBest = bests.get(exercise);
+            
             if (!existingBest) {
-                bests.set(record.exercise, record);
+                bests.set(exercise, record);
                 return;
             }
-            if (record.type === 'Time' && record.value < existingBest.value) {
-                bests.set(record.exercise, record);
-            } else if (record.type !== 'Time' && record.value > existingBest.value) {
-                bests.set(record.exercise, record);
+
+            // If it's a time-based exercise (no weight)
+            if (record.time && !record.weight) {
+                if (!existingBest.time || (record.time < (existingBest.time || Infinity))) {
+                    bests.set(exercise, record);
+                }
+                return;
+            }
+
+            // Weight-based (calc 1RM)
+            const getRM = (rec: WorkoutRecord) => {
+                let w = rec.weight || 0;
+                if (rec.unit === 'lbs') w = lbsToKg(w);
+                return calculate1RM(w, rec.reps);
+            };
+
+            const recordRM = getRM(record);
+            const existingRM = getRM(existingBest);
+
+            if (recordRM > existingRM) {
+                bests.set(exercise, record);
             }
         });
         return Array.from(bests.values());

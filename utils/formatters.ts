@@ -5,20 +5,26 @@ const KG_TO_LBS = 2.20462;
 export const lbsToKg = (lbs: number): number => lbs / KG_TO_LBS;
 export const kgToLbs = (kg: number): number => kg * KG_TO_LBS;
 
-export const formatValue = (value: number, type: WorkoutRecord['type']) => {
-  if (type === 'Time') {
-    const minutes = Math.floor(value / 60);
-    const seconds = value % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-  return value.toString();
+/**
+ * Calculates 1RM (One Rep Max) using Epley Formula: 1RM = weight * (1 + reps/30)
+ * For 1 rep, it returns just the weight.
+ */
+export const calculate1RM = (weight?: number, reps?: number): number => {
+    if (!weight) return 0;
+    if (!reps || reps <= 1) return weight;
+    return weight * (1 + (reps / 30));
 };
 
-export const getUnit = (type: WorkoutRecord['type'], unit?: WorkoutRecord['unit']) => {
-  switch(type) {
-    case 'Weight': return unit || 'kg';
-    case 'Reps': return 'reps';
-    case 'Time': return 'min';
-    default: return '';
-  }
+export const formatDuration = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
+export const formatWorkoutValue = (record: WorkoutRecord): string => {
+    const parts: string[] = [];
+    if (record.weight) parts.push(`${record.weight} ${record.unit || 'kg'}`);
+    if (record.reps) parts.push(`${record.reps} reps`);
+    if (record.time) parts.push(formatDuration(record.time));
+    return parts.join(' @ ');
 };

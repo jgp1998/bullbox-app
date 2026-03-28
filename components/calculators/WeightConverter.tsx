@@ -14,6 +14,8 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
     const { t } = useI18n();
     const [kg, setKg] = useState<string>('');
     const [lbs, setLbs] = useState<string>('');
+    const [barWeight, setBarWeight] = useState<string>('20');
+    const [plateUnit, setPlateUnit] = useState<'kg' | 'lbs'>('kg');
 
     const handleKgChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const kgValue = (e.target as HTMLInputElement).value;
@@ -43,49 +45,79 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
 
     const kgNum = parseFloat(kg);
     const lbsNum = parseFloat(lbs);
+    const barNum = parseFloat(barWeight) || 0;
 
     return (
         <Card title={t('weightConverter.title')} className="h-full">
-            <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mb-6 relative">
-                <div className="w-full sm:flex-1">
+            <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
                     <Input
-                        label="KG"
+                        label={t('workoutForm.barWeight')}
                         type="number"
-                        value={kg}
-                        onChange={handleKgChange}
-                        placeholder="0.0"
-                        className="text-lg font-black text-center sm:text-left"
+                        value={barWeight}
+                        onChange={(e) => setBarWeight(e.target.value)}
+                        placeholder="20"
+                        className="font-bold border-[var(--primary)]/20"
                     />
-                </div>
-                <div className="py-2 sm:pt-6 text-[var(--primary)] font-black text-2xl select-none sm:rotate-0 rotate-90 opacity-50 sm:block hidden">
-                   =
-                </div>
-                <div className="w-full sm:flex-1 mt-2 sm:mt-0">
-                    <Input
-                        label="LBS"
-                        type="number"
-                        value={lbs}
-                        onChange={handleLbsChange}
-                        placeholder="0.0"
-                        className="text-lg font-black text-center sm:text-left"
-                    />
-                </div>
-            </div>
-
-            {(!isNaN(kgNum) && kgNum > 0) && (
-                <div className="space-y-8 pt-6 border-t border-[var(--border)] animate-in fade-in slide-in-from-top-4 duration-300">
-                    <PlateBreakdown totalWeight={kgNum} unit="kg" user={user} />
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                            <div className="w-full border-t border-[var(--border)] opacity-30"></div>
-                        </div>
-                        <div className="relative flex justify-center">
-                            <span className="bg-[var(--card)] px-2 text-[10px] text-[var(--muted-text)] font-bold uppercase tracking-widest">{t('common.or')}</span>
+                    <div className="space-y-1.5">
+                        <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.unit')}</label>
+                        <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden h-11">
+                            {(['kg', 'lbs'] as const).map(u => (
+                                <button
+                                    key={u}
+                                    type="button"
+                                    onClick={() => setPlateUnit(u)}
+                                    className={`flex-1 text-[10px] font-black uppercase transition-all ${
+                                        plateUnit === u 
+                                            ? 'bg-[var(--primary)] text-white' 
+                                            : 'text-[var(--muted-text)] hover:bg-[var(--primary)]/10'
+                                    }`}
+                                >
+                                    {u}
+                                </button>
+                            ))}
                         </div>
                     </div>
-                    <PlateBreakdown totalWeight={lbsNum} unit="lbs" user={user} />
                 </div>
-            )}
+
+                <div className="flex flex-col sm:flex-row items-center sm:space-x-4 relative bg-[var(--background)]/50 p-4 rounded-2xl border border-[var(--border)]">
+                    <div className="w-full sm:flex-1">
+                        <Input
+                            label="KG"
+                            type="number"
+                            value={kg}
+                            onChange={handleKgChange}
+                            placeholder="0.0"
+                            className="text-lg font-black text-center sm:text-left"
+                        />
+                    </div>
+                    <div className="py-2 sm:pt-6 text-[var(--primary)] font-black text-2xl select-none sm:rotate-0 rotate-90 opacity-50 sm:block hidden">
+                       =
+                    </div>
+                    <div className="w-full sm:flex-1 mt-2 sm:mt-0">
+                        <Input
+                            label="LBS"
+                            type="number"
+                            value={lbs}
+                            onChange={handleLbsChange}
+                            placeholder="0.0"
+                            className="text-lg font-black text-center sm:text-left"
+                        />
+                    </div>
+                </div>
+
+                {(!isNaN(kgNum) && kgNum > 0) && (
+                    <div className="pt-6 border-t border-[var(--border)] animate-in fade-in slide-in-from-top-4 duration-300">
+                        <PlateBreakdown 
+                            totalWeight={kgNum} 
+                            weightUnit="kg" 
+                            plateUnit={plateUnit}
+                            user={user} 
+                            barWeight={barNum}
+                        />
+                    </div>
+                )}
+            </div>
         </Card>
     );
 };

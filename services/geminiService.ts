@@ -55,18 +55,13 @@ const formatTimeUnit = (value: number) => {
 };
 
 const formatRecord = (record: WorkoutRecord): string => {
-    let valueStr: string;
-    switch (record.type) {
-        case 'Time':
-            valueStr = formatTimeUnit(record.value);
-            break;
-        case 'Weight':
-            valueStr = `${record.value} ${record.unit || 'kg'}`;
-            break;
-        case 'Reps':
-            valueStr = `${record.value} reps`;
-            break;
-    }
+    const parts: string[] = [];
+    if (record.weight) parts.push(`${record.weight}${record.unit || 'kg'}`);
+    if (record.reps) parts.push(`${record.reps} reps`);
+    if (record.time) parts.push(formatTimeUnit(record.time));
+    if (record.barWeight) parts.push(`(Bar: ${record.barWeight}kg)`);
+
+    const valueStr = parts.join(' x ');
     const formattedDate = new Date(record.date).toLocaleDateString();
     return `On ${formattedDate}, they recorded ${valueStr} for ${record.exercise}.`;
 };

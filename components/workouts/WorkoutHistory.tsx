@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { WorkoutRecord, Theme } from '../../types';
 import ProgressChart from '../analysis/ProgressChart';
 import { LightBulbIcon, TrashIcon } from '../Icons';
-import { formatValue, getUnit } from '../../utils/formatters';
+import { formatWorkoutValue } from '../../utils/formatters';
 import { useI18n } from '../../context/i18n';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
@@ -64,18 +64,15 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ records, exercises, the
                                 <p className="text-sm text-[var(--muted-text)]">{new Date(record.date).toLocaleDateString()}</p>
                             </div>
                             <div className="flex items-center space-x-2 text-right">
-                                <p className="text-lg font-semibold text-[var(--accent)] mr-2">
-                                    {formatValue(record.value, record.type)}
-                                    <span className="text-sm font-normal text-[var(--muted-text)] ml-1">
-                                        {getUnit(record.type, record.unit)}
-                                    </span>
+                                <p className="text-sm font-black text-[var(--accent)] mr-2 tracking-tight">
+                                    {formatWorkoutValue(record)}
                                 </p>
                                 <Button
                                     variant="ghost"
                                     size="icon"
                                     onClick={() => onGetAnalysis(record)}
                                     title={t('workoutHistory.getAiAnalysis')}
-                                    icon={<LightBulbIcon className="w-5 h-5" />}
+                                    icon={<LightBulbIcon className="w-5 h-5 text-[var(--primary)]" />}
                                 />
                                 <Button
                                     variant="ghost"

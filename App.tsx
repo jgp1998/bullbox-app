@@ -9,7 +9,7 @@ import AnalysisModal from './components/analysis/AnalysisModal';
 import ExerciseManagerModal from './components/workouts/ExerciseManagerModal';
 import ExerciseDetailModal from './components/analysis/ExerciseDetailModal';
 import LoginScreen from './components/auth/LoginScreen';
-import TrainingSchedule from './components/schedule/TrainingSchedule';
+import TrainingAgenda from './components/schedule/TrainingAgenda';
 import ScheduleModal from './components/schedule/ScheduleModal';
 import WeightConverter from './components/calculators/WeightConverter';
 import PercentageCalculator from './components/calculators/PercentageCalculator';
@@ -57,7 +57,7 @@ const App: React.FC = () => {
     // UI Store
     const { 
         theme, setTheme, modals, openModal, closeModal, 
-        editingSession, currentExerciseDetail, applyTheme 
+        editingSession, schedulingInitialDate, currentExerciseDetail, applyTheme 
     } = useUIStore();
 
     // Initial theme apply
@@ -107,9 +107,9 @@ const App: React.FC = () => {
                     </div>
                     <div className="md:col-span-2 lg:col-span-2 space-y-4 sm:space-y-6">
                         <PersonalBests records={personalBests} onShowDetails={handleShowExerciseDetailsInternal} />
-                        <TrainingSchedule 
+                        <TrainingAgenda 
                             sessions={scheduledSessions}
-                            onAddSession={() => openModal('schedule')}
+                            onAddSession={(date) => openModal('schedule', date)}
                             onEditSession={(session) => openModal('schedule', session)}
                             onDeleteSession={deleteScheduledSession}
                         />
@@ -155,6 +155,7 @@ const App: React.FC = () => {
                 onAddSession={addScheduledSession}
                 onUpdateSession={updateScheduledSession}
                 sessionToEdit={editingSession}
+                initialDate={schedulingInitialDate}
             />
         </div>
     );

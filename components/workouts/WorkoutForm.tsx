@@ -17,11 +17,12 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
   const { t } = useI18n();
   const [exercise, setExercise] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [recordType, setRecordType] = useState<RecordType>('Weight');
+  const [weight, setWeight] = useState('');
   const [weightUnit, setWeightUnit] = useState<WeightUnit>('kg');
-  const [value, setValue] = useState('');
+  const [reps, setReps] = useState('');
   const [minutes, setMinutes] = useState('');
   const [seconds, setSeconds] = useState('');
+  const [barWeight, setBarWeight] = useState(''); // Added bar weight field
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -34,137 +35,134 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
     e.preventDefault();
     setError('');
 
-    let numericValue: number;
-
-    if (recordType === 'Time') {
-      const mins = parseInt(minutes, 10) || 0;
-      const secs = parseInt(seconds, 10) || 0;
-      if (mins === 0 && secs === 0) {
-        setError(t('workoutForm.errors.validTime'));
-        return;
-      }
-      numericValue = (mins * 60) + secs;
-    } else {
-      numericValue = parseFloat(value);
-      if (isNaN(numericValue) || numericValue <= 0) {
-        setError(t('workoutForm.errors.positiveValue'));
-        return;
-      }
-    }
-    
     if (!exercise) {
-        setError(t('workoutForm.errors.selectExercise'));
-        return;
+      setError(t('workoutForm.errors.selectExercise'));
+      return;
+    }
+
+    const numWeight = parseFloat(weight);
+    const numReps = parseInt(reps, 10);
+    const mins = parseInt(minutes, 10) || 0;
+    const secs = parseInt(seconds, 10) || 0;
+    const numTime = (mins * 60) + secs;
+    const numBarWeight = parseFloat(barWeight) || 0;
+
+    // Validate that at least one metric is provided
+    if (isNaN(numWeight) && isNaN(numReps) && numTime === 0) {
+      setError(t('workoutForm.errors.atLeastOneMetric'));
+      return;
     }
 
     onAddRecord({
       date,
       exercise,
-      type: recordType,
-      value: numericValue,
-      unit: recordType === 'Weight' ? weightUnit : undefined,
+      weight: !isNaN(numWeight) ? numWeight : undefined,
+      unit: !isNaN(numWeight) ? weightUnit : undefined,
+      reps: !isNaN(numReps) ? numReps : undefined,
+      time: numTime > 0 ? numTime : undefined,
+      barWeight: numBarWeight > 0 ? numBarWeight : undefined,
     });
 
-    setValue('');
+    // Reset fields
+    setWeight('');
+    setReps('');
     setMinutes('');
     setSeconds('');
+    // We don't reset barWeight as it's often the same for multiple sets
   };
-  
-  const getUnit = () => {
-    switch (recordType) {
-        case 'Weight': return weightUnit;
-        case 'Reps': return 'reps';
-        default: return '';
-    }
-  }
 
   return (
     <Card>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input 
-                id="date"
-                label={t('workoutForm.date')}
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
+          <Input 
+            id="date"
+            label={t('workoutForm.date')}
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+          <div className="flex items-end space-x-2">
+            <div className="flex-grow">
+              <Input 
+                id="exercise"
+                label={t('workoutForm.exercise')}
+                type="select"
+                value={exercise}
+                onChange={(e) => setExercise(e.target.value)}
+                options={exercises.map(ex => ({ value: ex, label: ex }))}
                 required
-            />
-            <div className="flex items-end space-x-2">
-                <div className="flex-grow">
-                     <Input 
-                        id="exercise"
-                        label={t('workoutForm.exercise')}
-                        type="select"
-                        value={exercise}
-                        onChange={(e) => setExercise(e.target.value)}
-                        options={exercises.map(ex => ({ value: ex, label: ex }))}
-                        required
-                    />
-                </div>
-                <Button
-                    type="button"
-                    variant="secondary"
-                    size="icon"
-                    onClick={onManageExercises}
-                    title={t('workoutForm.manageExercises')}
-                    icon={<EditIcon className="w-5 h-5" />}
-                    className="mb-1"
-                />
+              />
             </div>
-        </div>
-
-        <div className="space-y-3">
-          <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.recordType')}</label>
-          <div className="grid grid-cols-3 gap-2">
-            {RECORD_TYPES.map((type) => (
-              <Button
-                key={type}
-                type="button"
-                onClick={() => setRecordType(type)}
-                variant={recordType === type ? 'primary' : 'secondary'}
-                className="w-full py-2 text-xs font-bold"
-              >
-                {t(`workoutForm.recordTypes.${type}`)}
-              </Button>
-            ))}
+            <Button
+              type="button"
+              variant="secondary"
+              size="icon"
+              onClick={onManageExercises}
+              title={t('workoutForm.manageExercises')}
+              icon={<EditIcon className="w-5 h-5" />}
+              className="mb-1"
+            />
           </div>
         </div>
 
-        {recordType === 'Weight' && (
-            <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
-                <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.unit')}</label>
-                <div className="grid grid-cols-2 gap-2">
-                    {WEIGHT_UNITS.map(unit => (
-                        <Button
-                            key={unit}
-                            type="button"
-                            onClick={() => setWeightUnit(unit)}
-                            variant={weightUnit === unit ? 'accent' : 'secondary'}
-                            className="w-full py-2 text-xs font-bold"
-                        >
-                            {unit.toUpperCase()}
-                        </Button>
-                    ))}
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.weight')}</label>
+            <div className="flex gap-2">
+              <Input
+                type="number"
+                step="any"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder="0.00"
+                className="flex-grow font-bold"
+              />
+              <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden min-w-[100px]">
+                {(['kg', 'lbs'] as WeightUnit[]).map(unit => (
+                  <button
+                    key={unit}
+                    type="button"
+                    onClick={() => setWeightUnit(unit)}
+                    className={`flex-1 py-1 text-[10px] font-black uppercase transition-all ${
+                      weightUnit === unit 
+                        ? 'bg-[var(--primary)] text-white' 
+                        : 'text-[var(--muted-text)] hover:bg-[var(--primary)]/10'
+                    }`}
+                  >
+                    {unit}
+                  </button>
+                ))}
+              </div>
             </div>
-        )}
-        
-        <div className="space-y-3">
-          <label htmlFor="value" className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">
-            {recordType === 'Time' ? t('workoutForm.timeLabel') : t('workoutForm.valueLabel', { unit: getUnit() })}
-          </label>
-          {recordType === 'Time' ? (
-            <div className="flex items-center gap-3">
+          </div>
+
+          <div className="space-y-3">
+            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.reps')}</label>
+            <Input
+              type="number"
+              value={reps}
+              onChange={(e) => setReps(e.target.value)}
+              placeholder="0"
+              className="font-bold"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.time')}</label>
+            <div className="flex items-center gap-2">
               <Input
                 type="number"
                 placeholder="mm"
                 value={minutes}
                 onChange={(e) => setMinutes(e.target.value)}
                 min="0"
-                className="text-center font-bold text-lg"
+                className="text-center font-bold"
               />
-              <span className="text-2xl font-black text-[var(--primary)]">:</span>
+              <span className="font-black text-[var(--primary)]">:</span>
               <Input
                 type="number"
                 placeholder="ss"
@@ -172,27 +170,28 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
                 onChange={(e) => setSeconds(e.target.value)}
                 min="0"
                 max="59"
-                className="text-center font-bold text-lg"
+                className="text-center font-bold"
               />
             </div>
-          ) : (
+          </div>
+
+          <div className="space-y-3">
+            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
             <Input
-              id="value"
               type="number"
               step="any"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              placeholder="0.00"
-              required
-              className="text-lg font-black"
+              value={barWeight}
+              onChange={(e) => setBarWeight(e.target.value)}
+              placeholder="20 (kg)"
+              className="font-bold border-[var(--accent)]/30"
             />
-          )}
+          </div>
         </div>
         
         {error && (
-            <div className="p-3 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-20 rounded-xl animate-shake">
-                <p className="text-xs text-red-500 font-bold text-center uppercase tracking-tight">{error}</p>
-            </div>
+          <div className="p-3 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-20 rounded-xl animate-shake">
+            <p className="text-xs text-red-500 font-bold text-center uppercase tracking-tight">{error}</p>
+          </div>
         )}
         
         <Button

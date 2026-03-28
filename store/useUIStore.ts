@@ -12,6 +12,7 @@ interface UIState {
         schedule: boolean;
     };
     editingSession: ScheduledSession | null;
+    schedulingInitialDate: string | null;
     currentExerciseDetail: string | null;
     
     // Actions
@@ -32,6 +33,7 @@ export const useUIStore = create<UIState>()(
                 schedule: false,
             },
             editingSession: null,
+            schedulingInitialDate: null,
             currentExerciseDetail: null,
 
             setTheme: (theme) => {
@@ -50,7 +52,8 @@ export const useUIStore = create<UIState>()(
             openModal: (modalName, data) => {
                 set((state) => ({
                     modals: { ...state.modals, [modalName]: true },
-                    editingSession: modalName === 'schedule' ? (data || null) : state.editingSession,
+                    editingSession: modalName === 'schedule' && typeof data === 'object' ? (data || null) : (modalName === 'schedule' ? null : state.editingSession),
+                    schedulingInitialDate: modalName === 'schedule' && typeof data === 'string' ? data : (modalName === 'schedule' ? null : state.schedulingInitialDate),
                     currentExerciseDetail: modalName === 'exerciseDetail' ? (data || null) : state.currentExerciseDetail,
                 }));
             },
@@ -59,6 +62,7 @@ export const useUIStore = create<UIState>()(
                 set((state) => ({
                     modals: { ...state.modals, [modalName]: false },
                     editingSession: modalName === 'schedule' ? null : state.editingSession,
+                    schedulingInitialDate: modalName === 'schedule' ? null : state.schedulingInitialDate,
                     currentExerciseDetail: modalName === 'exerciseDetail' ? null : state.currentExerciseDetail,
                 }));
             },

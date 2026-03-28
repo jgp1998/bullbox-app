@@ -37,20 +37,17 @@
     "exercise": "Ejercicio",
     "manageExercises": "Gestionar Ejercicios",
     "date": "Fecha",
-    "recordType": "Tipo de Registro",
+    "weight": "Peso",
+    "reps": "Reps",
+    "time": "Tiempo",
+    "barWeight": "Peso de la Barra (Valor KG)",
     "unit": "Unidad",
-    "valueLabel": "Valor ({unit})",
-    "timeLabel": "Tiempo (mm:ss)",
     "addRecord": "Añadir Registro",
     "errors": {
       "validTime": "Por favor, introduce un tiempo válido.",
       "positiveValue": "Por favor, introduce un valor positivo.",
-      "selectExercise": "Por favor, selecciona un ejercicio."
-    },
-    "recordTypes": {
-      "Weight": "Peso",
-      "Reps": "Reps",
-      "Time": "Tiempo"
+      "selectExercise": "Por favor, selecciona un ejercicio.",
+      "atLeastOneMetric": "Por favor, añade al menos un valor (Peso, Reps o Tiempo)."
     }
   },
   "weightConverter": {
@@ -71,8 +68,13 @@
     "shareTitle": "Comparte tu Progreso",
     "shareApp": "Compartir App",
     "linkCopied": "¡Enlace Copiado!",
+    "installApp": "Instalar App",
     "infoTitle": "Instalar BULLBOX",
     "infoText": "¡Para una experiencia como la de una app, instala BULLBOX en tu dispositivo! Busca la opción 'Añadir a pantalla de inicio' o 'Instalar' en el menú de tu navegador."
+  },
+  "common": {
+    "today": "Hoy",
+    "or": "O"
   },
   "personalBests": {
     "title": "Récords Personales",
@@ -108,7 +110,8 @@
     "noExercises": "Aún no hay ejercicios añadidos.",
     "errors": {
       "emptyExercise": "El nombre del ejercicio no puede estar vacío.",
-      "exerciseExists": "Este ejercicio ya existe."
+      "exerciseExists": "Este ejercicio ya existe.",
+      "allFieldsRequired": "El título, la fecha y la hora son obligatorios."
     },
     "exerciseDetails": "Detalles del Ejercicio",
     "loadingDetails": "Obteniendo detalles del ejercicio...",
@@ -130,9 +133,6 @@
     "sessionNotes": "Notas (Opcional)",
     "sessionNotesPlaceholder": "Enfocarse en la técnica, series 5x5...",
     "saveChanges": "Guardar Cambios",
-    "addSession": "Añadir Sesión",
-    "errors": {
-      "allFieldsRequired": "El título, la fecha y la hora son obligatorios."
-    }
+    "addSession": "Añadir Sesión"
   }
 }

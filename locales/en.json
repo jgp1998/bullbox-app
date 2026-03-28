@@ -37,20 +37,17 @@
     "exercise": "Exercise",
     "manageExercises": "Manage Exercises",
     "date": "Date",
-    "recordType": "Record Type",
+    "weight": "Weight",
+    "reps": "Reps",
+    "time": "Time",
+    "barWeight": "Bar Weight (KG Value)",
     "unit": "Unit",
-    "valueLabel": "Value ({unit})",
-    "timeLabel": "Time (mm:ss)",
     "addRecord": "Add Record",
     "errors": {
       "validTime": "Please enter a valid time.",
       "positiveValue": "Please enter a positive value.",
-      "selectExercise": "Please select an exercise."
-    },
-    "recordTypes": {
-      "Weight": "Weight",
-      "Reps": "Reps",
-      "Time": "Time"
+      "selectExercise": "Please select an exercise.",
+      "atLeastOneMetric": "Please add at least one value (Weight, Reps, or Time)."
     }
   },
   "weightConverter": {
@@ -71,8 +68,13 @@
     "shareTitle": "Share Your Progress",
     "shareApp": "Share App",
     "linkCopied": "Link Copied!",
+    "installApp": "Install App",
     "infoTitle": "Install BULLBOX",
     "infoText": "For an app-like experience, install BULLBOX on your device! Look for the 'Add to Home Screen' or 'Install' option in your browser menu."
+  },
+  "common": {
+    "today": "Today",
+    "or": "Or"
   },
   "personalBests": {
     "title": "Personal Bests",
@@ -108,7 +110,8 @@
     "noExercises": "No exercises added yet.",
     "errors": {
       "emptyExercise": "Exercise name cannot be empty.",
-      "exerciseExists": "This exercise already exists."
+      "exerciseExists": "This exercise already exists.",
+      "allFieldsRequired": "Title, date, and time are required."
     },
     "exerciseDetails": "Exercise Details",
     "loadingDetails": "Fetching exercise details...",
@@ -130,9 +133,6 @@
     "sessionNotes": "Notes (Optional)",
     "sessionNotesPlaceholder": "Focus on form, 5x5 sets...",
     "saveChanges": "Save Changes",
-    "addSession": "Add Session",
-    "errors": {
-      "allFieldsRequired": "Title, date, and time are required."
-    }
+    "addSession": "Add Session"
   }
 }

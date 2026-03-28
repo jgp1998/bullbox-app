@@ -11,9 +11,10 @@ interface ScheduleModalProps {
   onAddSession: (session: Omit<ScheduledSession, 'id'>) => void;
   onUpdateSession: (session: ScheduledSession) => void;
   sessionToEdit: ScheduledSession | null;
+  initialDate?: string | null;
 }
 
-const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSession, onUpdateSession, sessionToEdit }) => {
+const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSession, onUpdateSession, sessionToEdit, initialDate }) => {
   const { t } = useI18n();
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -32,13 +33,13 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
             setNotes(sessionToEdit.notes || '');
         } else {
             setTitle('');
-            setDate(new Date().toISOString().split('T')[0]);
+            setDate(initialDate || new Date().toISOString().split('T')[0]);
             setTime(new Date().toTimeString().substring(0, 5));
             setNotes('');
         }
         setError('');
     }
-  }, [isOpen, sessionToEdit, isEditing]);
+  }, [isOpen, sessionToEdit, isEditing, initialDate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

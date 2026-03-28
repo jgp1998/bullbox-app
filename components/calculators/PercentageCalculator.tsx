@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { WorkoutRecord, User } from '../../types';
 import { CalculatorIcon } from '../Icons';
-import { kgToLbs, lbsToKg } from '../../utils/formatters';
+import { calculate1RM, kgToLbs, lbsToKg } from '../../utils/formatters';
 import { useI18n } from '../../context/i18n';
 import PlateBreakdown from './PlateBreakdown';
 import Card from '../ui/Card';
@@ -17,19 +17,22 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
     const { t } = useI18n();
     const [selectedExercise, setSelectedExercise] = useState('');
     const [percentage, setPercentage] = useState('80');
+    const [barWeight, setBarWeight] = useState('20');
+    const [plateUnit, setPlateUnit] = useState<'kg' | 'lbs'>('kg');
     const [result, setResult] = useState<{
-        rm: WorkoutRecord,
+        rm: number,
+        unit: string,
+        exercise: string,
         calculated: { kg: number, lbs: number }
     } | null>(null);
 
     const weightPBs = useMemo(() => {
-        const pbs = records.filter(r => r.type === 'Weight');
+        const pbs = records.filter(r => r.weight);
         if (pbs.length > 0 && !selectedExercise) {
             setSelectedExercise(pbs[0].exercise);
         }
         return pbs;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [records]);
+    }, [records, selectedExercise]);
 
     const handleCalculate = (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,94 +44,129 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
             return;
         }
 
-        const rmInKg = pb.unit === 'lbs' ? lbsToKg(pb.value) : pb.value;
+        const rmValue = calculate1RM(pb.weight, pb.reps);
+        const rmInKg = pb.unit === 'lbs' ? lbsToKg(rmValue) : rmValue;
+        
         const calculatedKg = (rmInKg * perc) / 100;
         const calculatedLbs = kgToLbs(calculatedKg);
 
         setResult({
-            rm: pb,
+            rm: rmValue,
+            unit: pb.unit || 'kg',
+            exercise: pb.exercise,
             calculated: { kg: calculatedKg, lbs: calculatedLbs }
         });
     };
     
+    const barNum = parseFloat(barWeight) || 0;
+
     return (
         <Card 
             title={t('percentageCalculator.title')}
             icon={<CalculatorIcon className="w-5 h-5" />}
         >
-            <form onSubmit={handleCalculate} className="space-y-4 sm:space-y-6">
-                <Input
-                    label={t('percentageCalculator.exerciseLabel')}
-                    type="select"
-                    value={selectedExercise}
-                    onChange={e => {
-                        setSelectedExercise(e.target.value);
-                        setResult(null);
-                    }}
-                    options={weightPBs.map(pb => ({ value: pb.exercise, label: pb.exercise }))}
-                    disabled={weightPBs.length === 0}
-                />
-                
-                <div className="flex flex-col sm:flex-row items-end sm:space-x-3 gap-3">
-                    <div className="w-full sm:flex-grow">
-                        <Input
-                            label={t('percentageCalculator.percentageLabel')}
-                            type="number"
-                            value={percentage}
-                            onChange={e => {
-                                setPercentage(e.target.value);
-                                setResult(null);
-                            }}
-                            placeholder="e.g., 80"
-                            required
-                            min="1"
-                            max="200"
-                        />
-                    </div>
-                    <Button
-                        type="submit"
-                        variant="primary"
+            <form onSubmit={handleCalculate} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Input
+                        label={t('percentageCalculator.exerciseLabel')}
+                        type="select"
+                        value={selectedExercise}
+                        onChange={e => {
+                            setSelectedExercise(e.target.value);
+                            setResult(null);
+                        }}
+                        options={weightPBs.map(pb => ({ value: pb.exercise, label: pb.exercise }))}
                         disabled={weightPBs.length === 0}
-                        className="w-full sm:w-auto sm:mb-1 py-3"
-                    >
-                        {t('percentageCalculator.calculate')}
-                    </Button>
+                    />
+                    <Input
+                        label={t('workoutForm.barWeight')}
+                        type="number"
+                        value={barWeight}
+                        onChange={(e) => setBarWeight(e.target.value)}
+                        placeholder="20"
+                        className="font-bold border-[var(--primary)]/20"
+                    />
                 </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                    <Input
+                        label={t('percentageCalculator.percentageLabel')}
+                        type="number"
+                        value={percentage}
+                        onChange={e => {
+                            setPercentage(e.target.value);
+                            setResult(null);
+                        }}
+                        placeholder="e.g., 80"
+                        required
+                        min="1"
+                        max="200"
+                    />
+                    <div className="space-y-1.5">
+                        <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.unit')}</label>
+                        <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden h-11">
+                            {(['kg', 'lbs'] as const).map(u => (
+                                <button
+                                    key={u}
+                                    type="button"
+                                    onClick={() => setPlateUnit(u)}
+                                    className={`flex-1 text-[10px] font-black uppercase transition-all ${
+                                        plateUnit === u 
+                                            ? 'bg-[var(--primary)] text-white' 
+                                            : 'text-[var(--muted-text)] hover:bg-[var(--primary)]/10'
+                                    }`}
+                                >
+                                    {u}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={weightPBs.length === 0}
+                    className="w-full py-4 text-lg font-black uppercase italic tracking-widest"
+                >
+                    {t('percentageCalculator.calculate')}
+                </Button>
             </form>
 
             {result && (
-                <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-[var(--border)] animate-in fade-in slide-in-from-top-4 duration-300">
-                    <p className="text-[10px] text-center text-[var(--muted-text)] font-bold uppercase tracking-widest mb-4 leading-tight px-2">
-                        {t('percentageCalculator.basedOn', { value: result.rm.value.toFixed(1), unit: result.rm.unit, exercise: result.rm.exercise })}
+                <div className="mt-8 pt-8 border-t border-[var(--border)] animate-in fade-in slide-in-from-top-4 duration-300">
+                    <p className="text-[10px] text-center text-[var(--muted-text)] font-black uppercase tracking-widest mb-6 leading-tight px-4">
+                        {t('percentageCalculator.basedOn', { value: result.rm.toFixed(1), unit: result.unit, exercise: result.exercise })}
                     </p>
                     
-                    <div className="text-center mb-6 sm:mb-8 px-4 py-6 sm:py-8 bg-[var(--primary)] bg-opacity-10 rounded-2xl border border-[var(--primary)] border-opacity-20 shadow-inner">
-                        <p className="text-3xl sm:text-5xl font-black text-[var(--primary)] tracking-tight">
-                            {result.calculated.kg.toFixed(1)} <span className="text-xs sm:text-sm font-bold opacity-70">kg</span>
-                        </p>
-                        <p className="text-lg sm:text-2xl font-bold text-[var(--accent)] mt-1 opacity-80">
-                            ({result.calculated.lbs.toFixed(1)} <span className="text-xs">lbs</span>)
-                        </p>
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                        <div className="text-center p-6 bg-[var(--primary)] bg-opacity-10 rounded-2xl border border-[var(--primary)] border-opacity-20">
+                            <p className="text-3xl font-black text-[var(--primary)] tracking-tight">
+                                {result.calculated.kg.toFixed(1)} <span className="text-xs font-bold opacity-70">kg</span>
+                            </p>
+                        </div>
+                        <div className="text-center p-6 bg-[var(--accent)] bg-opacity-10 rounded-2xl border border-[var(--accent)] border-opacity-20">
+                            <p className="text-3xl font-black text-[var(--accent)] tracking-tight">
+                                {result.calculated.lbs.toFixed(1)} <span className="text-xs font-bold opacity-70">lbs</span>
+                            </p>
+                        </div>
                     </div>
                     
-                    <div className="space-y-8 px-1">
-                        <PlateBreakdown totalWeight={result.calculated.kg} unit="kg" user={user} />
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                                <div className="w-full border-t border-[var(--border)] opacity-30"></div>
-                            </div>
-                            <div className="relative flex justify-center">
-                                <span className="bg-[var(--card)] px-2 text-[10px] text-[var(--muted-text)] font-bold uppercase tracking-widest">{t('common.or')}</span>
-                            </div>
-                        </div>
-                        <PlateBreakdown totalWeight={result.calculated.lbs} unit="lbs" user={user} />
+                    <div className="pt-2 px-1">
+                        <PlateBreakdown 
+                            totalWeight={result.calculated.kg} 
+                            weightUnit="kg" 
+                            plateUnit={plateUnit}
+                            user={user}
+                            barWeight={barNum}
+                        />
                     </div>
                 </div>
             )}
             
             {weightPBs.length === 0 && (
-                <div className="mt-4 p-4 bg-yellow-500 bg-opacity-10 rounded-lg border border-yellow-500 border-opacity-20">
-                    <p className="text-xs text-yellow-600 font-medium text-center">{t('percentageCalculator.noPBs')}</p>
+                <div className="mt-4 p-5 bg-yellow-500/10 rounded-2xl border border-yellow-500/20">
+                    <p className="text-xs text-yellow-600 font-bold uppercase text-center tracking-tight">{t('percentageCalculator.noPBs')}</p>
                 </div>
             )}
         </Card>

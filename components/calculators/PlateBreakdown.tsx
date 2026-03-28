@@ -2,6 +2,7 @@ import React from 'react';
 import { User } from '../../types';
 import { OLYMPIC_BARBELLS, PLATES_KG, PLATES_LBS } from '../../constants';
 import { useI18n } from '../../context/i18n';
+import { kgToLbs, lbsToKg } from '../../utils/formatters';
 
 interface PlateStack {
   weight: number;
@@ -11,14 +12,24 @@ interface PlateStack {
 
 interface PlateBreakdownProps {
   totalWeight: number;
-  unit: 'kg' | 'lbs';
+  weightUnit: 'kg' | 'lbs';
+  plateUnit: 'kg' | 'lbs';
   user: User;
+  barWeight?: number;
 }
 
-export const calculatePlates = (totalWeight: number, unit: 'kg' | 'lbs', gender: 'Male' | 'Female' | 'Other'): PlateStack[] => {
+export const calculatePlates = (
+    totalWeight: number, 
+    weightUnit: 'kg' | 'lbs', 
+    plateUnit: 'kg' | 'lbs', 
+    gender: 'Male' | 'Female' | 'Other',
+    customBarWeight?: number
+): PlateStack[] => {
     const genderKey = gender === 'Female' ? 'female' : 'male';
-    const barbellWeight = unit === 'kg' ? OLYMPIC_BARBELLS[genderKey].kg : OLYMPIC_BARBELLS[genderKey].lbs;
-    const plates = unit === 'kg' ? PLATES_KG : PLATES_LBS;
+    const defaultBarWeight = weightUnit === 'kg' ? OLYMPIC_BARBELLS[genderKey].kg : OLYMPIC_BARBELLS[genderKey].lbs;
+    const barbellWeight = customBarWeight || defaultBarWeight;
+    
+    const plates = plateUnit === 'kg' ? PLATES_KG : PLATES_LBS;
     const stack: PlateStack[] = [];
 
     if (totalWeight <= barbellWeight) {
@@ -26,6 +37,11 @@ export const calculatePlates = (totalWeight: number, unit: 'kg' | 'lbs', gender:
     }
 
     let weightPerSide = (totalWeight - barbellWeight) / 2;
+    
+    // If target unit and plate unit are different, convert weightPerSide to plateUnit
+    if (weightUnit !== plateUnit) {
+        weightPerSide = plateUnit === 'lbs' ? kgToLbs(weightPerSide) : lbsToKg(weightPerSide);
+    }
 
     for (const plate of plates) {
         const count = Math.floor(weightPerSide / plate.weight);
@@ -80,37 +96,40 @@ const PlateDisplay: React.FC<{ stack: PlateStack[], unit: 'kg' | 'lbs' }> = ({ s
     );
 };
 
-const PlateBreakdown: React.FC<PlateBreakdownProps> = ({ totalWeight, unit, user }) => {
+const PlateBreakdown: React.FC<PlateBreakdownProps> = ({ totalWeight, weightUnit, plateUnit, user, barWeight }) => {
     const { t } = useI18n();
     const genderKey = user.gender === 'Female' ? 'female' : 'male';
-    const barbellWeight = unit === 'kg' ? OLYMPIC_BARBELLS[genderKey].kg : OLYMPIC_BARBELLS[genderKey].lbs;
-    const stack = calculatePlates(totalWeight, unit, user.gender);
+    const defaultBarWeight = weightUnit === 'kg' ? OLYMPIC_BARBELLS[genderKey].kg : OLYMPIC_BARBELLS[genderKey].lbs;
+    const finalBarWeight = barWeight || defaultBarWeight;
+    const stack = calculatePlates(totalWeight, weightUnit, plateUnit, user.gender, barWeight);
 
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-[var(--muted-text)] uppercase tracking-wider">
-                    {t('percentageCalculator.plateBreakdown', { weight: totalWeight.toFixed(1), unit })}
+                <h4 className="text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">
+                    {t('percentageCalculator.plateBreakdown', { weight: totalWeight.toFixed(1), unit: weightUnit })}
+                    <span className="ml-1 opacity-50 lowercase italic font-medium">({plateUnit} plates)</span>
                 </h4>
-                <p className="text-[10px] font-medium text-[var(--primary)] bg-[var(--primary)] bg-opacity-10 px-2 py-0.5 rounded-full">
-                    {t('percentageCalculator.assumesBarbell', { weight: barbellWeight, unit })}
+                <p className="text-[10px] font-black text-[var(--primary)] bg-[var(--primary)]/10 px-3 py-1 rounded-full uppercase italic">
+                    {t('percentageCalculator.assumesBarbell', { weight: finalBarWeight, unit: weightUnit })}
                 </p>
             </div>
             
-            <PlateDisplay stack={stack} unit={unit} />
+            <PlateDisplay stack={stack} unit={plateUnit} />
             
             {stack.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-2">
                     {stack.map((plate, idx) => (
-                        <div key={idx} className="flex items-center space-x-2 px-3 py-1.5 bg-[var(--card)] rounded-lg border border-[var(--border)] shadow-sm">
-                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: plate.color }} />
-                            <span className="text-xs font-bold text-[var(--text)]">
-                                {plate.count}x {plate.weight}{unit}
+                        <div key={idx} className="flex items-center space-x-2 px-3 py-1.5 bg-[var(--card)] rounded-xl border border-[var(--border)] shadow-sm">
+                            <div className="w-4 h-4 rounded-full border border-black/10" style={{ backgroundColor: plate.color }} />
+                            <span className="text-xs font-black text-[var(--text)] tracking-tight">
+                                {plate.count}x {plate.weight} {plateUnit}
                             </span>
                         </div>
                     ))}
                 </div>
             )}
+
             
             <style>{`
                  .custom-scrollbar::-webkit-scrollbar {
