@@ -1,11 +1,12 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { WorkoutRecord, Theme } from '../../types';
-import { lbsToKg } from '../../utils/formatters';
-import { useI18n } from '../../context/i18n';
+import { HistoryRecord } from '../types';
+import { Theme } from '@/types';
+import { lbsToKg } from '@/utils/formatters';
+import { useI18n } from '@/context/i18n';
 
 interface ProgressChartProps {
-  records: WorkoutRecord[];
+  records: HistoryRecord[];
   exercise: string;
   theme: Theme;
 }

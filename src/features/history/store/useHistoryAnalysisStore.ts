@@ -1,13 +1,13 @@
 import { create } from 'zustand';
-import { WorkoutRecord, AnalysisResult, ExerciseDetail } from '../types';
-import { getTrainingAdvice, getExerciseDetails as getDetails } from '../services/geminiService';
+import { HistoryRecord, AnalysisResult, ExerciseDetail } from '../types';
+import { getTrainingAdvice, getExerciseDetails as getDetails } from '../services';
 
 interface AnalysisState {
     analysisResult: AnalysisResult | null;
     exerciseDetail: ExerciseDetail | null;
     isLoading: boolean;
     error: string | null;
-    getAnalysis: (record: WorkoutRecord, history: WorkoutRecord[]) => Promise<void>;
+    getAnalysis: (record: HistoryRecord, history: HistoryRecord[]) => Promise<void>;
     getExerciseDetails: (exerciseName: string) => Promise<void>;
     reset: () => void;
     setAnalysisResult: (result: AnalysisResult | null) => void;
@@ -15,7 +15,7 @@ interface AnalysisState {
     setError: (error: string | null) => void;
 }
 
-export const useAnalysisStore = create<AnalysisState>((set) => ({
+export const useHistoryAnalysisStore = create<AnalysisState>((set) => ({
     analysisResult: null,
     exerciseDetail: null,
     isLoading: false,

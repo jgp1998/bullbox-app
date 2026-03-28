@@ -1,37 +1,34 @@
-import React, { useState, useMemo } from 'react';
-import { WorkoutRecord, Theme } from '../../types';
-import ProgressChart from '../analysis/ProgressChart';
-import { LightBulbIcon, TrashIcon } from '../Icons';
-import { formatWorkoutValue } from '../../utils/formatters';
-import { useI18n } from '../../context/i18n';
-import Card from '../ui/Card';
-import Button from '../ui/Button';
-import Input from '../ui/Input';
+import React from 'react';
+import { Theme } from '@/types';
+import ProgressChart from './ProgressChart';
+import AnalysisModal from './AnalysisModal';
+import { LightBulbIcon, TrashIcon } from '@/components/Icons';
+import { formatWorkoutValue } from '@/utils/formatters';
+import { useI18n } from '@/context/i18n';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
+import { useHistory } from '../hooks/useHistory';
 
 interface WorkoutHistoryProps {
-    records: WorkoutRecord[];
-    exercises: string[];
     theme: Theme;
-    onGetAnalysis: (record: WorkoutRecord) => void;
-    onDeleteRecord: (id: string) => void;
 }
 
-const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ records, exercises, theme, onGetAnalysis, onDeleteRecord }) => {
+const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
     const { t } = useI18n();
-    const [selectedExercise, setSelectedExercise] = useState<string>('All');
-
-    const filteredRecords = useMemo(() => {
-        if (selectedExercise === 'All') {
-            return records;
-        }
-        return records.filter(record => record.exercise === selectedExercise);
-    }, [records, selectedExercise]);
-    
-    const uniqueExercisesWithRecords = useMemo(() => {
-        const unique = new Set(records.map(r => r.exercise));
-        const allWithRecords = ['All', ...Array.from(unique)].filter(ex => ex === 'All' || exercises.includes(ex));
-        return allWithRecords;
-    }, [records, exercises]);
+    const {
+        records,
+        filteredRecords,
+        uniqueExercisesWithRecords,
+        selectedExercise,
+        setSelectedExercise,
+        analysisResult,
+        isLoading,
+        error,
+        handleGetAnalysis,
+        handleDeleteRecord,
+        handleCloseAnalysis
+    } = useHistory();
 
     return (
         <Card title={t('workoutHistory.title')}>
@@ -70,14 +67,14 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ records, exercises, the
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => onGetAnalysis(record)}
+                                    onClick={() => handleGetAnalysis(record)}
                                     title={t('workoutHistory.getAiAnalysis')}
                                     icon={<LightBulbIcon className="w-5 h-5 text-[var(--primary)]" />}
                                 />
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => onDeleteRecord(record.id)}
+                                    onClick={() => handleDeleteRecord(record.id)}
                                     title={t('workoutHistory.deleteRecord')}
                                     icon={<TrashIcon className="w-5 h-5 text-red-500" />}
                                     className="hover:text-red-500"
@@ -91,6 +88,14 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ records, exercises, the
                      <p className="text-[var(--muted-text)]">{t('workoutHistory.noRecords')}</p>
                 </div>
             )}
+            
+            <AnalysisModal
+                isOpen={!!analysisResult || isLoading || !!error}
+                onClose={handleCloseAnalysis}
+                result={analysisResult}
+                isLoading={isLoading}
+                error={error}
+            />
             
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar {

@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { WorkoutRecord, AnalysisResult, ExerciseDetail } from '../types';
+import { HistoryRecord, AnalysisResult, ExerciseDetail } from '../types';
 
 if (!process.env.API_KEY) {
   console.error("API_KEY environment variable not set. AI features will not work.");
@@ -54,7 +54,7 @@ const formatTimeUnit = (value: number) => {
     return `${minutes}m ${seconds}s`;
 };
 
-const formatRecord = (record: WorkoutRecord): string => {
+const formatRecord = (record: HistoryRecord): string => {
     const parts: string[] = [];
     if (record.weight) parts.push(`${record.weight}${record.unit || 'kg'}`);
     if (record.reps) parts.push(`${record.reps} reps`);
@@ -66,7 +66,7 @@ const formatRecord = (record: WorkoutRecord): string => {
     return `On ${formattedDate}, they recorded ${valueStr} for ${record.exercise}.`;
 };
 
-export const getTrainingAdvice = async (record: WorkoutRecord, history: WorkoutRecord[]): Promise<AnalysisResult> => {
+export const getTrainingAdvice = async (record: HistoryRecord, history: HistoryRecord[]): Promise<AnalysisResult> => {
     const historyString = history.map(formatRecord).join('\n');
     const prompt = `
         You are a world-class CrossFit and Olympic lifting coach named 'Coach Bull'.

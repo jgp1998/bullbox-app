@@ -1,0 +1,56 @@
+import { useState, useMemo } from 'react';
+import { HistoryRecord } from '../types';
+import { useHistoryAnalysisStore } from '../store/useHistoryAnalysisStore';
+// Temporarily using useWorkoutStore until useRecordsStore is available
+import { useWorkoutStore } from '@/store/useWorkoutStore';
+
+export const useHistory = () => {
+    const { records: workoutRecords, deleteRecord } = useWorkoutStore();
+    const records = workoutRecords as unknown as HistoryRecord[]; 
+    const { analysisResult, isLoading, error, getAnalysis, reset } = useHistoryAnalysisStore();
+    const [selectedExercise, setSelectedExercise] = useState<string>('All');
+
+    const exercises = useMemo(() => {
+        const unique = new Set(records.map(r => r.exercise));
+        return Array.from(unique);
+    }, [records]);
+
+    const filteredRecords = useMemo(() => {
+        if (selectedExercise === 'All') {
+            return records;
+        }
+        return records.filter(record => record.exercise === selectedExercise);
+    }, [records, selectedExercise]);
+
+    const uniqueExercisesWithRecords = useMemo(() => {
+        const allWithRecords = ['All', ...exercises];
+        return allWithRecords;
+    }, [exercises]);
+
+    const handleGetAnalysis = async (record: HistoryRecord) => {
+        await getAnalysis(record, records);
+    };
+
+    const handleDeleteRecord = (id: string) => {
+        deleteRecord(id);
+    };
+
+    const handleCloseAnalysis = () => {
+        reset();
+    };
+
+    return {
+        records,
+        filteredRecords,
+        exercises,
+        uniqueExercisesWithRecords,
+        selectedExercise,
+        setSelectedExercise,
+        analysisResult,
+        isLoading,
+        error,
+        handleGetAnalysis,
+        handleDeleteRecord,
+        handleCloseAnalysis
+    };
+};

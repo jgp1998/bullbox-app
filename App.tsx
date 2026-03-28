@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import UserTour from './components/ui/UserTour';
 import WorkoutForm from './components/workouts/WorkoutForm';
-import WorkoutHistory from './components/workouts/WorkoutHistory';
+import { WorkoutHistory } from '@/src/features/history';
 import PersonalBests from './components/workouts/PersonalBests';
 import ShareAndInfo from './components/ui/ShareAndInfo';
-import AnalysisModal from './components/analysis/AnalysisModal';
 import ExerciseManagerModal from './components/workouts/ExerciseManagerModal';
 import ExerciseDetailModal from './components/analysis/ExerciseDetailModal';
 import { LoginScreen, useAuthStore } from '@/src/features/auth';
@@ -65,11 +64,6 @@ const App: React.FC = () => {
     }, [applyTheme]);
 
     // Modal handlers
-    const handleGetAnalysisInternal = async (record: WorkoutRecord) => {
-        openModal('analysis');
-        await getAnalysis(record, records);
-    };
-    
     const handleShowExerciseDetailsInternal = async (exerciseName: string) => {
         openModal('exerciseDetail', exerciseName);
         await getExerciseDetails(exerciseName);
@@ -112,25 +106,11 @@ const App: React.FC = () => {
                             onEditSession={(session) => openModal('schedule', session)}
                             onDeleteSession={deleteScheduledSession}
                         />
-                        <WorkoutHistory 
-                            records={records} 
-                            exercises={exercises}
-                            theme={theme} 
-                            onGetAnalysis={handleGetAnalysisInternal}
-                            onDeleteRecord={deleteRecord}
-                        />
+                        <WorkoutHistory theme={theme} />
                     </div>
                 </div>
             </main>
             
-            <AnalysisModal 
-                isOpen={modals.analysis}
-                onClose={() => closeModal('analysis')}
-                result={analysisResult}
-                isLoading={isLoading}
-                error={error}
-            />
-
             <ExerciseManagerModal
                 isOpen={modals.exerciseManager}
                 onClose={() => closeModal('exerciseManager')}
