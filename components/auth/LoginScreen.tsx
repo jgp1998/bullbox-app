@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { User } from '../../types';
 import PasswordResetModal from './PasswordResetModal';
 import { useI18n } from '../../context/i18n';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuthStore } from '../../store/useAuthStore';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
@@ -13,7 +13,7 @@ interface LoginScreenProps {
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     const { t } = useI18n();
-    const { register } = useAuth();
+    const { login, register } = useAuthStore();
     
     const [isRegistering, setIsRegistering] = useState(false);
     const [error, setError] = useState('');
@@ -43,31 +43,23 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         setSuccessMessage('');
     };
 
-    const handleLoginSubmit = (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         
         try {
-            const storedUsers = localStorage.getItem('bullboxUsers');
-            const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
-
-            const foundUser = users.find(u => 
-                u.username.toLowerCase() === username.toLowerCase() || 
-                u.email.toLowerCase() === username.toLowerCase()
-            );
-
-            if (foundUser && foundUser.password === password) {
-                onLogin(foundUser);
-            } else {
-                setError(t('login.errors.invalidCredentials'));
-            }
-        } catch (err) {
+            await login(username, password);
+        } catch (err: any) {
             console.error("Failed to process login", err);
-            setError(t('login.errors.generic'));
+            if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                setError(t('login.errors.invalidCredentials'));
+            } else {
+                setError(t('login.errors.generic'));
+            }
         }
     };
     
-    const handleRegisterSubmit = (e: React.FormEvent) => {
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setSuccessMessage('');
@@ -83,33 +75,23 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         }
 
         try {
-            const storedUsers = localStorage.getItem('bullboxUsers');
-            const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
-
-            if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
-                setError(t('login.errors.usernameTaken'));
-                return;
-            }
-
-            if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-                setError(t('login.errors.emailTaken'));
-                return;
-            }
-
             const newUser: User = {
                 username,
                 email,
                 dob,
                 gender,
-                password,
             };
 
-            register(newUser);
+            await register({ ...newUser, password });
             setSuccessMessage(t('login.registerSuccess'));
 
-        } catch (err) {
+        } catch (err: any) {
             console.error("Failed to process registration", err);
-            setError(t('login.errors.generic'));
+            if (err.code === 'auth/email-already-in-use') {
+                setError(t('login.errors.emailTaken'));
+            } else {
+                setError(t('login.errors.generic'));
+            }
         }
     };
     

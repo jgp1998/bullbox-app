@@ -15,24 +15,44 @@ import WeightConverter from './components/calculators/WeightConverter';
 import PercentageCalculator from './components/calculators/PercentageCalculator';
 import { themes } from './constants';
 import { WorkoutRecord, Theme, ScheduledSession } from './types';
-import { useAuth } from './hooks/useAuth';
-import { useWorkouts } from './hooks/useWorkouts';
-import { useExercises } from './hooks/useExercises';
-import { useSchedule } from './hooks/useSchedule';
+import { useAuthStore } from './store/useAuthStore';
+import { useWorkoutStore } from './store/useWorkoutStore';
+import { useScheduleStore } from './store/useScheduleStore';
 import { useTrainingAnalysis } from './hooks/useTrainingAnalysis';
 
 import { useUIStore } from './store/useUIStore';
 
 const App: React.FC = () => {
     // Shared state/hooks
-    const { user, login: handleLogin, logout: handleLogout } = useAuth();
-    const { records, addRecord, deleteRecord, personalBests } = useWorkouts();
-    const { exercises, addExercise, deleteExercise } = useExercises();
-    const { scheduledSessions, addScheduledSession, updateScheduledSession, deleteScheduledSession } = useSchedule();
+    const { user, isLoading: authLoading } = useAuthStore();
+    const { 
+        records, addRecord, deleteRecord, getPersonalBests, 
+        initialize: initWorkouts 
+    } = useWorkoutStore();
+    const personalBests = getPersonalBests();
+    const { 
+        exercises, addExercise, deleteExercise 
+    } = useWorkoutStore(); // Both share the same store
+    const { 
+        scheduledSessions, addScheduledSession, updateScheduledSession, deleteScheduledSession,
+        initialize: initSchedule 
+    } = useScheduleStore();
     const { 
         analysisResult, exerciseDetail, isLoading, error, 
         getAnalysis, getExerciseDetails 
     } = useTrainingAnalysis();
+
+    // Initialize stores on auth
+    useEffect(() => {
+        if (user) {
+            const unsubWorkouts = initWorkouts();
+            const unsubSchedule = initSchedule();
+            return () => {
+                unsubWorkouts();
+                unsubSchedule();
+            };
+        }
+    }, [user, initWorkouts, initSchedule]);
 
     // UI Store
     const { 
@@ -56,8 +76,16 @@ const App: React.FC = () => {
         await getExerciseDetails(exerciseName);
     };
 
+    if (authLoading) {
+        return (
+            <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--primary)]"></div>
+            </div>
+        );
+    }
+
     if (!user) {
-        return <LoginScreen onLogin={handleLogin} />;
+        return <LoginScreen onLogin={() => {}} />; // Callback no longer needed as LoginScreen uses useAuthStore directly
     }
 
     return (

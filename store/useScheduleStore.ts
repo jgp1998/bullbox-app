@@ -1,37 +1,68 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { db, auth } from '../services/firebase';
+import { 
+    collection, 
+    addDoc, 
+    deleteDoc, 
+    doc, 
+    onSnapshot, 
+    query, 
+    orderBy,
+    updateDoc
+} from 'firebase/firestore';
 import { ScheduledSession } from '../types';
 
 interface ScheduleState {
     scheduledSessions: ScheduledSession[];
-    addScheduledSession: (session: Omit<ScheduledSession, 'id'>) => void;
-    updateScheduledSession: (updatedSession: ScheduledSession) => void;
-    deleteScheduledSession: (id: string) => void;
+    isLoading: boolean;
+    initialize: () => () => void;
+    addScheduledSession: (session: Omit<ScheduledSession, 'id'>) => Promise<void>;
+    updateScheduledSession: (updatedSession: ScheduledSession) => Promise<void>;
+    deleteScheduledSession: (id: string) => Promise<void>;
 }
 
-export const useScheduleStore = create<ScheduleState>()(
-    persist(
-        (set, get) => ({
-            scheduledSessions: [],
+export const useScheduleStore = create<ScheduleState>((set, get) => ({
+    scheduledSessions: [],
+    isLoading: false,
 
-            addScheduledSession: (session) => {
-                const newSession = { ...session, id: new Date().toISOString() };
-                set({ scheduledSessions: [...get().scheduledSessions, newSession] });
-            },
+    initialize: () => {
+        const user = auth.currentUser;
+        if (!user) return () => {};
 
-            updateScheduledSession: (updatedSession) => {
-                const updatedSessions = get().scheduledSessions.map(s => 
-                    s.id === updatedSession.id ? updatedSession : s
-                );
-                set({ scheduledSessions: updatedSessions });
-            },
+        set({ isLoading: true });
 
-            deleteScheduledSession: (id) => {
-                set({ scheduledSessions: get().scheduledSessions.filter(s => s.id !== id) });
-            },
-        }),
-        {
-            name: 'bullbox-schedule-storage',
-        }
-    )
-);
+        const q = query(
+            collection(db, 'users', user.uid, 'schedule'),
+            orderBy('date', 'asc')
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const sessions = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as ScheduledSession[];
+            set({ scheduledSessions: sessions, isLoading: false });
+        });
+
+        return unsubscribe;
+    },
+
+    addScheduledSession: async (session) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        await addDoc(collection(db, 'users', user.uid, 'schedule'), session);
+    },
+
+    updateScheduledSession: async (updatedSession) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        const { id, ...data } = updatedSession;
+        await updateDoc(doc(db, 'users', user.uid, 'schedule', id), data);
+    },
+
+    deleteScheduledSession: async (id) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        await deleteDoc(doc(db, 'users', user.uid, 'schedule', id));
+    },
+}));

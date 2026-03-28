@@ -1,63 +1,119 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { db, auth } from '../services/firebase';
+import { 
+    collection, 
+    addDoc, 
+    deleteDoc, 
+    doc, 
+    onSnapshot, 
+    query, 
+    orderBy,
+    setDoc,
+    getDoc,
+    updateDoc,
+    arrayUnion,
+    arrayRemove
+} from 'firebase/firestore';
 import { WorkoutRecord } from '../types';
 
 interface WorkoutState {
     records: WorkoutRecord[];
     exercises: string[];
-    addRecord: (record: Omit<WorkoutRecord, 'id'>) => void;
-    deleteRecord: (id: string) => void;
-    addExercise: (exercise: string) => void;
-    deleteExercise: (exercise: string) => void;
+    isLoading: boolean;
+    initialize: () => () => void;
+    addRecord: (record: Omit<WorkoutRecord, 'id'>) => Promise<void>;
+    deleteRecord: (id: string) => Promise<void>;
+    addExercise: (exercise: string) => Promise<void>;
+    deleteExercise: (exercise: string) => Promise<void>;
     getPersonalBests: () => WorkoutRecord[];
 }
 
-export const useWorkoutStore = create<WorkoutState>()(
-    persist(
-        (set, get) => ({
-            records: [],
-            exercises: ['Back Squat', 'Deadlift', 'Clean & Jerk', 'Snatch', 'Fran (Time)'],
-            
-            addRecord: (record) => {
-                const newRecord = { ...record, id: new Date().toISOString() };
-                const updatedRecords = [newRecord, ...get().records].sort(
-                    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-                );
-                set({ records: updatedRecords });
-            },
+export const useWorkoutStore = create<WorkoutState>((set, get) => ({
+    records: [],
+    exercises: ['Back Squat', 'Deadlift', 'Clean & Jerk', 'Snatch', 'Fran (Time)'],
+    isLoading: false,
 
-            deleteRecord: (id) => {
-                set({ records: get().records.filter(r => r.id !== id) });
-            },
+    initialize: () => {
+        const user = auth.currentUser;
+        if (!user) return () => {};
 
-            addExercise: (exercise) => {
-                const updatedExercises = [...get().exercises, exercise].sort();
-                set({ exercises: updatedExercises });
-            },
+        set({ isLoading: true });
 
-            deleteExercise: (exerciseToDelete) => {
-                set({ exercises: get().exercises.filter(ex => ex !== exerciseToDelete) });
-            },
+        // Subscribe to records
+        const recordsQuery = query(
+            collection(db, 'users', user.uid, 'workouts'),
+            orderBy('date', 'desc')
+        );
 
-            getPersonalBests: () => {
-                const bests = new Map<string, WorkoutRecord>();
-                get().records.forEach(record => {
-                    const existingBest = bests.get(record.exercise);
-                    if (!existingBest) {
-                        bests.set(record.exercise, record);
-                        return;
-                    }
-                    if (record.type === 'Time' && record.value < existingBest.value) {
-                        bests.set(record.exercise, record);
-                    } else if (record.type !== 'Time' && record.value > existingBest.value) {
-                        bests.set(record.exercise, record);
-                    }
-                });
-                return Array.from(bests.values());
-            },
-        }),
-        {
-            name: 'bullbox-workout-storage',
-        }
-    )
-);
+        const unsubscribeRecords = onSnapshot(recordsQuery, (snapshot) => {
+            const records = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as WorkoutRecord[];
+            set({ records, isLoading: false });
+        });
+
+        // Subscribe to exercises (stored in a single doc for the user)
+        const userDocRef = doc(db, 'users', user.uid);
+        const unsubscribeUser = onSnapshot(userDocRef, (doc) => {
+            if (doc.exists()) {
+                const data = doc.data();
+                if (data.exercises) {
+                    set({ exercises: data.exercises });
+                }
+            }
+        });
+
+        return () => {
+            unsubscribeRecords();
+            unsubscribeUser();
+        };
+    },
+    
+    addRecord: async (record) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        await addDoc(collection(db, 'users', user.uid, 'workouts'), record);
+    },
+
+    deleteRecord: async (id) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        await deleteDoc(doc(db, 'users', user.uid, 'workouts', id));
+    },
+
+    addExercise: async (exercise) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        const userDocRef = doc(db, 'users', user.uid);
+        await updateDoc(userDocRef, {
+            exercises: arrayUnion(exercise)
+        });
+    },
+
+    deleteExercise: async (exerciseToDelete) => {
+        const user = auth.currentUser;
+        if (!user) return;
+        const userDocRef = doc(db, 'users', user.uid);
+        await updateDoc(userDocRef, {
+            exercises: arrayRemove(exerciseToDelete)
+        });
+    },
+
+    getPersonalBests: () => {
+        const bests = new Map<string, WorkoutRecord>();
+        get().records.forEach(record => {
+            const existingBest = bests.get(record.exercise);
+            if (!existingBest) {
+                bests.set(record.exercise, record);
+                return;
+            }
+            if (record.type === 'Time' && record.value < existingBest.value) {
+                bests.set(record.exercise, record);
+            } else if (record.type !== 'Time' && record.value > existingBest.value) {
+                bests.set(record.exercise, record);
+            }
+        });
+        return Array.from(bests.values());
+    },
+}));
