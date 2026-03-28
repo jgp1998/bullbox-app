@@ -1,4 +1,4 @@
-import { WorkoutRecord } from '@/types';
+import { WorkoutRecord } from '@/src/features/workout';
 
 export interface AnalysisResult {
     analysis: string;

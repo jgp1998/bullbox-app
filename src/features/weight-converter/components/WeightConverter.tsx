@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { kgToLbs, lbsToKg } from '../../utils/formatters';
-import { useI18n } from '../../context/i18n';
-import { User } from '../../types';
-import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
-import Card from '../ui/Card';
-import Input from '../ui/Input';
+import React from 'react';
+import { useI18n } from '@/context/i18n';
+import { User } from '@/src/features/auth/types';
+import PlateBreakdown from './PlateBreakdown';
+import Card from '@/components/ui/Card';
+import Input from '@/components/ui/Input';
+import { useWeightConverter } from '../hooks/useWeightConverter';
 
 interface WeightConverterProps {
     user: User;
@@ -12,40 +12,12 @@ interface WeightConverterProps {
 
 const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
     const { t } = useI18n();
-    const [kg, setKg] = useState<string>('');
-    const [lbs, setLbs] = useState<string>('');
-    const [barWeight, setBarWeight] = useState<string>('20');
-    const [plateUnit, setPlateUnit] = useState<'kg' | 'lbs'>('kg');
-
-    const handleKgChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const kgValue = (e.target as HTMLInputElement).value;
-        setKg(kgValue);
-        if (kgValue === '') {
-            setLbs('');
-        } else {
-            const numValue = parseFloat(kgValue);
-            if (!isNaN(numValue)) {
-              setLbs(kgToLbs(numValue).toFixed(2));
-            }
-        }
-    };
-
-    const handleLbsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const lbsValue = (e.target as HTMLInputElement).value;
-        setLbs(lbsValue);
-        if (lbsValue === '') {
-            setKg('');
-        } else {
-            const numValue = parseFloat(lbsValue);
-            if (!isNaN(numValue)) {
-              setKg(lbsToKg(numValue).toFixed(2));
-            }
-        }
-    };
-
-    const kgNum = parseFloat(kg);
-    const lbsNum = parseFloat(lbs);
-    const barNum = parseFloat(barWeight) || 0;
+    const {
+        kg, lbs, barWeight, plateUnit,
+        setBarWeight, setPlateUnit,
+        handleKgChange, handleLbsChange,
+        kgNum, barNum
+    } = useWeightConverter();
 
     return (
         <Card title={t('weightConverter.title')} className="h-full">
@@ -86,7 +58,7 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
                             label="KG"
                             type="number"
                             value={kg}
-                            onChange={handleKgChange}
+                            onChange={(e) => handleKgChange(e.target.value)}
                             placeholder="0.0"
                             className="text-lg font-black text-center sm:text-left"
                         />
@@ -99,7 +71,7 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
                             label="LBS"
                             type="number"
                             value={lbs}
-                            onChange={handleLbsChange}
+                            onChange={(e) => handleLbsChange(e.target.value)}
                             placeholder="0.0"
                             className="text-lg font-black text-center sm:text-left"
                         />

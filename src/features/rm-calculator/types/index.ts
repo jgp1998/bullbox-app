@@ -1,4 +1,4 @@
-import type { WeightUnit } from '@/types';
+import type { WeightUnit } from '@/src/features/workout';
 
 export interface RMCalculationResult {
   oneRepMax: number;

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { WorkoutRecord, RecordType, WeightUnit } from '../../types';
-import { RECORD_TYPES, WEIGHT_UNITS } from '../../constants';
-import { PlusIcon, EditIcon } from '../Icons';
-import { useI18n } from '../../context/i18n';
-import Card from '../ui/Card';
-import Button from '../ui/Button';
-import Input from '../ui/Input';
+import { WorkoutRecord, WeightUnit } from '../types';
+import { WEIGHT_UNITS } from '../constants';
+import { PlusIcon, EditIcon } from '@/components/Icons';
+import { useI18n } from '@/context/i18n';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 
 interface WorkoutFormProps {
   onAddRecord: (record: Omit<WorkoutRecord, 'id'>) => void;
@@ -120,7 +120,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
                 className="flex-grow font-bold"
               />
               <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden min-w-[100px]">
-                {(['kg', 'lbs'] as WeightUnit[]).map(unit => (
+                {(WEIGHT_UNITS).map(unit => (
                   <button
                     key={unit}
                     type="button"

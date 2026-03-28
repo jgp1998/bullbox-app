@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { PlusIcon, TrashIcon } from '../Icons';
-import { useI18n } from '../../context/i18n';
-import Modal from '../ui/Modal';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
+import { PlusIcon, TrashIcon } from '@/components/Icons';
+import { useI18n } from '@/context/i18n';
+import Modal from '@/components/ui/Modal';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
 
 interface ExerciseManagerModalProps {
   isOpen: boolean;

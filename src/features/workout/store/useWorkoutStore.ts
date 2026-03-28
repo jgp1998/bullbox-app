@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { db, auth } from '../services/firebase';
+import { db, auth } from '@/services/firebase';
 import { 
     doc, 
     onSnapshot, 
@@ -7,17 +7,11 @@ import {
     arrayUnion, 
     arrayRemove
 } from 'firebase/firestore';
-
-interface WorkoutState {
-    exercises: string[];
-    isLoading: boolean;
-    initialize: () => () => void;
-    addExercise: (exercise: string) => Promise<void>;
-    deleteExercise: (exercise: string) => Promise<void>;
-}
+import { WorkoutState } from '../types';
+import { DEFAULT_EXERCISES } from '../constants';
 
 export const useWorkoutStore = create<WorkoutState>((set, get) => ({
-    exercises: ['Back Squat', 'Deadlift', 'Clean & Jerk', 'Snatch', 'Fran (Time)'],
+    exercises: DEFAULT_EXERCISES,
     isLoading: false,
 
     initialize: () => {

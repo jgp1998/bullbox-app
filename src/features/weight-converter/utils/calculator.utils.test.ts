@@ -1,13 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { calculatePlates } from './PlateBreakdown';
+import { calculatePlates } from './calculator.utils';
 
 describe('PlateBreakdown Logic', () => {
-  const mockUser: any = {
-    id: 'user1',
-    name: 'Test User',
-    gender: 'Male',
-  };
-
   describe('calculatePlates', () => {
     it('returns empty stack if total weight equals barbell weight (20kg)', () => {
       const stack = calculatePlates(20, 'kg', 'kg', 'Male');

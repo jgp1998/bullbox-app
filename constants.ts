@@ -1,4 +1,5 @@
-import { Theme, RecordType, WeightUnit, Plate } from './types';
+import { Theme, RecordType, WeightUnit } from './types';
+import { Plate } from '@/src/features/weight-converter';
 
 export const themes: Theme[] = [
   {

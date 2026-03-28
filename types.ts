@@ -45,9 +45,4 @@ export interface ScheduledSession {
     date: string; // YYYY-MM-DD
     time: string; // HH:MM
     notes?: string;
-}
-
-export interface Plate {
-  weight: number;
-  color: string;
-}
+}

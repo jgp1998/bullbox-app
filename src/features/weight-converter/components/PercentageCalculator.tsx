@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import type { WorkoutRecord, User } from '@/types';
+import type { User } from '@/src/features/auth/types';
+import type { WorkoutRecord } from '@/types';
 import { CalculatorIcon } from '@/components/Icons';
-import { calculate1RM } from '../../utils/calculations';
+import { calculate1RM } from '@/src/features/rm-calculator/utils/calculations';
 import { kgToLbs, lbsToKg } from '@/utils/formatters';
 import { useI18n } from '@/context/i18n';
-import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
+import PlateBreakdown from './PlateBreakdown';
 import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';

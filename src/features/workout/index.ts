@@ -1,0 +1,18 @@
+// Components
+export { default as WorkoutForm } from './components/WorkoutForm';
+export { default as ExerciseManagerModal } from './components/ExerciseManagerModal';
+
+// Shared Components (Facades)
+export { WorkoutHistory } from '@/src/features/history';
+export { PersonalBests } from '@/src/features/records';
+
+// Hooks
+export * from './hooks';
+export { useRecords } from '@/src/features/records';
+
+// Stores
+export * from './store/useWorkoutStore';
+
+// Types
+export * from './types';
+export type { WorkoutRecord, RecordType, WeightUnit } from './types';

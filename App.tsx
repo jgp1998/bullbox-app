@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import UserTour from './components/ui/UserTour';
-import WorkoutForm from './components/workouts/WorkoutForm';
-import { WorkoutHistory } from '@/src/features/history';
-import { PersonalBests, useRecords } from '@/src/features/records';
+import { 
+    WorkoutForm, 
+    WorkoutHistory, 
+    PersonalBests, 
+    ExerciseManagerModal,
+    useWorkoutStore, 
+    useRecords,
+    WorkoutRecord
+} from '@/src/features/workout';
 import ShareAndInfo from './components/ui/ShareAndInfo';
-import ExerciseManagerModal from './components/workouts/ExerciseManagerModal';
 import ExerciseDetailModal from './components/analysis/ExerciseDetailModal';
 import { LoginScreen, useAuthStore } from '@/src/features/auth';
 import TrainingAgenda from './components/schedule/TrainingAgenda';
 import ScheduleModal from './components/schedule/ScheduleModal';
-import WeightConverter from './components/calculators/WeightConverter';
-import { PercentageCalculator } from '@/src/features/rm-calculator';
+import { WeightConverter, PercentageCalculator } from '@/src/features/weight-converter';
 import { themes } from './constants';
-import { WorkoutRecord, Theme, ScheduledSession } from './types';
-import { useWorkoutStore } from './store/useWorkoutStore';
+import { Theme, ScheduledSession } from './types';
 import { useScheduleStore } from './store/useScheduleStore';
 import { useTrainingAnalysis } from './hooks/useTrainingAnalysis';
 
