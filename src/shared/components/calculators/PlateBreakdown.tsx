@@ -1,8 +1,8 @@
 import React from 'react';
-import { User } from '../../types';
-import { OLYMPIC_BARBELLS, PLATES_KG, PLATES_LBS } from '../../constants';
-import { useI18n } from '../../context/i18n';
-import { kgToLbs, lbsToKg } from '../../utils/formatters';
+import { User } from '@/types';
+import { OLYMPIC_BARBELLS, PLATES_KG, PLATES_LBS } from '@/constants';
+import { useI18n } from '@/context/i18n';
+import { kgToLbs, lbsToKg } from '@/utils/formatters';
 
 interface PlateStack {
   weight: number;

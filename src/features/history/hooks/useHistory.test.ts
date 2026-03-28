@@ -2,15 +2,15 @@ import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useHistory } from './useHistory';
 import { useHistoryAnalysisStore } from '../store/useHistoryAnalysisStore';
-import { useWorkoutStore } from '@/store/useWorkoutStore';
+import { useRecords } from '@/src/features/records';
 
 // Mock the stores
 vi.mock('../store/useHistoryAnalysisStore', () => ({
     useHistoryAnalysisStore: vi.fn()
 }));
 
-vi.mock('@/store/useWorkoutStore', () => ({
-    useWorkoutStore: vi.fn()
+vi.mock('@/src/features/records', () => ({
+    useRecords: vi.fn()
 }));
 
 describe('useHistory', () => {
@@ -28,7 +28,7 @@ describe('useHistory', () => {
         vi.clearAllMocks();
 
         // Setup mock implementations
-        (useWorkoutStore as any).mockReturnValue({
+        (useRecords as any).mockReturnValue({
             records: mockRecords,
             deleteRecord: mockDeleteRecord
         });

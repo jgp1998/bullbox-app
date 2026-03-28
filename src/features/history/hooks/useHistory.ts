@@ -1,12 +1,10 @@
 import { useState, useMemo } from 'react';
 import { HistoryRecord } from '../types';
 import { useHistoryAnalysisStore } from '../store/useHistoryAnalysisStore';
-// Temporarily using useWorkoutStore until useRecordsStore is available
-import { useWorkoutStore } from '@/store/useWorkoutStore';
+import { useRecords } from '@/src/features/records';
 
 export const useHistory = () => {
-    const { records: workoutRecords, deleteRecord } = useWorkoutStore();
-    const records = workoutRecords as unknown as HistoryRecord[]; 
+    const { records, deleteRecord } = useRecords();
     const { analysisResult, isLoading, error, getAnalysis, reset } = useHistoryAnalysisStore();
     const [selectedExercise, setSelectedExercise] = useState<string>('All');
 

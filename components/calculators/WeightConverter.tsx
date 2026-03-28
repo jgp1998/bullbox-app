@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { kgToLbs, lbsToKg } from '../../utils/formatters';
 import { useI18n } from '../../context/i18n';
 import { User } from '../../types';
-import PlateBreakdown from './PlateBreakdown';
+import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
 import Card from '../ui/Card';
 import Input from '../ui/Input';
 

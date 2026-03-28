@@ -1,10 +1,11 @@
 import React from 'react';
-import { WorkoutRecord } from '../../types';
-import { TrophyIcon, BookOpenIcon } from '../Icons';
-import { formatDuration, calculate1RM, kgToLbs, lbsToKg } from '../../utils/formatters';
-import { useI18n } from '../../context/i18n';
-import Card from '../ui/Card';
-import Button from '../ui/Button';
+import { WorkoutRecord } from '../types';
+import { TrophyIcon, BookOpenIcon } from '@/components/Icons';
+import { formatDuration, kgToLbs, lbsToKg } from '@/utils/formatters';
+import { calculate1RM } from '@/src/features/rm-calculator';
+import { useI18n } from '@/context/i18n';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
 
 interface PersonalBestsProps {
   records: WorkoutRecord[];

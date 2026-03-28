@@ -3,7 +3,7 @@ import Header from './components/Header';
 import UserTour from './components/ui/UserTour';
 import WorkoutForm from './components/workouts/WorkoutForm';
 import { WorkoutHistory } from '@/src/features/history';
-import PersonalBests from './components/workouts/PersonalBests';
+import { PersonalBests, useRecords } from '@/src/features/records';
 import ShareAndInfo from './components/ui/ShareAndInfo';
 import ExerciseManagerModal from './components/workouts/ExerciseManagerModal';
 import ExerciseDetailModal from './components/analysis/ExerciseDetailModal';
@@ -11,7 +11,7 @@ import { LoginScreen, useAuthStore } from '@/src/features/auth';
 import TrainingAgenda from './components/schedule/TrainingAgenda';
 import ScheduleModal from './components/schedule/ScheduleModal';
 import WeightConverter from './components/calculators/WeightConverter';
-import PercentageCalculator from './components/calculators/PercentageCalculator';
+import { PercentageCalculator } from '@/src/features/rm-calculator';
 import { themes } from './constants';
 import { WorkoutRecord, Theme, ScheduledSession } from './types';
 import { useWorkoutStore } from './store/useWorkoutStore';
@@ -22,15 +22,16 @@ import { useUIStore } from './store/useUIStore';
 
 const App: React.FC = () => {
     // Shared state/hooks
-    const { user, isLoading: authLoading } = useAuthStore();
     const { 
-        records, addRecord, deleteRecord, getPersonalBests, 
+        records, personalBests, addRecord, deleteRecord 
+    } = useRecords();
+    const { 
+        user, isLoading: authLoading 
+    } = useAuthStore();
+    const { 
+        exercises, addExercise, deleteExercise,
         initialize: initWorkouts 
-    } = useWorkoutStore();
-    const personalBests = getPersonalBests();
-    const { 
-        exercises, addExercise, deleteExercise 
-    } = useWorkoutStore(); // Both share the same store
+    } = useWorkoutStore(); 
     const { 
         scheduledSessions, addScheduledSession, updateScheduledSession, deleteScheduledSession,
         initialize: initSchedule 
