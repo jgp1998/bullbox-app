@@ -4,7 +4,7 @@ import { useI18n } from '@/context/i18n';
 import Modal from '@/src/shared/components/ui/Modal';
 import Input from '@/src/shared/components/ui/Input';
 import Button from '@/src/shared/components/ui/Button';
-import { authService } from '../services/auth.service';
+import { useAuthStore } from '../store/useAuthStore';
 
 interface PasswordResetModalProps {
   isOpen: boolean;
@@ -12,6 +12,7 @@ interface PasswordResetModalProps {
 }
 
 const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ isOpen, onClose }) => {
+  const { resetPassword } = useAuthStore();
   const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,7 +25,7 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ isOpen, onClose
     setError('');
     
     try {
-        await authService.resetUserPassword(email);
+        await resetPassword(email);
         setIsSubmitted(true);
         setTimeout(() => {
             onClose();

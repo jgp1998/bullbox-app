@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import PasswordResetModal from '../components/PasswordResetModal';
-import { authService } from '../services/auth.service';
+import { useAuthStore } from '../store/useAuthStore';
 import { useI18n } from '@/context/i18n';
 
 // Mock Dependencies
@@ -12,10 +12,10 @@ vi.mock('@/context/i18n', () => ({
     })),
 }));
 
-vi.mock('../services/auth.service', () => ({
-    authService: {
-        resetUserPassword: vi.fn(),
-    },
+vi.mock('../store/useAuthStore', () => ({
+    useAuthStore: vi.fn(() => ({
+        resetPassword: vi.fn(),
+    })),
 }));
 
 // Mock Modal as it might have portals
@@ -30,10 +30,13 @@ vi.mock('@/src/shared/components/ui/Modal', () => ({
 }));
 
 describe('PasswordResetModal', () => {
-    const mockReset = authService.resetUserPassword;
+    const mockReset = vi.fn();
 
     beforeEach(() => {
         vi.clearAllMocks();
+        vi.mocked(useAuthStore).mockReturnValue({
+            resetPassword: mockReset,
+        } as any);
     });
 
     it('should show reset form when open', () => {
@@ -42,7 +45,7 @@ describe('PasswordResetModal', () => {
         expect(screen.getByLabelText('login.email')).toBeDefined();
     });
 
-    it('should call authService.resetUserPassword on submission', async () => {
+    it('should call resetPassword on submission', async () => {
         render(<PasswordResetModal isOpen={true} onClose={() => {}} />);
         
         fireEvent.change(screen.getByLabelText('login.email'), { target: { value: 'test@example.com' } });
@@ -54,7 +57,7 @@ describe('PasswordResetModal', () => {
     });
 
     it('should show success message after submission', async () => {
-        vi.mocked(mockReset).mockResolvedValueOnce({} as any);
+        mockReset.mockResolvedValueOnce({} as any);
         render(<PasswordResetModal isOpen={true} onClose={() => {}} />);
         
         fireEvent.change(screen.getByLabelText('login.email'), { target: { value: 'test@example.com' } });

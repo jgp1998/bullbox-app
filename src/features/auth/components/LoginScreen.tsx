@@ -83,7 +83,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     }
 
     try {
-      const newUser: User = {
+      const newUser = {
         username,
         email,
         dob,

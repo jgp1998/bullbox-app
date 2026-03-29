@@ -1,26 +1,17 @@
 import { create } from 'zustand';
-import { authService } from '../services/auth.service';
-import { AuthState, User } from '../types';
+import { 
+  loginUseCase, 
+  logoutUseCase, 
+  registerUseCase, 
+  resetPasswordUseCase, 
+  subscribeAuthChangesUseCase 
+} from '@/src/core/application/use-cases/auth';
+import { AuthState } from '../types';
 
 export const useAuthStore = create<AuthState>((set) => {
     // Listen for auth changes
-    authService.subscribeToAuthChanges(async (firebaseUser) => {
-        if (firebaseUser) {
-            const userData = await authService.getUserData(firebaseUser.uid);
-            if (userData) {
-                set({ user: userData, isLoading: false });
-            } else {
-                // If auth exists but no doc, assume fallback values
-                set({ user: { 
-                    email: firebaseUser.email || '', 
-                    username: firebaseUser.displayName || 'User',
-                    gender: 'Other',
-                    dob: ''
-                }, isLoading: false });
-            }
-        } else {
-            set({ user: null, isLoading: false });
-        }
+    subscribeAuthChangesUseCase.execute((user) => {
+        set({ user, isLoading: false });
     });
 
     return {
@@ -28,19 +19,19 @@ export const useAuthStore = create<AuthState>((set) => {
         isLoading: true,
         setUser: (user) => set({ user }),
         login: async (email, password) => {
-            await authService.signInWithEmail(email, password);
+            const user = await loginUseCase.execute(email, password);
+            set({ user });
         },
         logout: async () => {
-            await authService.signOut();
+            await logoutUseCase.execute();
             set({ user: null });
         },
         register: async (userData) => {
-            await authService.signUpWithEmail(userData);
-            const { password: _, ...rest } = userData;
-            set({ user: rest });
+            const user = await registerUseCase.execute(userData);
+            set({ user });
         },
         resetPassword: async (email: string) => {
-            await authService.resetUserPassword(email);
+            await resetPasswordUseCase.execute(email);
         },
     };
 });

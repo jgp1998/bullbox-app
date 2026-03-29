@@ -1,20 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useAuthStore } from '../store/useAuthStore';
-import { authService } from '../services/auth.service';
+import { 
+    loginUseCase, 
+    logoutUseCase, 
+    registerUseCase, 
+    resetPasswordUseCase, 
+    subscribeAuthChangesUseCase 
+} from '@/src/core/application/use-cases/auth';
 
-vi.mock('../services/auth.service', () => ({
-    authService: {
-        signInWithEmail: vi.fn(),
-        signOut: vi.fn(),
-        signUpWithEmail: vi.fn(),
-        resetUserPassword: vi.fn(),
-        subscribeToAuthChanges: vi.fn((cb) => ({})), // Mock as a function that returns an unsubscribe function
-        getUserData: vi.fn(() => ({})),
-    }
+vi.mock('@/src/core/application/use-cases/auth', () => ({
+    loginUseCase: { execute: vi.fn() },
+    logoutUseCase: { execute: vi.fn() },
+    registerUseCase: { execute: vi.fn() },
+    resetPasswordUseCase: { execute: vi.fn() },
+    subscribeAuthChangesUseCase: { execute: vi.fn() }
 }));
 
 describe('useAuthStore', () => {
     const mockUser = {
+        uid: '123',
         email: 'test@example.com',
         username: 'testuser',
         gender: 'Male' as const,
@@ -23,47 +27,49 @@ describe('useAuthStore', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        // Reset Zustand store if necessary (though simple stores are fine)
+        // Reset Zustand store
         useAuthStore.setState({ user: null, isLoading: false });
     });
 
     it('should set user on successful login', async () => {
-        vi.mocked(authService.signInWithEmail).mockResolvedValue({} as any);
+        vi.mocked(loginUseCase.execute).mockResolvedValue(mockUser);
         
         await useAuthStore.getState().login('test@example.com', 'pass123');
-        expect(authService.signInWithEmail).toHaveBeenCalledWith('test@example.com', 'pass123');
+        expect(loginUseCase.execute).toHaveBeenCalledWith('test@example.com', 'pass123');
+        expect(useAuthStore.getState().user).toEqual(mockUser);
     });
 
     it('should unset user on logout', async () => {
-        vi.mocked(authService.signOut).mockResolvedValue();
+        vi.mocked(logoutUseCase.execute).mockResolvedValue();
         useAuthStore.setState({ user: mockUser });
 
         await useAuthStore.getState().logout();
         
-        expect(authService.signOut).toHaveBeenCalled();
+        expect(logoutUseCase.execute).toHaveBeenCalled();
         expect(useAuthStore.getState().user).toBeNull();
     });
 
     it('should set user on registration', async () => {
-        vi.mocked(authService.signUpWithEmail).mockResolvedValue({} as any);
+        vi.mocked(registerUseCase.execute).mockResolvedValue(mockUser);
         
-        await useAuthStore.getState().register({ ...mockUser, password: 'password123' });
+        const regData = { ...mockUser, password: 'password123' };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { uid, ...regDataWithoutUid } = regData;
         
-        expect(authService.signUpWithEmail).toHaveBeenCalled();
+        await useAuthStore.getState().register(regDataWithoutUid as any);
+        
+        expect(registerUseCase.execute).toHaveBeenCalled();
         expect(useAuthStore.getState().user).toEqual(mockUser);
     });
 
-    it('should call authService.resetUserPassword', async () => {
-        vi.mocked(authService.resetUserPassword).mockResolvedValue();
+    it('should call resetPasswordUseCase', async () => {
+        vi.mocked(resetPasswordUseCase.execute).mockResolvedValue();
         
         await useAuthStore.getState().resetPassword('test@example.com');
-        expect(authService.resetUserPassword).toHaveBeenCalledWith('test@example.com');
+        expect(resetPasswordUseCase.execute).toHaveBeenCalledWith('test@example.com');
     });
 
     it('should behave according to auth changes', async () => {
-        // This is tricky with Zustands body logic, but we can verify the store reacts 
-        // to subscription callbacks if we have access to the subscription call.
-        // For simplicity, we just confirm that setUser works.
         useAuthStore.getState().setUser(mockUser);
         expect(useAuthStore.getState().user).toEqual(mockUser);
     });

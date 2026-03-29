@@ -23,6 +23,7 @@ vi.mock("@/context/i18n", () => ({
 
 describe("PlateBreakdown", () => {
   const mockUser: User = {
+    uid: "test-uid",
     username: "testuser",
     gender: "Male",
     email: "test@test.com",

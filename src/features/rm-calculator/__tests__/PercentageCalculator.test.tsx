@@ -80,6 +80,7 @@ vi.mock("@/src/shared/components/ui/Button", () => ({
 
 describe("PercentageCalculator", () => {
   const mockUser: User = {
+    uid: "test-uid",
     username: "test",
     gender: "Male",
     email: "test@test.com",
