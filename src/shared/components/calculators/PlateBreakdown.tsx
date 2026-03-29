@@ -1,9 +1,8 @@
 import React from 'react';
-import { User } from '@/src/features/auth/types';
+import type { User } from '@/src/features/auth/types';
 import { OLYMPIC_BARBELLS } from '@/constants';
 import { useI18n } from '@/context/i18n';
-import { calculatePlates } from '../utils/calculator.utils';
-import { WeightUnit } from '../types';
+import { calculatePlates, WeightUnit } from '@/src/shared/utils/calculator';
 import PlateDisplay from './PlateDisplay';
 
 interface PlateBreakdownProps {

@@ -1,3 +1,3 @@
-export { PercentageCalculator } from '@/src/features/weight-converter';
+export { default as PercentageCalculator } from './components/PercentageCalculator';
 export * from './utils/calculations';
 export * from './types';

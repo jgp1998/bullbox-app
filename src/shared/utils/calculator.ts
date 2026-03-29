@@ -1,6 +1,16 @@
 import { OLYMPIC_BARBELLS, PLATES_KG, PLATES_LBS } from '@/constants';
 import { lbsToKg, kgToLbs } from '@/utils/formatters';
-import { PlateStack, WeightUnit } from '../types';
+
+export type WeightUnit = 'kg' | 'lbs';
+
+export interface Plate {
+  weight: number;
+  color: string;
+}
+
+export interface PlateStack extends Plate {
+  count: number;
+}
 
 export const calculatePlates = (
     totalWeight: number, 
