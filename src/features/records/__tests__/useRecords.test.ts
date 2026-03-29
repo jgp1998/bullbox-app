@@ -2,19 +2,26 @@ import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useRecords } from "../hooks/useRecords";
 import { useRecordsStore } from "../store/useRecordsStore";
-import { RecordsService } from "../services/records.service";
+import { useAuthStore } from "../../auth/store/useAuthStore";
+import { 
+  subscribeRecordsUseCase, 
+  addRecordUseCase, 
+  deleteRecordUseCase 
+} from "@/src/core/application/use-cases/records";
 
 // Mock the dependencies
 vi.mock("../store/useRecordsStore", () => ({
   useRecordsStore: vi.fn(),
 }));
 
-vi.mock("../services/records.service", () => ({
-  RecordsService: {
-    subscribeToRecords: vi.fn(),
-    addRecord: vi.fn(),
-    deleteRecord: vi.fn(),
-  },
+vi.mock("../../auth/store/useAuthStore", () => ({
+  useAuthStore: vi.fn(),
+}));
+
+vi.mock("@/src/core/application/use-cases/records", () => ({
+  subscribeRecordsUseCase: { execute: vi.fn() },
+  addRecordUseCase: { execute: vi.fn() },
+  deleteRecordUseCase: { execute: vi.fn() },
 }));
 
 describe("useRecords", () => {
@@ -22,6 +29,7 @@ describe("useRecords", () => {
   const mockSetLoading = vi.fn();
   const mockGetPersonalBests = vi.fn();
 
+  const mockUser = { uid: "user-123" };
   const mockRecords = [
     { id: "1", exercise: "Squat", weight: 100, reps: 5, date: "2023-01-01" },
   ];
@@ -38,8 +46,13 @@ describe("useRecords", () => {
       getPersonalBests: mockGetPersonalBests,
     });
 
+    // Mock auth store
+    (useAuthStore as any).mockReturnValue({
+      user: mockUser,
+    });
+
     // Mock subscription cleanup
-    (RecordsService.subscribeToRecords as any).mockReturnValue(() => {});
+    (subscribeRecordsUseCase.execute as any).mockReturnValue(() => {});
     mockGetPersonalBests.mockReturnValue(mockRecords);
   });
 
@@ -47,10 +60,9 @@ describe("useRecords", () => {
     const { unmount } = renderHook(() => useRecords());
 
     expect(mockSetLoading).toHaveBeenCalledWith(true);
-    expect(RecordsService.subscribeToRecords).toHaveBeenCalled();
+    expect(subscribeRecordsUseCase.execute).toHaveBeenCalledWith(mockUser.uid, expect.any(Function));
 
     unmount();
-    // Verification of cleanup function call is implicit via mockReturnValue(() => {}) above
   });
 
   it("should provide records and loading state from store", () => {
@@ -67,7 +79,7 @@ describe("useRecords", () => {
     expect(mockGetPersonalBests).toHaveBeenCalled();
   });
 
-  it("should call RecordsService.addRecord when adding a record", async () => {
+  it("should call addRecordUseCase when adding a record", async () => {
     const { result } = renderHook(() => useRecords());
     const newRecord = {
       exercise: "Bench",
@@ -80,22 +92,22 @@ describe("useRecords", () => {
       await result.current.addRecord(newRecord);
     });
 
-    expect(RecordsService.addRecord).toHaveBeenCalledWith(newRecord);
+    expect(addRecordUseCase.execute).toHaveBeenCalledWith(mockUser.uid, newRecord);
   });
 
-  it("should call RecordsService.deleteRecord when deleting a record", async () => {
+  it("should call deleteRecordUseCase when deleting a record", async () => {
     const { result } = renderHook(() => useRecords());
 
     await act(async () => {
       await result.current.deleteRecord("1");
     });
 
-    expect(RecordsService.deleteRecord).toHaveBeenCalledWith("1");
+    expect(deleteRecordUseCase.execute).toHaveBeenCalledWith(mockUser.uid, "1");
   });
 
   it("should handle subscription updates", () => {
     let subscriptionCallback: (records: any[]) => void = () => {};
-    (RecordsService.subscribeToRecords as any).mockImplementation((cb: any) => {
+    (subscribeRecordsUseCase.execute as any).mockImplementation((uid: string, cb: any) => {
       subscriptionCallback = cb;
       return () => {};
     });

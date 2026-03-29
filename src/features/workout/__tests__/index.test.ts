@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useWorkouts, useExercises } from "../index";
 import { useRecords } from "@/src/features/records";
 import { useWorkoutStore } from "../store/useWorkoutStore";
+import { useAuthStore } from "../../auth/store/useAuthStore";
 
 // Mock dependencies
 vi.mock("@/src/features/records", () => ({
@@ -13,9 +14,14 @@ vi.mock("../store/useWorkoutStore", () => ({
   useWorkoutStore: vi.fn(),
 }));
 
+vi.mock("../../auth/store/useAuthStore", () => ({
+  useAuthStore: vi.fn(),
+}));
+
 describe("Workout Feature Hooks", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (useAuthStore as any).mockReturnValue({ user: { uid: "test-uid" } });
   });
 
   describe("useWorkouts", () => {
@@ -43,23 +49,33 @@ describe("Workout Feature Hooks", () => {
   });
 
   describe("useExercises", () => {
-    it("should delegate to useWorkoutStore", () => {
+    it("should delegate to useWorkoutStore", async () => {
       const mockExercises = ["Squat", "Bench Press"];
       const mockAddExercise = vi.fn();
       const mockDeleteExercise = vi.fn();
+      const mockInitialize = vi.fn(() => () => {});
 
       (useWorkoutStore as any).mockReturnValue({
         exercises: mockExercises,
         addExercise: mockAddExercise,
         deleteExercise: mockDeleteExercise,
+        initialize: mockInitialize,
         isLoading: false,
       });
 
       const { result } = renderHook(() => useExercises());
 
       expect(result.current.exercises).toEqual(mockExercises);
-      expect(result.current.addExercise).toBe(mockAddExercise);
-      expect(result.current.deleteExercise).toBe(mockDeleteExercise);
+      
+      await act(async () => {
+          await result.current.addExercise("New Exercise");
+      });
+      expect(mockAddExercise).toHaveBeenCalledWith("New Exercise", "test-uid");
+
+      await act(async () => {
+          await result.current.deleteExercise("Squat");
+      });
+      expect(mockDeleteExercise).toHaveBeenCalledWith("Squat", "test-uid");
     });
   });
 });

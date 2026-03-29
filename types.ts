@@ -5,19 +5,13 @@ export interface Theme {
   };
 }
 
-export type RecordType = 'Weight' | 'Reps' | 'Time';
-export type WeightUnit = 'kg' | 'lbs';
+export type { 
+    WorkoutRecord, 
+    RecordType, 
+    WeightUnit 
+} from '@/src/core/domain/models/Record';
 
-export interface WorkoutRecord {
-  id: string;
-  date: string; // ISO string
-  exercise: string;
-  weight?: number;
-  unit?: WeightUnit;
-  reps?: number;
-  time?: number; // total seconds
-  barWeight?: number; // weight of the bar in kg
-}
+export type { ScheduledSession } from '@/src/core/domain/models/Schedule';
 
 export interface AnalysisResult {
     analysis: string;
@@ -31,18 +25,10 @@ export interface ExerciseDetail {
     commonMistakes: string[];
 }
 
-export type { User } from '@/src/features/auth';
+export type { User } from '@/src/core/domain/models/User';
 
 export interface AdminEvent {
     id: string;
     name: string;
     date: string; // ISO String
-}
-
-export interface ScheduledSession {
-    id: string;
-    title: string;
-    date: string; // YYYY-MM-DD
-    time: string; // HH:MM
-    notes?: string;
 }

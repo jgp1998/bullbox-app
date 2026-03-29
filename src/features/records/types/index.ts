@@ -2,4 +2,4 @@ export type {
     WorkoutRecord, 
     RecordType, 
     WeightUnit 
-} from '@/src/features/workout';
+} from '@/src/core/domain/models/Record';

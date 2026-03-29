@@ -21,7 +21,7 @@ vi.mock("@/context/i18n", () => ({
 }));
 
 // Mock child component
-vi.mock("./PlateBreakdown", () => ({
+vi.mock("@/src/shared/components/calculators/PlateBreakdown", () => ({
   default: ({ totalWeight }: any) => (
     <div data-testid="plate-breakdown">Breakdown for {totalWeight}</div>
   ),

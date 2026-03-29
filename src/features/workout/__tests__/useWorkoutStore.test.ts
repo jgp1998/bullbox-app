@@ -1,31 +1,21 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useWorkoutStore } from "../store/useWorkoutStore";
-import { auth, db } from "@/services/firebase";
-import {
-  onSnapshot,
-  doc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-} from "firebase/firestore";
+import { 
+  subscribeExercisesUseCase, 
+  addExerciseUseCase, 
+  deleteExerciseUseCase 
+} from "@/src/core/application/use-cases/workout";
 
 // Mock dependencies
-vi.mock("@/services/firebase", () => ({
-  auth: {
-    currentUser: { uid: "test-user-id" },
-  },
-  db: {},
-}));
-
-vi.mock("firebase/firestore", () => ({
-  doc: vi.fn(),
-  onSnapshot: vi.fn(),
-  updateDoc: vi.fn(),
-  arrayUnion: (val: any) => `union-${val}`,
-  arrayRemove: (val: any) => `remove-${val}`,
+vi.mock("@/src/core/application/use-cases/workout", () => ({
+  subscribeExercisesUseCase: { execute: vi.fn() },
+  addExerciseUseCase: { execute: vi.fn() },
+  deleteExerciseUseCase: { execute: vi.fn() },
 }));
 
 describe("useWorkoutStore", () => {
+  const mockUid = "test-user-id";
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset state
@@ -36,58 +26,42 @@ describe("useWorkoutStore", () => {
   });
 
   it("initializes with default state", () => {
-    const state = useWorkoutStore.getState();
-    // Since I initialized it to ['Squat'] in beforeEach, let's reset to default
     useWorkoutStore.setState({ exercises: ["Default"] });
     expect(useWorkoutStore.getState().exercises).toEqual(["Default"]);
     expect(useWorkoutStore.getState().isLoading).toBe(false);
   });
 
   describe("initialize", () => {
-    it("should do nothing if no user is logged in", () => {
-      (auth as any).currentUser = null;
+    it("should do nothing if no uid is provided", () => {
       const unsubscribe = useWorkoutStore.getState().initialize();
 
       expect(unsubscribe).toBeDefined();
-      expect(onSnapshot).not.toHaveBeenCalled();
-
-      // Set user back
-      (auth as any).currentUser = { uid: "test-user-id" };
+      expect(subscribeExercisesUseCase.execute).not.toHaveBeenCalled();
     });
 
-    it("should subscribe to user exercises doc", () => {
+    it("should call subscribeExercisesUseCase when provided uid", () => {
       const mockUnsubscribe = vi.fn();
-      (onSnapshot as any).mockReturnValue(mockUnsubscribe);
-      (doc as any).mockReturnValue("mock-doc-ref");
+      (subscribeExercisesUseCase.execute as any).mockReturnValue(mockUnsubscribe);
 
-      const unsubscribe = useWorkoutStore.getState().initialize();
+      const unsubscribe = useWorkoutStore.getState().initialize(mockUid);
 
       expect(useWorkoutStore.getState().isLoading).toBe(true);
-      expect(doc).toHaveBeenCalledWith(db, "users", "test-user-id");
-      expect(onSnapshot).toHaveBeenCalledWith(
-        "mock-doc-ref",
-        expect.any(Function),
-      );
+      expect(subscribeExercisesUseCase.execute).toHaveBeenCalledWith(mockUid, expect.any(Function));
+      
       unsubscribe();
       expect(mockUnsubscribe).toHaveBeenCalled();
     });
 
-    it("should update state when snapshot changes", () => {
-      let snapshotCallback: (doc: any) => void = () => {};
-      (onSnapshot as any).mockImplementation((ref: any, cb: any) => {
-        snapshotCallback = cb;
+    it("should update state when use case broadcasts changes", () => {
+      let callback: (exercises: string[]) => void = () => {};
+      (subscribeExercisesUseCase.execute as any).mockImplementation((uid: string, cb: any) => {
+        callback = cb;
         return vi.fn();
       });
 
-      useWorkoutStore.getState().initialize();
+      useWorkoutStore.getState().initialize(mockUid);
 
-      // Simulate snapshot with data
-      const mockDoc = {
-        exists: () => true,
-        data: () => ({ exercises: ["New Exercise"] }),
-      };
-
-      snapshotCallback(mockDoc);
+      callback(["New Exercise"]);
 
       expect(useWorkoutStore.getState().exercises).toEqual(["New Exercise"]);
       expect(useWorkoutStore.getState().isLoading).toBe(false);
@@ -95,35 +69,28 @@ describe("useWorkoutStore", () => {
   });
 
   describe("addExercise", () => {
-    it("should update firestore with arrayUnion", async () => {
-      (doc as any).mockReturnValue("mock-doc-ref");
+    it("should call addExerciseUseCase with uid", async () => {
+      await useWorkoutStore.getState().addExercise("Bench Press", mockUid);
 
-      await useWorkoutStore.getState().addExercise("Bench Press");
-
-      expect(updateDoc).toHaveBeenCalledWith("mock-doc-ref", {
-        exercises: "union-Bench Press",
-      });
+      expect(addExerciseUseCase.execute).toHaveBeenCalledWith(mockUid, "Bench Press");
     });
 
-    it("should do nothing if no user", async () => {
-      (auth as any).currentUser = null;
+    it("should do nothing if no uid is provided", async () => {
       await useWorkoutStore.getState().addExercise("Bench Press");
-      expect(updateDoc).not.toHaveBeenCalled();
-
-      // Cleanup
-      (auth as any).currentUser = { uid: "test-user-id" };
+      expect(addExerciseUseCase.execute).not.toHaveBeenCalled();
     });
   });
 
   describe("deleteExercise", () => {
-    it("should update firestore with arrayRemove", async () => {
-      (doc as any).mockReturnValue("mock-doc-ref");
+    it("should call deleteExerciseUseCase with uid", async () => {
+      await useWorkoutStore.getState().deleteExercise("Squat", mockUid);
 
+      expect(deleteExerciseUseCase.execute).toHaveBeenCalledWith(mockUid, "Squat");
+    });
+
+    it("should do nothing if no uid is provided", async () => {
       await useWorkoutStore.getState().deleteExercise("Squat");
-
-      expect(updateDoc).toHaveBeenCalledWith("mock-doc-ref", {
-        exercises: "remove-Squat",
-      });
+      expect(deleteExerciseUseCase.execute).not.toHaveBeenCalled();
     });
   });
 });

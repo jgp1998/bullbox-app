@@ -6,19 +6,18 @@ import {
     WorkoutHistory, 
     PersonalBests, 
     ExerciseManagerModal,
-    useWorkoutStore, 
-    useRecords,
+    useWorkouts, 
+    useExercises,
     WorkoutRecord,
     ExerciseDetailModal
 } from '@/src/features/workout';
 import { ShareAndInfo } from '@/src/features/share';
 import { LoginScreen, useAuthStore } from '@/src/features/auth';
-import { TrainingAgenda, ScheduleModal } from '@/src/features/schedule';
+import { TrainingAgenda, ScheduleModal, useSchedule } from '@/src/features/schedule';
 import { WeightConverter } from '@/src/features/weight-converter';
 import { PercentageCalculator } from '@/src/features/rm-calculator';
 import { themes } from './constants';
 import { Theme, ScheduledSession } from './types';
-import { useScheduleStore } from './store/useScheduleStore';
 import { useTrainingAnalysis } from './hooks/useTrainingAnalysis';
 
 import { useUIStore } from './store/useUIStore';
@@ -27,34 +26,20 @@ const App: React.FC = () => {
     // Shared state/hooks
     const { 
         records, personalBests, addRecord, deleteRecord 
-    } = useRecords();
+    } = useWorkouts();
     const { 
         user, isLoading: authLoading 
     } = useAuthStore();
     const { 
         exercises, addExercise, deleteExercise,
-        initialize: initWorkouts 
-    } = useWorkoutStore(); 
+    } = useExercises(); 
     const { 
         scheduledSessions, addScheduledSession, updateScheduledSession, deleteScheduledSession,
-        initialize: initSchedule 
-    } = useScheduleStore();
+    } = useSchedule();
     const { 
         analysisResult, exerciseDetail, isLoading, error, 
         getAnalysis, getExerciseDetails 
     } = useTrainingAnalysis();
-
-    // Initialize stores on auth
-    useEffect(() => {
-        if (user) {
-            const unsubWorkouts = initWorkouts();
-            const unsubSchedule = initSchedule();
-            return () => {
-                unsubWorkouts();
-                unsubSchedule();
-            };
-        }
-    }, [user, initWorkouts, initSchedule]);
 
     // UI Store
     const { 
