@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { ShareIcon, DownloadIcon } from "../Icons";
-import { useI18n } from "../../context/i18n";
-import Card from "./Card";
-import Button from "./Button";
+import { ShareIcon, DownloadIcon } from '@/src/shared/components/ui/Icons';
+import { useI18n } from '@/context/i18n';
+import Card from '@/src/shared/components/ui/Card';
+import Button from '@/src/shared/components/ui/Button';
 
 import { usePWA } from "@/src/features/pwa/hooks/usePWA";
 
@@ -60,3 +60,4 @@ const ShareAndInfo: React.FC = () => {
 };
 
 export default ShareAndInfo;
+

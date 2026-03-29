@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdminEvent } from '../../types';
-import Card from '../ui/Card';
+import { AdminEvent } from '@/types';
+import Card from '@/src/shared/components/ui/Card';
 
 interface AdminPanelProps {
     events: AdminEvent[];
@@ -19,3 +19,4 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ events }) => {
 };
 
 export default AdminPanel;
+

@@ -1,6 +1,7 @@
 // Components
 export { default as WorkoutForm } from './components/WorkoutForm';
 export { default as ExerciseManagerModal } from './components/ExerciseManagerModal';
+export { default as ExerciseDetailModal } from './components/ExerciseDetailModal';
 
 // Shared Components (Facades)
 export { WorkoutHistory } from '@/src/features/history';

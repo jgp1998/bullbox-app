@@ -10,11 +10,11 @@ vi.mock("@/context/i18n", () => ({
 }));
 
 // Mock UI components
-vi.mock("@/components/ui/Card", () => ({
+vi.mock("@/src/shared/components/ui/Card", () => ({
   default: ({ children }: any) => <div data-testid="card">{children}</div>,
 }));
 
-vi.mock("@/components/ui/Button", () => ({
+vi.mock("@/src/shared/components/ui/Button", () => ({
   default: ({
     onClick,
     children,
@@ -34,7 +34,7 @@ vi.mock("@/components/ui/Button", () => ({
   ),
 }));
 
-vi.mock("@/components/ui/Input", () => ({
+vi.mock("@/src/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange, type, options, id, ...props }: any) => (
     <div>
       {label && <label htmlFor={id}>{label}</label>}
@@ -67,7 +67,7 @@ vi.mock("@/components/ui/Input", () => ({
 }));
 
 // Mock Icons
-vi.mock("@/components/Icons", () => ({
+vi.mock("@/src/shared/components/ui/Icons", () => ({
   PlusIcon: () => <div data-testid="plus-icon" />,
   EditIcon: () => <div data-testid="edit-icon" />,
 }));
@@ -189,3 +189,4 @@ describe("WorkoutForm", () => {
     expect(mockOnManageExercises).toHaveBeenCalled();
   });
 });
+

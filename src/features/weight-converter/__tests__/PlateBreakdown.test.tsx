@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import PlateBreakdown from "../components/PlateBreakdown";
+import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
 import type { User } from "@/src/features/auth/types";
 
 // Mock context/i18n
@@ -87,3 +87,4 @@ describe("PlateBreakdown", () => {
     expect(screen.getByText("1x 15 kg")).toBeInTheDocument();
   });
 });
+

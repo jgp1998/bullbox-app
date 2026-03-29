@@ -2,12 +2,12 @@ import React from 'react';
 import { Theme } from '@/types';
 import ProgressChart from './ProgressChart';
 import AnalysisModal from './AnalysisModal';
-import { LightBulbIcon, TrashIcon } from '@/components/Icons';
+import { LightBulbIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
 import { formatWorkoutValue } from '@/utils/formatters';
 import { useI18n } from '@/context/i18n';
-import Card from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import Card from '@/src/shared/components/ui/Card';
+import Button from '@/src/shared/components/ui/Button';
+import Input from '@/src/shared/components/ui/Input';
 import { useHistory } from '../hooks/useHistory';
 
 interface WorkoutHistoryProps {
@@ -114,3 +114,4 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
 };
 
 export default WorkoutHistory;
+

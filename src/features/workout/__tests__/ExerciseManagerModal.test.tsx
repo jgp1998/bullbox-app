@@ -10,7 +10,7 @@ vi.mock("@/context/i18n", () => ({
 }));
 
 // Mock UI components
-vi.mock("@/components/ui/Modal", () => ({
+vi.mock("@/src/shared/components/ui/Modal", () => ({
   default: ({ children, title, isOpen, onClose }: any) =>
     isOpen ? (
       <div data-testid="modal">
@@ -23,7 +23,7 @@ vi.mock("@/components/ui/Modal", () => ({
     ) : null,
 }));
 
-vi.mock("@/components/ui/Button", () => ({
+vi.mock("@/src/shared/components/ui/Button", () => ({
   default: ({ onClick, children, title, "aria-label": ariaLabel }: any) => (
     <button
       data-testid={`button-${children || title || ariaLabel}`}
@@ -36,7 +36,7 @@ vi.mock("@/components/ui/Button", () => ({
   ),
 }));
 
-vi.mock("@/components/ui/Input", () => ({
+vi.mock("@/src/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange, placeholder, ...props }: any) => (
     <div>
       {label && <label>{label}</label>}
@@ -52,7 +52,7 @@ vi.mock("@/components/ui/Input", () => ({
 }));
 
 // Mock Icons
-vi.mock("@/components/Icons", () => ({
+vi.mock("@/src/shared/components/ui/Icons", () => ({
   PlusIcon: () => <div data-testid="plus-icon" />,
   TrashIcon: () => <div data-testid="trash-icon" />,
 }));
@@ -178,3 +178,4 @@ describe("ExerciseManagerModal", () => {
     expect(screen.getByText("modals.noExercises")).toBeInTheDocument();
   });
 });
+

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ScheduledSession } from '../../types';
-import { useI18n } from '../../context/i18n';
-import Modal from '../ui/Modal';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
+import { ScheduledSession } from '@/types';
+import { useI18n } from '@/context/i18n';
+import Modal from '@/src/shared/components/ui/Modal';
+import Input from '@/src/shared/components/ui/Input';
+import Button from '@/src/shared/components/ui/Button';
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -120,3 +120,5 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
 };
 
 export default ScheduleModal;
+
+

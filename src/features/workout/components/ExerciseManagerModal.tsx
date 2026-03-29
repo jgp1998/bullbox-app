@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { PlusIcon, TrashIcon } from '@/components/Icons';
+import { PlusIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
 import { useI18n } from '@/context/i18n';
-import Modal from '@/components/ui/Modal';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import Modal from '@/src/shared/components/ui/Modal';
+import Input from '@/src/shared/components/ui/Input';
+import Button from '@/src/shared/components/ui/Button';
 
 interface ExerciseManagerModalProps {
   isOpen: boolean;
@@ -100,3 +100,4 @@ const ExerciseManagerModal: React.FC<ExerciseManagerModalProps> = ({ isOpen, onC
 };
 
 export default ExerciseManagerModal;
+

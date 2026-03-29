@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { WorkoutRecord, WeightUnit } from '../types';
 import { WEIGHT_UNITS } from '../constants';
-import { PlusIcon, EditIcon } from '@/components/Icons';
+import { PlusIcon, EditIcon } from '@/src/shared/components/ui/Icons';
 import { useI18n } from '@/context/i18n';
-import Card from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import Card from '@/src/shared/components/ui/Card';
+import Button from '@/src/shared/components/ui/Button';
+import Input from '@/src/shared/components/ui/Input';
 
 interface WorkoutFormProps {
   onAddRecord: (record: Omit<WorkoutRecord, 'id'>) => void;

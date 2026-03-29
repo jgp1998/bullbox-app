@@ -3,9 +3,9 @@ import { User } from "../types";
 
 import { useI18n } from "@/context/i18n";
 import { useAuthStore } from "../store/useAuthStore";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
+import Card from "@/src/shared/components/ui/Card";
+import Button from "@/src/shared/components/ui/Button";
+import Input from "@/src/shared/components/ui/Input";
 import PasswordResetModal from "./PasswordResetModal";
 
 interface LoginScreenProps {
@@ -254,3 +254,4 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 };
 
 export default LoginScreen;
+

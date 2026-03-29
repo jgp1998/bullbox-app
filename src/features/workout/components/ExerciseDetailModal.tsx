@@ -1,10 +1,10 @@
 import React from 'react';
-import { ExerciseDetail } from '../../types';
-import { BookOpenIcon, CheckCircleIcon, XCircleIcon } from '../Icons';
-import { useI18n } from '../../context/i18n';
-import Modal from '../ui/Modal';
-import Spinner from '../ui/Spinner';
-import Alert from '../ui/Alert';
+import { ExerciseDetail } from '@/types';
+import { BookOpenIcon, CheckCircleIcon, XCircleIcon } from '@/src/shared/components/ui/Icons';
+import { useI18n } from '@/context/i18n';
+import Modal from '@/src/shared/components/ui/Modal';
+import Spinner from '@/src/shared/components/ui/Spinner';
+import Alert from '@/src/shared/components/ui/Alert';
 
 interface ExerciseDetailModalProps {
   isOpen: boolean;
@@ -95,3 +95,5 @@ const ExerciseDetailModal: React.FC<ExerciseDetailModalProps> = ({ isOpen, onClo
 };
 
 export default ExerciseDetailModal;
+
+

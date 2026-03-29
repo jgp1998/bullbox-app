@@ -17,7 +17,7 @@ vi.mock("@/context/i18n", () => ({
 }));
 
 // Mock icons
-vi.mock("@/components/Icons", () => ({
+vi.mock("@/src/shared/components/ui/Icons", () => ({
   CalculatorIcon: () => <div data-testid="calculator-icon" />,
 }));
 
@@ -31,7 +31,7 @@ vi.mock("@/src/shared/components/calculators/PlateBreakdown", () => ({
 }));
 
 // Mock UI components
-vi.mock("@/components/ui/Card", () => ({
+vi.mock("@/src/shared/components/ui/Card", () => ({
   default: ({ children, title, icon }: any) => (
     <div data-testid="card">
       {icon}
@@ -41,7 +41,7 @@ vi.mock("@/components/ui/Card", () => ({
   ),
 }));
 
-vi.mock("@/components/ui/Input", () => ({
+vi.mock("@/src/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange, options, type, required }: any) => (
     <div>
       <label>{label}</label>
@@ -70,7 +70,7 @@ vi.mock("@/components/ui/Input", () => ({
   ),
 }));
 
-vi.mock("@/components/ui/Button", () => ({
+vi.mock("@/src/shared/components/ui/Button", () => ({
   default: ({ children, disabled, type }: any) => (
     <button disabled={disabled} type={type}>
       {children}
@@ -163,3 +163,4 @@ describe("PercentageCalculator", () => {
     ).toBeDisabled();
   });
 });
+

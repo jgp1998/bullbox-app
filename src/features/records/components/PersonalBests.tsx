@@ -1,11 +1,11 @@
 import React from 'react';
 import { WorkoutRecord } from '../types';
-import { TrophyIcon, BookOpenIcon } from '@/components/Icons';
+import { TrophyIcon, BookOpenIcon } from '@/src/shared/components/ui/Icons';
 import { formatDuration, kgToLbs, lbsToKg } from '@/utils/formatters';
 import { calculate1RM } from '@/src/features/rm-calculator';
 import { useI18n } from '@/context/i18n';
-import Card from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
+import Card from '@/src/shared/components/ui/Card';
+import Button from '@/src/shared/components/ui/Button';
 
 interface PersonalBestsProps {
   records: WorkoutRecord[];
@@ -97,3 +97,4 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails })
 };
 
 export default PersonalBests;
+

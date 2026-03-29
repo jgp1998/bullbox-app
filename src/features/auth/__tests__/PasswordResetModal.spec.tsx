@@ -19,7 +19,7 @@ vi.mock('../services/auth.service', () => ({
 }));
 
 // Mock Modal as it might have portals
-vi.mock('@/components/ui/Modal', () => ({
+vi.mock('@/src/shared/components/ui/Modal', () => ({
     default: ({ children, isOpen, onClose, title }: any) => isOpen ? (
         <div data-testid="modal">
             <h1>{title}</h1>
@@ -65,3 +65,4 @@ describe('PasswordResetModal', () => {
         });
     });
 });
+

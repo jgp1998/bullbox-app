@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { XIcon } from '../Icons';
+import { XIcon } from '@/src/shared/components/ui/Icons';
 
 interface ModalProps {
     isOpen: boolean;
@@ -106,3 +106,4 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
+

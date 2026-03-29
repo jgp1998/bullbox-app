@@ -9,7 +9,7 @@ vi.mock("../hooks/useWeightConverter", () => ({
 }));
 
 // Mock icons
-vi.mock("@/components/Icons", () => ({
+vi.mock("@/src/shared/components/ui/Icons", () => ({
   CalculatorIcon: () => <div data-testid="calculator-icon" />,
 }));
 
@@ -28,7 +28,7 @@ vi.mock("./PlateBreakdown", () => ({
 }));
 
 // Mock UI components
-vi.mock("@/components/ui/Card", () => ({
+vi.mock("@/src/shared/components/ui/Card", () => ({
   default: ({ children, title }: any) => (
     <div data-testid="card">
       <h2>{title}</h2>
@@ -37,7 +37,7 @@ vi.mock("@/components/ui/Card", () => ({
   ),
 }));
 
-vi.mock("@/components/ui/Input", () => ({
+vi.mock("@/src/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange }: any) => (
     <div>
       <label>{label}</label>
@@ -116,3 +116,4 @@ describe("WeightConverter", () => {
     expect(screen.getByText("Breakdown for 100")).toBeInTheDocument();
   });
 });
+

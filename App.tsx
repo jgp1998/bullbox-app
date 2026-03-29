@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import UserTour from './components/ui/UserTour';
+import Header from '@/src/shared/components/layout/Header';
+import { UserTour } from '@/src/features/pwa';
 import { 
     WorkoutForm, 
     WorkoutHistory, 
@@ -8,13 +8,12 @@ import {
     ExerciseManagerModal,
     useWorkoutStore, 
     useRecords,
-    WorkoutRecord
+    WorkoutRecord,
+    ExerciseDetailModal
 } from '@/src/features/workout';
-import ShareAndInfo from './components/ui/ShareAndInfo';
-import ExerciseDetailModal from './components/analysis/ExerciseDetailModal';
+import { ShareAndInfo } from '@/src/features/share';
 import { LoginScreen, useAuthStore } from '@/src/features/auth';
-import TrainingAgenda from './components/schedule/TrainingAgenda';
-import ScheduleModal from './components/schedule/ScheduleModal';
+import { TrainingAgenda, ScheduleModal } from '@/src/features/schedule';
 import { WeightConverter } from '@/src/features/weight-converter';
 import { PercentageCalculator } from '@/src/features/rm-calculator';
 import { themes } from './constants';

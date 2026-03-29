@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculatePlates } from "../utils/calculator.utils";
+import { calculatePlates } from '@/src/shared/utils/calculator';
 
 describe("PlateBreakdown Logic", () => {
   describe("calculatePlates", () => {
@@ -70,3 +70,4 @@ describe("PlateBreakdown Logic", () => {
     });
   });
 });
+

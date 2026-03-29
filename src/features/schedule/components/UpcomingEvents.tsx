@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdminEvent } from '../../types';
-import Card from '../ui/Card';
+import { AdminEvent } from '@/types';
+import Card from '@/src/shared/components/ui/Card';
 
 interface UpcomingEventsProps {
     events: AdminEvent[];
@@ -48,3 +48,4 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ events }) => {
 };
 
 export default UpcomingEvents;
+

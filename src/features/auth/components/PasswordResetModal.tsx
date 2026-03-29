@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { MailIcon } from '@/components/Icons';
+import { MailIcon } from '@/src/shared/components/ui/Icons';
 import { useI18n } from '@/context/i18n';
-import Modal from '@/components/ui/Modal';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import Modal from '@/src/shared/components/ui/Modal';
+import Input from '@/src/shared/components/ui/Input';
+import Button from '@/src/shared/components/ui/Button';
 import { authService } from '../services/auth.service';
 
 interface PasswordResetModalProps {
@@ -96,3 +96,4 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ isOpen, onClose
 };
 
 export default PasswordResetModal;
+

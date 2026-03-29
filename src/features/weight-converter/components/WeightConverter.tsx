@@ -2,8 +2,8 @@ import React from 'react';
 import { useI18n } from '@/context/i18n';
 import { User } from '@/src/features/auth/types';
 import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
-import Card from '@/components/ui/Card';
-import Input from '@/components/ui/Input';
+import Card from '@/src/shared/components/ui/Card';
+import Input from '@/src/shared/components/ui/Input';
 import { useWeightConverter } from '../hooks/useWeightConverter';
 
 interface WeightConverterProps {
@@ -95,3 +95,4 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
 };
 
 export default WeightConverter;
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AnalysisResult } from '../types';
-import { XIcon, LightBulbIcon, DumbbellIcon, AppleIcon } from '@/components/Icons';
+import { XIcon, LightBulbIcon, DumbbellIcon, AppleIcon } from '@/src/shared/components/ui/Icons';
 import { useI18n } from '@/context/i18n';
 
 interface AnalysisModalProps {
@@ -100,3 +100,4 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ isOpen, onClose, result, 
 };
 
 export default AnalysisModal;
+
