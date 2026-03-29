@@ -6,10 +6,12 @@ import { calculate1RM } from '@/src/features/rm-calculator';
 import { useI18n } from '@/context/i18n';
 import Card from '@/src/shared/components/ui/Card';
 import Button from '@/src/shared/components/ui/Button';
+import RecordCardSkeleton from './RecordCardSkeleton';
 
 interface PersonalBestsProps {
   records: WorkoutRecord[];
   onShowDetails: (exerciseName: string) => void;
+  isLoading?: boolean;
 }
 
 const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
@@ -35,7 +37,7 @@ const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
   );
 };
 
-const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails }) => {
+const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails, isLoading }) => {
   const { t } = useI18n();
   
   return (
@@ -45,9 +47,13 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails })
          <h3 className="text-xl font-bold text-[var(--text)]">{t('personalBests.title')}</h3>
       </div>
 
-      {records.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {records.map(record => (
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <RecordCardSkeleton key={i} />
+          ))
+        ) : records.length > 0 ? (
+          records.map(record => (
             <div key={record.id} className="relative bg-[var(--input)] p-5 rounded-3xl text-center group border border-transparent hover:border-[var(--primary)] transition-all shadow-sm">
                 <Button
                   variant="ghost"
@@ -84,14 +90,14 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails })
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-            <TrophyIcon className="w-12 h-12 mx-auto mb-4 text-[var(--muted-text)] opacity-20" />
-            <p className="text-[var(--muted-text)] font-bold max-w-xs mx-auto">{t('personalBests.noPBs')}</p>
-        </div>
-      )}
+          ))
+        ) : (
+          <div className="col-span-full text-center py-12">
+              <TrophyIcon className="w-12 h-12 mx-auto mb-4 text-[var(--muted-text)] opacity-20" />
+              <p className="text-[var(--muted-text)] font-bold max-w-xs mx-auto">{t('personalBests.noPBs')}</p>
+          </div>
+        )}
+      </div>
     </Card>
   );
 };

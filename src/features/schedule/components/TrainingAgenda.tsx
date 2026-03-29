@@ -5,14 +5,19 @@ import { useI18n } from '@/context/i18n';
 import Card from '@/src/shared/components/ui/Card';
 import Button from '@/src/shared/components/ui/Button';
 
+import AgendaItemSkeleton from './AgendaItemSkeleton';
+
 interface TrainingAgendaProps {
     sessions: ScheduledSession[];
     onAddSession: (date?: string) => void;
     onEditSession: (session: ScheduledSession) => void;
     onDeleteSession: (id: string) => void;
+    isLoading?: boolean;
 }
 
-const TrainingAgenda: React.FC<TrainingAgendaProps> = ({ sessions, onAddSession, onEditSession, onDeleteSession }) => {
+const TrainingAgenda: React.FC<TrainingAgendaProps> = ({ 
+    sessions, onAddSession, onEditSession, onDeleteSession, isLoading 
+}) => {
     const { t, language } = useI18n();
     const [viewDate, setViewDate] = React.useState(new Date());
 
@@ -111,7 +116,11 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({ sessions, onAddSession,
             </div>
 
             <div className="space-y-3 min-h-[100px]">
-                {days.some(d => d.sessions.length > 0) ? (
+                {isLoading ? (
+                    Array.from({ length: 3 }).map((_, i) => (
+                        <AgendaItemSkeleton key={i} />
+                    ))
+                ) : days.some(d => d.sessions.length > 0) ? (
                     days.flatMap(d => d.sessions).map(session => (
                         <div 
                             key={session.id} 

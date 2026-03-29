@@ -1,18 +1,13 @@
-const CACHE_NAME = 'bullbox-cache-v1';
-const OFFLINE_URL = 'offline.html';
+const CACHE_NAME = 'bullbox-cache-v2';
+const OFFLINE_URL = '/offline.html';
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
   '/offline.html',
-  '/index.tsx',
   '/icon.svg',
   '/locales/en.json',
   '/locales/es.json',
-  'https://cdn.tailwindcss.com',
-  'https://aistudiocdn.com/@google/genai@^1.21.0',
-  'https://aistudiocdn.com/react@^19.1.1',
-  'https://aistudiocdn.com/recharts@^3.2.1',
-  'https://aistudiocdn.com/react-dom@^19.1.1/'
+  '/manifest.json'
 ];
 
 self.addEventListener('install', event => {
@@ -20,11 +15,16 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache and caching app shell');
-        return cache.addAll(URLS_TO_CACHE);
+        return cache.addAll(URLS_TO_CACHE).catch(err => {
+          console.warn('Individual file caching failed:', err);
+          // Still register if some files fail
+          return Promise.resolve();
+        });
       })
   );
   self.skipWaiting();
 });
+
 
 self.addEventListener('activate', event => {
   event.waitUntil(

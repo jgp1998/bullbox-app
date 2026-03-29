@@ -17,6 +17,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
   const { login, register } = useAuthStore();
 
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isResetModalOpen, setResetModalOpen] = useState(false);
@@ -47,6 +48,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
     try {
       await login(username, password);
@@ -61,6 +63,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       } else {
         setError(t("login.errors.generic"));
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -82,6 +86,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       const newUser = {
         username,
@@ -104,6 +109,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       } else {
         setError(t("login.errors.generic"));
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -186,7 +193,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 <p className="text-sm text-red-500 text-center">{error}</p>
               )}
 
-              <Button type="submit" className="w-full" size="lg">
+              <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting}>
                 {t("login.registerButton")}
               </Button>
             </form>
@@ -215,7 +222,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 <p className="text-sm text-red-500 text-center">{error}</p>
               )}
 
-              <Button type="submit" className="w-full" size="lg">
+              <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting}>
                 {t("login.loginButton")}
               </Button>
               <div className="text-center">

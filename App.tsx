@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '@/src/shared/components/layout/Header';
+import Spinner from '@/src/shared/components/ui/Spinner';
 import { UserTour } from '@/src/features/pwa';
 import { 
     WorkoutForm, 
@@ -25,7 +26,7 @@ import { useUIStore } from './store/useUIStore';
 const App: React.FC = () => {
     // Shared state/hooks
     const { 
-        records, personalBests, addRecord, deleteRecord 
+        records, personalBests, addRecord, deleteRecord, isLoading: workoutsLoading
     } = useWorkouts();
     const { 
         user, isLoading: authLoading 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
     } = useExercises(); 
     const { 
         scheduledSessions, addScheduledSession, updateScheduledSession, deleteScheduledSession,
+        isLoading: scheduleLoading
     } = useSchedule();
     const { 
         analysisResult, exerciseDetail, isLoading, error, 
@@ -61,7 +63,7 @@ const App: React.FC = () => {
     if (authLoading) {
         return (
             <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--primary)]"></div>
+                <Spinner size="xl" label="Cargando BullBox..." />
             </div>
         );
     }
@@ -88,12 +90,17 @@ const App: React.FC = () => {
                          <ShareAndInfo />
                     </div>
                     <div className="md:col-span-2 lg:col-span-2 space-y-4 sm:space-y-6">
-                        <PersonalBests records={personalBests} onShowDetails={handleShowExerciseDetailsInternal} />
+                        <PersonalBests 
+                            records={personalBests} 
+                            onShowDetails={handleShowExerciseDetailsInternal} 
+                            isLoading={workoutsLoading}
+                        />
                         <TrainingAgenda 
                             sessions={scheduledSessions}
                             onAddSession={(date) => openModal('schedule', date)}
                             onEditSession={(session) => openModal('schedule', session)}
                             onDeleteSession={deleteScheduledSession}
+                            isLoading={scheduleLoading}
                         />
                         <WorkoutHistory theme={theme} />
                     </div>

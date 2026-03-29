@@ -4,7 +4,7 @@ import { useHistoryAnalysisStore } from '../store/useHistoryAnalysisStore';
 import { useRecords } from '@/src/features/records';
 
 export const useHistory = () => {
-    const { records, deleteRecord } = useRecords();
+    const { records, deleteRecord, isLoading: isRecordsLoading } = useRecords();
     const { analysisResult, isLoading, error, getAnalysis, reset } = useHistoryAnalysisStore();
     const [selectedExercise, setSelectedExercise] = useState<string>('All');
 
@@ -46,6 +46,7 @@ export const useHistory = () => {
         setSelectedExercise,
         analysisResult,
         isLoading,
+        isRecordsLoading,
         error,
         handleGetAnalysis,
         handleDeleteRecord,

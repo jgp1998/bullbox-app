@@ -2,6 +2,7 @@ import React from 'react';
 import { Theme } from '@/types';
 import ProgressChart from './ProgressChart';
 import AnalysisModal from './AnalysisModal';
+import HistoryItemSkeleton from './HistoryItemSkeleton';
 import { LightBulbIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
 import { formatWorkoutValue } from '@/utils/formatters';
 import { useI18n } from '@/context/i18n';
@@ -24,6 +25,7 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
         setSelectedExercise,
         analysisResult,
         isLoading,
+        isRecordsLoading,
         error,
         handleGetAnalysis,
         handleDeleteRecord,
@@ -52,9 +54,13 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                 </div>
             )}
 
-            {filteredRecords.length > 0 ? (
-                <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-                    {filteredRecords.map(record => (
+            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                {isRecordsLoading ? (
+                    Array.from({ length: 5 }).map((_, i) => (
+                        <HistoryItemSkeleton key={i} />
+                    ))
+                ) : filteredRecords.length > 0 ? (
+                    filteredRecords.map(record => (
                         <div key={record.id} className="bg-[var(--input)] p-4 rounded-lg flex items-center justify-between hover:border-[var(--primary)] border border-transparent transition-all">
                             <div>
                                 <p className="font-bold text-lg text-[var(--text)]">{record.exercise}</p>
@@ -81,13 +87,13 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                                 />
                             </div>
                         </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="text-center py-12">
-                     <p className="text-[var(--muted-text)]">{t('workoutHistory.noRecords')}</p>
-                </div>
-            )}
+                    ))
+                ) : (
+                    <div className="text-center py-12">
+                        <p className="text-[var(--muted-text)]">{t('workoutHistory.noRecords')}</p>
+                    </div>
+                )}
+            </div>
             
             <AnalysisModal
                 isOpen={!!analysisResult || isLoading || !!error}

@@ -13,7 +13,7 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [language, setLanguage] = useState<Language>('en');
+    const [language, setLanguage] = useState<Language>('es');
     const [translations, setTranslations] = useState<{ [key: string]: any }>({ en: {}, es: {} });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -28,19 +28,21 @@ export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const loadTranslations = async () => {
             setIsLoading(true);
             try {
-                // Fetching JSON files is a more robust method in a browser environment
-                // without a build step that handles JSON module imports.
-                // Paths are relative to the root index.html file.
-                const enRes = await fetch('./locales/en.json');
+                const enRes = await fetch('/locales/en.json');
+                if (!enRes.ok) throw new Error(`${enRes.status} ${enRes.statusText}`);
                 const enData = await enRes.json();
-                const esRes = await fetch('./locales/es.json');
+
+                const esRes = await fetch('/locales/es.json');
+                if (!esRes.ok) throw new Error(`${esRes.status} ${esRes.statusText}`);
                 const esData = await esRes.json();
+                
                 setTranslations({ en: enData, es: esData });
             } catch (error) {
                 console.error("Failed to load translations:", error);
             } finally {
                 setIsLoading(false);
             }
+
         };
         loadTranslations();
     }, []);
@@ -57,8 +59,8 @@ export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         let result = keys.reduce((acc, currentKey) => acc?.[currentKey], currentTranslations);
 
         if (result === undefined) {
-             // Fallback to English
-             const fallbackTranslations = translations.en || {};
+             // Fallback to Spanish
+             const fallbackTranslations = translations.es || translations.en || {};
              result = keys.reduce((acc, currentKey) => acc?.[currentKey], fallbackTranslations);
         }
 
