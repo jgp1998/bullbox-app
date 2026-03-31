@@ -43,6 +43,8 @@
     "barWeight": "Peso de la Barra (Valor KG)",
     "unit": "Unidad",
     "addRecord": "Añadir Registro",
+    "recordAdded": "Registro de {exercise} añadido exitosamente.",
+    "exerciseAdded": "¡Ejercicio '{exercise}' añadido exitosamente!",
     "errors": {
       "validTime": "Por favor, introduce un tiempo válido.",
       "positiveValue": "Por favor, introduce un valor positivo.",

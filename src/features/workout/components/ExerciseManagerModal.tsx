@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PlusIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
 import { useI18n } from '@/context/i18n';
+import { useToast } from '@/context/ToastContext';
 import Modal from '@/src/shared/components/ui/Modal';
 import Input from '@/src/shared/components/ui/Input';
 import Button from '@/src/shared/components/ui/Button';
@@ -15,6 +16,7 @@ interface ExerciseManagerModalProps {
 
 const ExerciseManagerModal: React.FC<ExerciseManagerModalProps> = ({ isOpen, onClose, exercises, onAddExercise, onDeleteExercise }) => {
   const { t } = useI18n();
+  const { showSuccess } = useToast();
   const [newExercise, setNewExercise] = useState('');
   const [error, setError] = useState('');
 
@@ -29,6 +31,7 @@ const ExerciseManagerModal: React.FC<ExerciseManagerModalProps> = ({ isOpen, onC
         return;
     }
     onAddExercise(newExercise.trim());
+    showSuccess(t('workoutForm.exerciseAdded', { exercise: newExercise.trim() }));
     setNewExercise('');
   };
 

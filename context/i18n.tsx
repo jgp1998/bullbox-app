@@ -28,11 +28,12 @@ export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const loadTranslations = async () => {
             setIsLoading(true);
             try {
-                const enRes = await fetch('/locales/en.json');
+                const timestamp = new Date().getTime();
+                const enRes = await fetch(`/locales/en.json?v=${timestamp}`);
                 if (!enRes.ok) throw new Error(`${enRes.status} ${enRes.statusText}`);
                 const enData = await enRes.json();
 
-                const esRes = await fetch('/locales/es.json');
+                const esRes = await fetch(`/locales/es.json?v=${timestamp}`);
                 if (!esRes.ok) throw new Error(`${esRes.status} ${esRes.statusText}`);
                 const esData = await esRes.json();
                 

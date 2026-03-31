@@ -3,6 +3,7 @@ import { WorkoutRecord, WeightUnit } from '../types';
 import { WEIGHT_UNITS } from '../constants';
 import { PlusIcon, EditIcon } from '@/src/shared/components/ui/Icons';
 import { useI18n } from '@/context/i18n';
+import { useToast } from '@/context/ToastContext';
 import Card from '@/src/shared/components/ui/Card';
 import Button from '@/src/shared/components/ui/Button';
 import Input from '@/src/shared/components/ui/Input';
@@ -15,6 +16,7 @@ interface WorkoutFormProps {
 
 const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercises, exercises }) => {
   const { t } = useI18n();
+  const { showSuccess } = useToast();
   const [exercise, setExercise] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [weight, setWeight] = useState('');
@@ -53,15 +55,30 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
       return;
     }
 
-    onAddRecord({
+    const newRecord: Omit<WorkoutRecord, 'id'> = {
       date,
       exercise,
-      weight: !isNaN(numWeight) ? numWeight : undefined,
-      unit: !isNaN(numWeight) ? weightUnit : undefined,
-      reps: !isNaN(numReps) ? numReps : undefined,
-      time: numTime > 0 ? numTime : undefined,
-      barWeight: numBarWeight > 0 ? numBarWeight : undefined,
-    });
+    };
+
+    if (!isNaN(numWeight)) {
+      newRecord.weight = numWeight;
+      newRecord.unit = weightUnit;
+    }
+
+    if (!isNaN(numReps)) {
+      newRecord.reps = numReps;
+    }
+
+    if (numTime > 0) {
+      newRecord.time = numTime;
+    }
+
+    if (numBarWeight > 0) {
+      newRecord.barWeight = numBarWeight;
+    }
+
+    onAddRecord(newRecord);
+    showSuccess(t('workoutForm.recordAdded', { exercise }));
 
     // Reset fields
     setWeight('');

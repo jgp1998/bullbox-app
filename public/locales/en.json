@@ -43,6 +43,8 @@
     "barWeight": "Bar Weight (KG Value)",
     "unit": "Unit",
     "addRecord": "Add Record",
+    "recordAdded": "{exercise} record added successfully.",
+    "exerciseAdded": "Exercise '{exercise}' added successfully!",
     "errors": {
       "validTime": "Please enter a valid time.",
       "positiveValue": "Please enter a positive value.",

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { I18nProvider } from './context/i18n';
+import { ToastProvider } from './context/ToastContext';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,7 +13,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <I18nProvider>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </I18nProvider>
   </React.StrictMode>
 );
