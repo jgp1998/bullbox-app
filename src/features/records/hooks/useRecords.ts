@@ -8,20 +8,13 @@ import {
 } from '@/src/core/application/use-cases/records';
 import { WorkoutRecord } from '../types';
 
+/**
+ * Hook to read records data and execute actions.
+ * Does NOT handle the subscription side effect.
+ */
 export const useRecords = () => {
-  const { setRecords, setLoading, records, isLoading, getPersonalBests } = useRecordsStore();
+  const { records, isLoading, getPersonalBests } = useRecordsStore();
   const { user } = useAuthStore();
-
-  useEffect(() => {
-    if (!user) return;
-    
-    setLoading(true);
-    const unsubscribe = subscribeRecordsUseCase.execute(user.uid, (fetchedRecords) => {
-      setRecords(fetchedRecords);
-    });
-
-    return () => unsubscribe();
-  }, [user, setRecords, setLoading]);
 
   const addRecord = async (record: Omit<WorkoutRecord, 'id'>) => {
     try {
@@ -48,4 +41,24 @@ export const useRecords = () => {
     addRecord,
     deleteRecord
   };
+};
+
+/**
+ * Hook to handle the real-time subscription of records.
+ * Use this only once at the top level (e.g. in App.tsx).
+ */
+export const useInitializeRecords = () => {
+    const { setRecords, setLoading } = useRecordsStore();
+    const { user } = useAuthStore();
+
+    useEffect(() => {
+        if (!user) return;
+        
+        setLoading(true);
+        const unsubscribe = subscribeRecordsUseCase.execute(user.uid, (fetchedRecords) => {
+            setRecords(fetchedRecords);
+        });
+
+        return () => unsubscribe();
+    }, [user, setRecords, setLoading]);
 };

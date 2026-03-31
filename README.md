@@ -8,3 +8,10 @@ Funcionalidades:
 - Historial de entrenamiento con analisis mediante IA
 - Compartir progreso
 - Instalar la Progresive web app
+
+npm run build; firebase deploy --only hosting:jornlift-4bd8e
+
+clave secreta de recaptcha
+
+6LfkUp0sAAAAAEL0pPU5sAyntvO2PNemkXxPaFpc
+https://jornlift-4bd8e.web.app/

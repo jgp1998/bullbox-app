@@ -49,7 +49,8 @@
       "validTime": "Please enter a valid time.",
       "positiveValue": "Please enter a positive value.",
       "selectExercise": "Please select an exercise.",
-      "atLeastOneMetric": "Please add at least one value (Weight, Reps, or Time)."
+      "atLeastOneMetric": "Please add at least one value (Weight, Reps, or Time).",
+      "failedToAdd": "Failed to add record. Please try again."
     }
   },
   "weightConverter": {

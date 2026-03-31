@@ -9,6 +9,7 @@ import {
     ExerciseManagerModal,
     useWorkouts, 
     useExercises,
+    useInitializeRecords,
     WorkoutRecord,
     ExerciseDetailModal
 } from '@/src/features/workout';
@@ -42,6 +43,9 @@ const App: React.FC = () => {
         analysisResult, exerciseDetail, isLoading, error, 
         getAnalysis, getExerciseDetails 
     } = useTrainingAnalysis();
+
+    // Subscribe to records globally
+    useInitializeRecords();
 
     // UI Store
     const { 

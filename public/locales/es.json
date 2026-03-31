@@ -49,7 +49,8 @@
       "validTime": "Por favor, introduce un tiempo válido.",
       "positiveValue": "Por favor, introduce un valor positivo.",
       "selectExercise": "Por favor, selecciona un ejercicio.",
-      "atLeastOneMetric": "Por favor, añade al menos un valor (Peso, Reps o Tiempo)."
+      "atLeastOneMetric": "Por favor, añade al menos un valor (Peso, Reps o Tiempo).",
+      "failedToAdd": "No se pudo añadir el registro. Inténtalo de nuevo."
     }
   },
   "weightConverter": {

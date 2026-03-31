@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { WorkoutRecord } from '../types';
 import { Theme } from '@/types';
-import { lbsToKg } from '@/utils/formatters';
+import { lbsToKg, formatDate } from '@/utils/formatters';
 import { useI18n } from '@/context/i18n';
 
 interface ProgressChartProps {
@@ -15,7 +15,13 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ records, exercise, theme 
   const { t } = useI18n();
   const filteredRecords = records
     .filter(r => r.exercise === exercise)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .sort((a, b) => {
+        const dateA = a.date.split('-').map(Number);
+        const dateB = b.date.split('-').map(Number);
+        const timeA = new Date(dateA[0], dateA[1] - 1, dateA[2]).getTime();
+        const timeB = new Date(dateB[0], dateB[1] - 1, dateB[2]).getTime();
+        return timeA - timeB;
+    });
     
   if (filteredRecords.length < 2) {
     return (
@@ -45,7 +51,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ records, exercise, theme 
     }
     
     return {
-      date: new Date(r.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: formatDate(r.date, { month: 'short', day: 'numeric' }),
       value: value as number,
     };
   });

@@ -9,7 +9,7 @@ export { PersonalBests } from '@/src/features/records';
 
 // Hooks
 export * from './hooks';
-export { useRecords } from '@/src/features/records';
+export { useRecords, useInitializeRecords } from '@/src/features/records';
 
 // Stores
 export * from './store/useWorkoutStore';

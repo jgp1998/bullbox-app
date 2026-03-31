@@ -1,7 +1,7 @@
 import React from 'react';
 import { WorkoutRecord } from '../types';
 import { TrophyIcon, BookOpenIcon } from '@/src/shared/components/ui/Icons';
-import { formatDuration, kgToLbs, lbsToKg } from '@/utils/formatters';
+import { formatDuration, kgToLbs, lbsToKg, formatDate } from '@/utils/formatters';
 import { calculate1RM } from '@/src/features/rm-calculator';
 import { useI18n } from '@/context/i18n';
 import Card from '@/src/shared/components/ui/Card';
@@ -85,7 +85,7 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails, i
                 </div>
                 <div className="flex justify-center">
                     <p className="text-[9px] text-[var(--muted-text)] font-black bg-[var(--card)] px-3 py-1 rounded-full border border-[var(--border)] uppercase tracking-tighter">
-                        {new Date(record.date).toLocaleDateString()}
+                        {formatDate(record.date)}
                     </p>
                 </div>
               </div>

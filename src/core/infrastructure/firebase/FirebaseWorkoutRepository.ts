@@ -1,6 +1,7 @@
 import { 
   doc, 
   onSnapshot, 
+  setDoc, 
   updateDoc, 
   arrayUnion, 
   arrayRemove
@@ -15,9 +16,10 @@ export class FirebaseWorkoutRepository implements WorkoutRepository {
     return onSnapshot(userDocRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
-        if (data && data.exercises) {
-          callback(data.exercises);
-        }
+        callback(data?.exercises || []);
+      } else {
+        // Document doesn't exist yet, return empty list or defaults as per store
+        callback([]);
       }
     }, (error) => {
       console.error('Error in FirebaseWorkoutRepository.subscribeToExercises:', error);
@@ -26,15 +28,15 @@ export class FirebaseWorkoutRepository implements WorkoutRepository {
 
   async addExercise(uid: string, exercise: string): Promise<void> {
     const userDocRef = doc(db, 'users', uid);
-    await updateDoc(userDocRef, {
+    await setDoc(userDocRef, {
       exercises: arrayUnion(exercise)
-    });
+    }, { merge: true });
   }
 
   async deleteExercise(uid: string, exercise: string): Promise<void> {
     const userDocRef = doc(db, 'users', uid);
-    await updateDoc(userDocRef, {
+    await setDoc(userDocRef, {
       exercises: arrayRemove(exercise)
-    });
+    }, { merge: true });
   }
 }

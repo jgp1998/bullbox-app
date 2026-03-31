@@ -16,9 +16,19 @@ interface WorkoutFormProps {
 
 const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercises, exercises }) => {
   const { t } = useI18n();
-  const { showSuccess } = useToast();
+  const { showSuccess, showError } = useToast();
   const [exercise, setExercise] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  
+  // Get local YYYY-MM-DD string
+  const getLocalDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const [date, setDate] = useState(getLocalDate());
   const [weight, setWeight] = useState('');
   const [weightUnit, setWeightUnit] = useState<WeightUnit>('kg');
   const [reps, setReps] = useState('');
@@ -33,7 +43,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
     }
   }, [exercises, exercise]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -77,15 +87,18 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
       newRecord.barWeight = numBarWeight;
     }
 
-    onAddRecord(newRecord);
-    showSuccess(t('workoutForm.recordAdded', { exercise }));
+    try {
+      await onAddRecord(newRecord);
+      showSuccess(t('workoutForm.recordAdded', { exercise }));
 
-    // Reset fields
-    setWeight('');
-    setReps('');
-    setMinutes('');
-    setSeconds('');
-    // We don't reset barWeight as it's often the same for multiple sets
+      // Reset fields
+      setWeight('');
+      setReps('');
+      setMinutes('');
+      setSeconds('');
+    } catch (err) {
+      showError(t('workoutForm.errors.failedToAdd'));
+    }
   };
 
   return (

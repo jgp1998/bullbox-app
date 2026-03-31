@@ -4,7 +4,7 @@ import ProgressChart from './ProgressChart';
 import AnalysisModal from './AnalysisModal';
 import HistoryItemSkeleton from './HistoryItemSkeleton';
 import { LightBulbIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
-import { formatWorkoutValue } from '@/utils/formatters';
+import { formatWorkoutValue, formatDate } from '@/utils/formatters';
 import { useI18n } from '@/context/i18n';
 import Card from '@/src/shared/components/ui/Card';
 import Button from '@/src/shared/components/ui/Button';
@@ -64,7 +64,7 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                         <div key={record.id} className="bg-[var(--input)] p-4 rounded-lg flex items-center justify-between hover:border-[var(--primary)] border border-transparent transition-all">
                             <div>
                                 <p className="font-bold text-lg text-[var(--text)]">{record.exercise}</p>
-                                <p className="text-sm text-[var(--muted-text)]">{new Date(record.date).toLocaleDateString()}</p>
+                                <p className="text-sm text-[var(--muted-text)]">{formatDate(record.date)}</p>
                             </div>
                             <div className="flex items-center space-x-2 text-right">
                                 <p className="text-sm font-black text-[var(--accent)] mr-2 tracking-tight">

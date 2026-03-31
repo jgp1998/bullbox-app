@@ -8,7 +8,7 @@ import { WorkoutState } from '../types';
 import { DEFAULT_EXERCISES } from '../constants';
 
 export const useWorkoutStore = create<WorkoutState>((set, get) => ({
-    exercises: DEFAULT_EXERCISES,
+    exercises: [],
     isLoading: false,
 
     initialize: (uid?: string) => {
