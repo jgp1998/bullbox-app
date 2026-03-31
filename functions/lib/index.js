@@ -15,39 +15,39 @@ const analysisResponseSchema = {
     properties: {
         analysis: {
             type: "string",
-            description: "A brief analysis of the user's progress for the specified exercise, based on their history."
+            description: "A brief analysis of the user's progress for the specified exercise, based on their history.",
         },
         trainingTips: {
             type: "array",
             description: "Two specific, actionable training tips to help the user improve.",
-            items: { type: "string" }
+            items: { type: "string" },
         },
         nutritionSuggestion: {
             type: "string",
-            description: "One nutritional suggestion to support the user's training goals."
-        }
+            description: "One nutritional suggestion to support the user's training goals.",
+        },
     },
-    required: ["analysis", "trainingTips", "nutritionSuggestion"]
+    required: ["analysis", "trainingTips", "nutritionSuggestion"],
 };
 const exerciseDetailSchema = {
     type: "object",
     properties: {
         description: {
             type: "string",
-            description: "A concise description of the exercise, what it is, and what muscles it targets."
+            description: "A concise description of the exercise, what it is, and what muscles it targets.",
         },
         bestPractices: {
             type: "array",
             description: "A list of 3-4 key points or tips for performing the exercise correctly and safely.",
-            items: { type: "string" }
+            items: { type: "string" },
         },
         commonMistakes: {
             type: "array",
             description: "A list of 2-3 common mistakes to avoid when performing the exercise.",
-            items: { type: "string" }
-        }
+            items: { type: "string" },
+        },
     },
-    required: ["description", "bestPractices", "commonMistakes"]
+    required: ["description", "bestPractices", "commonMistakes"],
 };
 const formatTimeUnit = (value) => {
     const minutes = Math.floor(value / 60);
@@ -57,14 +57,14 @@ const formatTimeUnit = (value) => {
 const formatRecord = (record) => {
     const parts = [];
     if (record.weight)
-        parts.push(`${record.weight}${record.unit || 'kg'}`);
+        parts.push(`${record.weight}${record.unit || "kg"}`);
     if (record.reps)
         parts.push(`${record.reps} reps`);
     if (record.time)
         parts.push(formatTimeUnit(record.time));
     if (record.barWeight)
         parts.push(`(Bar: ${record.barWeight}kg)`);
-    const valueStr = parts.join(' x ');
+    const valueStr = parts.join(" x ");
     const formattedDate = new Date(record.date).toLocaleDateString();
     return `On ${formattedDate}, they recorded ${valueStr} for ${record.exercise}.`;
 };
@@ -78,7 +78,7 @@ export const getTrainingAdvice = onCall({ secrets: [GEMINI_API_KEY] }, async (re
     }
     const apiKey = GEMINI_API_KEY.value();
     const ai = getGenAI(apiKey);
-    const historyString = history.map(formatRecord).join('\n');
+    const historyString = history.map(formatRecord).join("\n");
     const prompt = `
     You are a world-class CrossFit and Olympic lifting coach named 'Coach Bull'.
     A user is asking for advice on their performance for the exercise: ${record.exercise}.
@@ -113,7 +113,15 @@ export const getTrainingAdvice = onCall({ secrets: [GEMINI_API_KEY] }, async (re
         return JSON.parse(jsonText);
     }
     catch (error) {
-        logger.error("Gemini API call for training advice failed:", error);
+        logger.error("Gemini API call for training advice failed. Details:", {
+            message: error.message,
+            stack: error.stack,
+            status: error.status,
+            statusText: error.statusText,
+        });
+        if (error.status === 404) {
+            throw new HttpsError("internal", `Gemini Model not found. Please ensure Generative Language API is enabled and the model 'gemini-1.5-flash' is available for your API key.`);
+        }
         throw new HttpsError("internal", "Failed to generate advice from Gemini API.");
     }
 });
@@ -155,7 +163,10 @@ export const getExerciseDetails = onCall({ secrets: [GEMINI_API_KEY] }, async (r
         return JSON.parse(jsonText);
     }
     catch (error) {
-        logger.error("Gemini API call for exercise details failed:", error);
+        logger.error("Gemini API call for exercise details failed. Details:", {
+            message: error.message,
+            status: error.status,
+        });
         throw new HttpsError("internal", "Failed to get exercise details from Gemini API.");
     }
 });
