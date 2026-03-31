@@ -30,20 +30,49 @@ export const calculatePlates = (
         return [];
     }
 
-    let weightPerSide = (totalWeight - barbellWeight) / 2;
+    let weightPerSideInPlateUnit = (totalWeight - barbellWeight) / 2;
     
-    // If target unit and plate unit are different, convert weightPerSide to plateUnit
+    // If target unit and plate unit are different, convert to plateUnit
     if (weightUnit !== plateUnit) {
-        weightPerSide = plateUnit === 'lbs' ? kgToLbs(weightPerSide) : lbsToKg(weightPerSide);
+        weightPerSideInPlateUnit = plateUnit === 'lbs' ? kgToLbs(weightPerSideInPlateUnit) : lbsToKg(weightPerSideInPlateUnit);
     }
 
-    for (const plate of plates) {
-        const count = Math.floor(weightPerSide / plate.weight);
-        if (count > 0) {
-            stack.push({ ...plate, count });
-            weightPerSide -= count * plate.weight;
+    let remaining = weightPerSideInPlateUnit;
+    
+    // Greedy approach that takes the plate that minimizes current error
+    // until no further improvement is possible or we reach the target.
+    while (remaining > 0.001) { // Use small epsilon for rounding errors
+        let bestPlate: Plate | null = null;
+        let minDiff = Math.abs(remaining);
+
+        for (const plate of plates) {
+            const diff = Math.abs(remaining - plate.weight);
+            if (diff < minDiff) {
+                minDiff = diff;
+                bestPlate = plate;
+            } else if (Math.abs(diff - minDiff) < 0.001 && bestPlate && plate.weight > bestPlate.weight) {
+                // If error is same, prefer larger plate (fewer plates on bar)
+                bestPlate = plate;
+            }
         }
+
+        if (!bestPlate) break;
+
+        const existing = stack.find(p => p.weight === bestPlate!.weight);
+        if (existing) {
+            existing.count++;
+        } else {
+            stack.push({ ...bestPlate, count: 1 });
+        }
+        
+        remaining -= bestPlate.weight;
+        
+        // If we are already at or beyond target, we check if we should stop.
+        // In this greedy "best match" version, we stop if we went over 
+        // because adding any more plates will only increase the error.
+        if (remaining <= 0) break;
     }
 
-    return stack;
+    // Sort stack by weight descending for consistent display
+    return stack.sort((a, b) => b.weight - a.weight);
 };

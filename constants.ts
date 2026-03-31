@@ -55,21 +55,24 @@ export const OLYMPIC_BARBELLS = {
 };
 
 export const PLATES_KG: Plate[] = [
-  { weight: 25, color: '#E63946' }, // red
-  { weight: 20, color: '#1D3557' }, // blue
-  { weight: 15, color: '#FCA311' }, // yellow
-  { weight: 10, color: '#2A9D8F' }, // green
-  { weight: 5, color: '#F1FAEE' }, // white
-  { weight: 2.5, color: '#6C757D' }, // black
-  { weight: 1.25, color: '#ADB5BD' }, // silver
-  { weight: 0.5, color: '#DEE2E6' }, // light grey
+  { weight: 25, color: '#FF3B30' }, // 🔴 Red
+  { weight: 20, color: '#007AFF' }, // 🔵 Blue
+  { weight: 15, color: '#FFCC00' }, // 🟡 Yellow
+  { weight: 10, color: '#28CD41' }, // 🟢 Green
+  { weight: 5, color: '#FFFFFF' },  // ⚪ White
+  { weight: 2.5, color: '#F2F2F7' }, // ⚪ White/Light Grey
+  { weight: 2, color: '#FF3B30' },   // 🔴 Red
+  { weight: 1.5, color: '#007AFF' }, // 🔵 Blue
+  { weight: 1, color: '#FFCC00' },   // 🟡 Yellow
+  { weight: 0.5, color: '#28CD41' }, // 🟢 Green
 ];
 
 export const PLATES_LBS: Plate[] = [
-  { weight: 45, color: '#1D3557' }, // blue
-  { weight: 35, color: '#FCA311' }, // yellow
-  { weight: 25, color: '#2A9D8F' }, // green
-  { weight: 10, color: '#F1FAEE' }, // white
-  { weight: 5, color: '#6C757D' }, // black
-  { weight: 2.5, color: '#ADB5BD' }, // silver
+  { weight: 45, color: '#FF3B30' }, // 🔴 Red
+  { weight: 35, color: '#007AFF' }, // 🔵 Blue
+  { weight: 25, color: '#FFCC00' }, // 🟡 Yellow
+  { weight: 15, color: '#28CD41' }, // 🟢 Green
+  { weight: 10, color: '#FFFFFF' }, // ⚪ White
+  { weight: 5, color: '#F2F2F7' },  // ⚪ White/Light Grey
+  { weight: 2.5, color: '#E5E5EA' }, // ⚪ Greyish
 ];

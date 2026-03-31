@@ -38,7 +38,7 @@ const PlateDisplay: React.FC<PlateDisplayProps> = ({ stack, unit }) => {
                         backgroundColor: plate.color, 
                         width: `${Math.max(plate.weight * (unit === 'kg' ? 1.5 : 0.8), 12)}px`,
                         height: `${Math.min(Math.max(plate.weight * (unit === 'kg' ? 3.5 : 1.8), 45), 110)}px`,
-                        color: ['#F1FAEE', '#DEE2E6', '#ADB5BD'].includes(plate.color.toUpperCase()) ? '#000' : '#fff'
+                        color: ['#FFFFFF', '#F2F2F7', '#E5E5EA', '#F0F0F0', '#E9ECEF'].includes(plate.color.toUpperCase()) ? '#000' : '#fff'
                     }}
                     title={`${plate.weight} ${unit}`}
                 >
