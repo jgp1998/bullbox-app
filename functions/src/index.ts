@@ -32,10 +32,11 @@ export const getTrainingAdvice = onCall(
     try {
       const repository = new GeminiAdviceRepository(apiKey);
       const useCase = new GetTrainingAdviceUseCase(repository);
-      
+
       return await useCase.execute(record, history, language);
-    } catch (error: any) {
-      throw new HttpsError("internal", error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "An unexpected error occurred.";
+      throw new HttpsError("internal", message);
     }
   },
 );
@@ -60,10 +61,11 @@ export const getExerciseDetails = onCall(
     try {
       const repository = new GeminiExerciseRepository(apiKey);
       const useCase = new GetExerciseDetailsUseCase(repository);
-      
+
       return await useCase.execute(exerciseName, language);
-    } catch (error: any) {
-      throw new HttpsError("internal", error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "An unexpected error occurred.";
+      throw new HttpsError("internal", message);
     }
   },
 );

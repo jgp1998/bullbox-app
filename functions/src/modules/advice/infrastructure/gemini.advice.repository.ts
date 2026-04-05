@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType, Schema } from "@google/generative-ai";
 import * as logger from "firebase-functions/logger";
 import {
   TrainingRecord,
@@ -6,42 +6,66 @@ import {
   AdviceRepository,
 } from "../domain/advice.repository.js";
 
+/**
+ * Interface for Gemini API errors.
+ */
+interface GeminiError extends Error {
+  status?: number;
+}
+
+/**
+ * Repository implementation for fetching advice via Gemini API.
+ */
 export class GeminiAdviceRepository implements AdviceRepository {
   private genAiInstance: GoogleGenerativeAI;
 
+  /**
+   * Initializes the repository with the Gemini API key.
+   * @param {string} apiKey - The Gemini API key.
+   */
   constructor(apiKey: string) {
     this.genAiInstance = new GoogleGenerativeAI(apiKey);
   }
 
-  private analysisResponseSchema = {
-    type: "object",
+  private analysisResponseSchema: Schema = {
+    type: SchemaType.OBJECT,
     properties: {
       analysis: {
-        type: "string",
+        type: SchemaType.STRING,
         description:
           "A brief analysis of the user's progress for the specified exercise, based on their history.",
       },
       trainingTips: {
-        type: "array",
+        type: SchemaType.ARRAY,
         description:
           "Two specific, actionable training tips to help the user improve.",
-        items: { type: "string" },
+        items: { type: SchemaType.STRING },
       },
       nutritionSuggestion: {
-        type: "string",
+        type: SchemaType.STRING,
         description:
           "One nutritional suggestion to support the user's training goals.",
       },
     },
     required: ["analysis", "trainingTips", "nutritionSuggestion"],
-  } as any;
+  };
 
+  /**
+   * Formats a duration in seconds into a human-readable string.
+   * @param {number} value - Duration in seconds.
+   * @return {string} Formatted duration (e.g. 1m 30s).
+   */
   private formatTimeUnit(value: number): string {
     const minutes = Math.floor(value / 60);
     const seconds = value % 60;
     return `${minutes}m ${seconds}s`;
   }
 
+  /**
+   * Formats a training record for the prompt.
+   * @param {TrainingRecord} record - The record to format.
+   * @return {string} A human-readable representation of the record.
+   */
   private formatRecord(record: TrainingRecord): string {
     const parts: string[] = [];
     if (record.weight) parts.push(`${record.weight}${record.unit || "kg"}`);
@@ -54,6 +78,13 @@ export class GeminiAdviceRepository implements AdviceRepository {
     return `On ${formattedDate}, they recorded ${valueStr} for ${record.exercise}.`;
   }
 
+  /**
+   * Fetches training advice from Gemini.
+   * @param {TrainingRecord} record - The current record.
+   * @param {TrainingRecord[]} history - Historic records.
+   * @param {string} [language="en"] - The response language.
+   * @return {Promise<TrainingAdvice>} The advice generated.
+   */
   async getAdvice(
     record: TrainingRecord,
     history: TrainingRecord[],
@@ -97,16 +128,17 @@ export class GeminiAdviceRepository implements AdviceRepository {
       const response = await result.response;
       const jsonText = response.text().trim();
       return JSON.parse(jsonText);
-    } catch (error: any) {
+    } catch (error) {
+      const e = error as GeminiError;
       logger.error("Gemini API call for training advice failed. Details:", {
-        message: error.message,
-        stack: error.stack,
-        status: error.status,
+        message: e.message,
+        stack: e.stack,
+        status: e.status,
       });
 
-      if (error.status === 404) {
+      if (e.status === 404) {
         throw new Error(
-          `Gemini Model not found. Ensure Generative Language API is enabled.`,
+          "Gemini Model not found. Ensure Generative Language API is enabled.",
         );
       }
 

@@ -1,41 +1,61 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType, Schema } from "@google/generative-ai";
 import * as logger from "firebase-functions/logger";
 import {
   ExerciseDetails,
   ExerciseRepository,
 } from "../domain/exercise.repository.js";
 
+/**
+ * Interface for Gemini API errors.
+ */
+interface GeminiError extends Error {
+  status?: number;
+}
+
+/**
+ * Repository implementation for fetching exercise details via Gemini API.
+ */
 export class GeminiExerciseRepository implements ExerciseRepository {
   private genAiInstance: GoogleGenerativeAI;
 
+  /**
+   * Initializes the repository with the Gemini API key.
+   * @param {string} apiKey - The Gemini API key.
+   */
   constructor(apiKey: string) {
     this.genAiInstance = new GoogleGenerativeAI(apiKey);
   }
 
-  private exerciseDetailSchema = {
-    type: "object",
+  private exerciseDetailSchema: Schema = {
+    type: SchemaType.OBJECT,
     properties: {
       description: {
-        type: "string",
+        type: SchemaType.STRING,
         description:
           "A concise description of the exercise, what it is, and what muscles it targets.",
       },
       bestPractices: {
-        type: "array",
+        type: SchemaType.ARRAY,
         description:
           "A list of 3-4 key points or tips for performing the exercise correctly and safely.",
-        items: { type: "string" },
+        items: { type: SchemaType.STRING },
       },
       commonMistakes: {
-        type: "array",
+        type: SchemaType.ARRAY,
         description:
           "A list of 2-3 common mistakes to avoid when performing the exercise.",
-        items: { type: "string" },
+        items: { type: SchemaType.STRING },
       },
     },
     required: ["description", "bestPractices", "commonMistakes"],
-  } as any;
+  };
 
+  /**
+   * Fetches exercise details from Gemini.
+   * @param {string} exerciseName - The exercise to fetch details for.
+   * @param {string} [language="en"] - The response language.
+   * @return {Promise<ExerciseDetails>} The details generated.
+   */
   async getExerciseDetails(
     exerciseName: string,
     language: string = "en",
@@ -44,7 +64,8 @@ export class GeminiExerciseRepository implements ExerciseRepository {
       You are a knowledgeable fitness expert.
       Provide detailed information about the following CrossFit or Olympic lifting exercise: "${exerciseName}".
       
-      IMPORTANT: You must provide all your responses (description, best practices, and common mistakes) in the ${language} language.
+      IMPORTANT: You must provide all your responses (description, best practices,
+      and common mistakes) in the ${language} language.
 
       Your response must be in a JSON format.
       Provide:
@@ -71,10 +92,11 @@ export class GeminiExerciseRepository implements ExerciseRepository {
       const response = await result.response;
       const jsonText = response.text().trim();
       return JSON.parse(jsonText);
-    } catch (error: any) {
+    } catch (error) {
+      const e = error as GeminiError;
       logger.error("Gemini API call for exercise details failed. Details:", {
-        message: error.message,
-        status: error.status,
+        message: e.message,
+        status: e.status,
       });
       throw new Error("Failed to get exercise details from Gemini API.");
     }

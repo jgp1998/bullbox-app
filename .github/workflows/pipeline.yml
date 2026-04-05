@@ -19,6 +19,25 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        cache-dependency-path: |
+          package-lock.json
+          functions/package-lock.json
+
+    - name: Cache node modules
+      id: cache-nodemodules
+      uses: actions/cache@v4
+      env:
+        cache-name: cache-node-modules
+      with:
+        # caching node_modules
+        path: |
+          node_modules
+          functions/node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
     - name: Install dependencies
       run: npm ci
@@ -33,6 +52,12 @@ jobs:
     - name: Unit Tests
       run: npm run test
 
+    - name: Build Functions
+      working-directory: ./functions
+      run: |
+        npm run lint || (echo "::error::Linter failed in functions" && exit 1)
+        npm run build || (echo "::error::Build failed in functions" && exit 1)
+
   e2e:
     name: E2E Tests (Playwright)
     needs: ci
@@ -45,6 +70,24 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        cache-dependency-path: |
+          package-lock.json
+          functions/package-lock.json
+    - name: Cache node modules
+      id: cache-nodemodules
+      uses: actions/cache@v4
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: |
+          node_modules
+          functions/node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright
@@ -67,6 +110,24 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        cache-dependency-path: |
+          package-lock.json
+          functions/package-lock.json
+
+    - name: Cache node modules
+      id: cache-nodemodules
+      uses: actions/cache@v4
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: |
+          node_modules
+          functions/node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
     - name: Install dependencies
       run: npm ci
@@ -92,4 +153,4 @@ jobs:
         projectId: jornlift
 
     - name: Deploy Functions
-      run: npx firebase-tools deploy --only functions --project jornlift
+      run: ./node_modules/.bin/firebase deploy --only functions --project jornlift
