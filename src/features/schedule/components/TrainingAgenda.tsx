@@ -154,6 +154,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                 className="mt-6 font-black uppercase italic tracking-widest py-3 rounded-2xl"
                 onClick={() => onAddSession()}
                 icon={<PlusIcon className="w-5 h-5" />}
+                data-testid="schedule-add-button"
             >
                 {t('trainingSchedule.scheduleButton')}
             </Button>

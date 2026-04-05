@@ -102,7 +102,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
   };
 
   return (
-    <Card>
+    <Card data-testid="workout-form-card">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input 
@@ -112,6 +112,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
+            data-testid="date-input"
           />
           <div className="flex items-end space-x-2">
             <div className="flex-grow">
@@ -123,6 +124,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
                 onChange={(e) => setExercise(e.target.value)}
                 options={exercises.map(ex => ({ value: ex, label: ex }))}
                 required
+                data-testid="exercise-select"
               />
             </div>
             <Button
@@ -148,6 +150,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="0.00"
                 className="flex-grow font-bold"
+                data-testid="weight-input"
               />
               <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden min-w-[100px]">
                 {(WEIGHT_UNITS).map(unit => (
@@ -176,6 +179,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
               onChange={(e) => setReps(e.target.value)}
               placeholder="0"
               className="font-bold"
+              data-testid="reps-input"
             />
           </div>
         </div>
@@ -214,6 +218,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
               onChange={(e) => setBarWeight(e.target.value)}
               placeholder="20 (kg)"
               className="font-bold border-[var(--accent)]/30"
+              data-testid="bar-weight-input"
             />
           </div>
         </div>
@@ -229,6 +234,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
           variant="primary"
           className="w-full py-4 text-lg font-black uppercase italic tracking-widest shadow-lg shadow-[var(--primary)]/20"
           icon={<PlusIcon className="w-6 h-6" />}
+          data-testid="add-record-button"
         >
           {t('workoutForm.addRecord')}
         </Button>

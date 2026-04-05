@@ -30,6 +30,7 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
                         onChange={(e) => setBarWeight(e.target.value)}
                         placeholder="20"
                         className="font-bold border-[var(--primary)]/20"
+                        data-testid="converter-bar-weight"
                     />
                     <div className="space-y-1.5">
                         <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.unit')}</label>
@@ -61,6 +62,7 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
                             onChange={(e) => handleKgChange(e.target.value)}
                             placeholder="0.0"
                             className="text-lg font-black text-center sm:text-left"
+                            data-testid="converter-kg-input"
                         />
                     </div>
                     <div className="py-2 sm:pt-6 text-[var(--primary)] font-black text-2xl select-none sm:rotate-0 rotate-90 opacity-50 sm:block hidden">
@@ -74,6 +76,7 @@ const WeightConverter: React.FC<WeightConverterProps> = ({ user }) => {
                             onChange={(e) => handleLbsChange(e.target.value)}
                             placeholder="0.0"
                             className="text-lg font-black text-center sm:text-left"
+                            data-testid="converter-lbs-input"
                         />
                     </div>
                 </div>

@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     return (
         <header className="bg-[var(--card)] shadow-lg p-3 sm:p-4 flex justify-between items-center border-b border-[var(--border)] sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
             <div className="flex items-center">
-                <h1 className="text-xl sm:text-2xl font-black text-[var(--primary)] tracking-tighter uppercase italic drop-shadow-sm select-none">
+                <h1 className="text-xl sm:text-2xl font-black text-[var(--primary)] tracking-tighter uppercase italic drop-shadow-sm select-none" data-testid="header-logo">
                     BULL<span className="text-[var(--text)]">BOX</span>
                 </h1>
             </div>
@@ -64,6 +64,7 @@ const Header: React.FC = () => {
                     variant="primary"
                     size="sm"
                     className="font-bold py-1.5 h-8 min-h-0 sm:py-2 sm:h-10 sm:min-h-[44px]"
+                    data-testid="logout-button"
                 >
                     <span className="hidden sm:inline">{t('header.logout')}</span>
                     <span className="sm:hidden">→</span>

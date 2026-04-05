@@ -7,8 +7,8 @@ interface AnalysisState {
     exerciseDetail: ExerciseDetail | null;
     isLoading: boolean;
     error: string | null;
-    getAnalysis: (record: HistoryRecord, history: HistoryRecord[]) => Promise<void>;
-    getExerciseDetails: (exerciseName: string) => Promise<void>;
+    getAnalysis: (record: HistoryRecord, history: HistoryRecord[], language?: string) => Promise<void>;
+    getExerciseDetails: (exerciseName: string, language?: string) => Promise<void>;
     reset: () => void;
     setAnalysisResult: (result: AnalysisResult | null) => void;
     setExerciseDetail: (detail: ExerciseDetail | null) => void;
@@ -21,11 +21,11 @@ export const useHistoryAnalysisStore = create<AnalysisState>((set) => ({
     isLoading: false,
     error: null,
 
-    getAnalysis: async (record, history) => {
+    getAnalysis: async (record, history, language) => {
         set({ isLoading: true, error: null, analysisResult: null });
         try {
             const historyForExercise = history.filter(r => r.exercise === record.exercise);
-            const result = await getTrainingAdvice(record, historyForExercise);
+            const result = await getTrainingAdvice(record, historyForExercise, language);
             set({ analysisResult: result });
         } catch (e: any) {
             set({ error: e.message || "An unknown error occurred." });
@@ -34,10 +34,10 @@ export const useHistoryAnalysisStore = create<AnalysisState>((set) => ({
         }
     },
 
-    getExerciseDetails: async (exerciseName) => {
+    getExerciseDetails: async (exerciseName, language) => {
         set({ isLoading: true, error: null, exerciseDetail: null });
         try {
-            const result = await getDetails(exerciseName);
+            const result = await getDetails(exerciseName, language);
             set({ exerciseDetail: result });
         } catch (e: any) {
             set({ error: e.message || "An unknown error occurred." });

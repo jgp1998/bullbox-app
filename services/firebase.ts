@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getFunctions } from "firebase/functions";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { isSupported, getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -18,6 +18,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const functions = getFunctions(app);
+
+// Conectar a emuladores en local
+if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+}
 
 let analytics = null;
 isSupported().then((supported) => {

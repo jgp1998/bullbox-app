@@ -1,0 +1,13 @@
+# Build folder
+lib/
+
+# Local dependencies
+node_modules/
+
+# Local firebase emulators
+*.log
+firebase-debug-*.log
+
+# Environment
+.env
+.secret.local

@@ -21,7 +21,7 @@ const PlateBreakdown: React.FC<PlateBreakdownProps> = ({ totalWeight, weightUnit
     const stack = calculatePlates(totalWeight, weightUnit, plateUnit, user.gender, barWeight);
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4" data-testid="plate-breakdown">
             <div className="flex items-center justify-between">
                 <h4 className="text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">
                     {t('percentageCalculator.plateBreakdown', { weight: totalWeight.toFixed(1), unit: weightUnit })}
@@ -37,7 +37,7 @@ const PlateBreakdown: React.FC<PlateBreakdownProps> = ({ totalWeight, weightUnit
             {stack.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-2">
                     {stack.map((plate, idx) => (
-                        <div key={idx} className="flex items-center space-x-2 px-3 py-1.5 bg-[var(--card)] rounded-xl border border-[var(--border)] shadow-sm">
+                        <div key={idx} className="flex items-center space-x-2 px-3 py-1.5 bg-[var(--card)] rounded-xl border border-[var(--border)] shadow-sm" data-testid="plate-item">
                             <div className="w-4 h-4 rounded-full border border-black/10" style={{ backgroundColor: plate.color }} />
                             <span className="text-xs font-black text-[var(--text)] tracking-tight">
                                 {plate.count}x {plate.weight} {plateUnit}

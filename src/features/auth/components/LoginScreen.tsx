@@ -209,6 +209,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                data-testid="login-username"
               />
               <Input
                 label={t("login.password")}
@@ -216,13 +217,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                data-testid="login-password"
               />
 
               {error && (
                 <p className="text-sm text-red-500 text-center">{error}</p>
               )}
 
-              <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting}>
+              <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting} data-testid="login-submit">
                 {t("login.loginButton")}
               </Button>
               <div className="text-center">

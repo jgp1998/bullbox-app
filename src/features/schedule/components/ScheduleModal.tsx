@@ -74,6 +74,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
             onChange={(e) => setTitle(e.target.value)}
             placeholder={t('modals.sessionTitlePlaceholder')}
             required
+            data-testid="schedule-title-input"
           />
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -84,6 +85,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
+                data-testid="schedule-date-input"
             />
             <Input
                 label={t('modals.sessionTime')}
@@ -92,6 +94,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
                 required
+                data-testid="schedule-time-input"
             />
           </div>
 
@@ -103,6 +106,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
             onChange={(e) => setNotes(e.target.value)}
             placeholder={t('modals.sessionNotesPlaceholder')}
             rows={4}
+            data-testid="schedule-notes-input"
           />
 
           {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
@@ -111,6 +115,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
             type="submit"
             className="w-full"
             size="lg"
+            data-testid="schedule-submit-button"
           >
             {isEditing ? t('modals.saveChanges') : t('modals.addSession')}
           </Button>

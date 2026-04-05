@@ -6,13 +6,13 @@ import { HistoryRecord, AnalysisResult, ExerciseDetail } from '../types';
  * Gets training advice for a specific record based on history.
  * Now calls a secure Firebase Cloud Function instead of direct Gemini API.
  */
-export const getTrainingAdvice = async (record: HistoryRecord, history: HistoryRecord[]): Promise<AnalysisResult> => {
+export const getTrainingAdvice = async (record: HistoryRecord, history: HistoryRecord[], language?: string): Promise<AnalysisResult> => {
     try {
-        const getAdvice = httpsCallable<{ record: HistoryRecord; history: HistoryRecord[] }, AnalysisResult>(
+        const getAdvice = httpsCallable<{ record: HistoryRecord; history: HistoryRecord[]; language?: string }, AnalysisResult>(
             functions, 
             'getTrainingAdvice'
         );
-        const result = await getAdvice({ record, history });
+        const result = await getAdvice({ record, history, language });
         return result.data;
     } catch (error) {
         console.error("Cloud Function 'getTrainingAdvice' failed:", error);
@@ -24,13 +24,13 @@ export const getTrainingAdvice = async (record: HistoryRecord, history: HistoryR
  * Gets detailed information about an exercise.
  * Now calls a secure Firebase Cloud Function instead of direct Gemini API.
  */
-export const getExerciseDetails = async (exerciseName: string): Promise<ExerciseDetail> => {
+export const getExerciseDetails = async (exerciseName: string, language?: string): Promise<ExerciseDetail> => {
     try {
-        const getDetails = httpsCallable<{ exerciseName: string }, ExerciseDetail>(
+        const getDetails = httpsCallable<{ exerciseName: string; language?: string }, ExerciseDetail>(
             functions, 
             'getExerciseDetails'
         );
-        const result = await getDetails({ exerciseName });
+        const result = await getDetails({ exerciseName, language });
         return result.data;
     } catch (error) {
         console.error("Cloud Function 'getExerciseDetails' failed:", error);

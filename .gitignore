@@ -6,16 +6,37 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+firebase-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+functions/lib/
 *.local
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Firebase
+.firebase/
+.firebaserc.lock
+firestore-debug.log*
+ui-debug.log*
+
+# Cache
+.cache/
+.package-lock.json.tmp
+.npm/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
@@ -23,4 +44,12 @@ dist-ssr
 *.sln
 *.sw?
 
-.agent
+# AI Agents
+.agent/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

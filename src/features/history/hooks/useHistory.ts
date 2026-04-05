@@ -2,10 +2,12 @@ import { useState, useMemo } from 'react';
 import { HistoryRecord } from '../types';
 import { useHistoryAnalysisStore } from '../store/useHistoryAnalysisStore';
 import { useRecords } from '@/src/features/records';
+import { useI18n } from '@/context/i18n';
 
 export const useHistory = () => {
     const { records, deleteRecord, isLoading: isRecordsLoading } = useRecords();
     const { analysisResult, isLoading, error, getAnalysis, reset } = useHistoryAnalysisStore();
+    const { language } = useI18n();
     const [selectedExercise, setSelectedExercise] = useState<string>('All');
 
     const exercises = useMemo(() => {
@@ -26,7 +28,7 @@ export const useHistory = () => {
     }, [exercises]);
 
     const handleGetAnalysis = async (record: HistoryRecord) => {
-        await getAnalysis(record, records);
+        await getAnalysis(record, records, language);
     };
 
     const handleDeleteRecord = (id: string) => {
