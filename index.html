@@ -2,12 +2,138 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BULLBOX record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BULLBOX - Record & Train</title>
     <meta name="theme-color" content="#e63946" />
-</head>
+    
+    <!-- Critical Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
+    <link rel="dns-prefetch" href="https://apis.google.com">
+    <link rel="dns-prefetch" href="https://firestore.googleapis.com">
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+
+    <!-- Preload critical font stylesheet -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" media="all">
+
+    <style>
+      :root { 
+        --background: #1a1a1a; 
+        --primary: #e63946; 
+        --card: #2c2c2c;
+        --border: #4a4a4a;
+        --text: #f0f0f0;
+      }
+      body { 
+        background-color: var(--background); 
+        margin: 0; 
+        font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+        color: #FFFFFF;
+      }
+      #root:empty { 
+        display: block; 
+      }
+      .initial-shell {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .initial-nav {
+        height: 64px;
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+      }
+      .logo-skeleton {
+        width: 120px;
+        height: 24px;
+        background: #333;
+        border-radius: 4px;
+      }
+      .main-shell {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      @media (min-width: 1024px) {
+        .main-shell {
+          grid-template-columns: 1fr 2fr;
+        }
+      }
+      .ske-block {
+        background: var(--card);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .ske-title {
+        width: 60%;
+        height: 24px;
+        background: #333;
+        border-radius: 4px;
+        margin-bottom: 16px;
+      }
+      .ske-content {
+        height: 150px;
+        background: #252525;
+        border-radius: 12px;
+      }
+      .pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+    </style>
+  </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="initial-shell">
+        <nav class="initial-nav" style="justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px;"></div>
+            <div style="font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text); font-size: 18px;">BULLBOX</div>
+          </div>
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--border); opacity: 0.5;"></div>
+        </nav>
+        <main class="main-shell">
+          <div class="lg:col-span-1">
+            <aside class="ske-block pulse">
+              <div class="ske-title"></div>
+              <div class="ske-content" style="height: 250px;"></div>
+            </aside>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 24px;">
+               <div class="ske-block pulse" style="margin-bottom: 0;">
+                  <div class="ske-title" style="width: 40%"></div>
+                  <div class="ske-content" style="height: 120px;"></div>
+               </div>
+            </div>
+          </div>
+          <div class="lg:col-span-2">
+            <section class="ske-block pulse">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                <div style="width: 40px; height: 40px; background: rgba(230, 57, 70, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 4px; opacity: 0.5;"></div>
+                </div>
+                <h2 style="font-size: 20px; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: -0.025em; color: var(--text);">AGENDA DE ENTRENAMIENTO</h2>
+              </div>
+              <div class="ske-content" style="height: 480px; opacity: 0.3;"></div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

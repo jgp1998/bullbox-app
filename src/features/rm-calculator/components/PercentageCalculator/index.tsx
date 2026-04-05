@@ -69,44 +69,53 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
         >
             <form onSubmit={handleCalculate} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Input
-                        label={t('percentageCalculator.exerciseLabel')}
-                        type="select"
-                        value={selectedExercise}
-                        onChange={e => {
-                            setSelectedExercise(e.target.value);
-                            setResult(null);
-                        }}
-                        options={weightPBs.map(pb => ({ value: pb.exercise, label: pb.exercise }))}
-                        disabled={weightPBs.length === 0}
-                    />
-                    <Input
-                        label={t('workoutForm.barWeight')}
-                        type="number"
-                        value={barWeight}
-                        onChange={(e) => setBarWeight(e.target.value)}
-                        placeholder="20"
-                        className="font-bold border-[var(--primary)]/20"
-                    />
+                    <div className="space-y-1">
+                        <label htmlFor="percentage-exercise-select" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('percentageCalculator.exerciseLabel')}</label>
+                        <Input
+                            id="percentage-exercise-select"
+                            type="select"
+                            value={selectedExercise}
+                            onChange={e => {
+                                setSelectedExercise(e.target.value);
+                                setResult(null);
+                            }}
+                            options={weightPBs.map(pb => ({ value: pb.exercise, label: pb.exercise }))}
+                            disabled={weightPBs.length === 0}
+                        />
+                    </div>
+                    <div className="space-y-1">
+                        <label htmlFor="percentage-bar-weight" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
+                        <Input
+                            id="percentage-bar-weight"
+                            type="number"
+                            value={barWeight}
+                            onChange={(e) => setBarWeight(e.target.value)}
+                            placeholder="20"
+                            className="font-bold border-(--primary)/20"
+                        />
+                    </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
-                    <Input
-                        label={t('percentageCalculator.percentageLabel')}
-                        type="number"
-                        value={percentage}
-                        onChange={e => {
-                            setPercentage(e.target.value);
-                            setResult(null);
-                        }}
-                        placeholder="e.g., 80"
-                        required
-                        min="1"
-                        max="200"
-                    />
+                    <div className="space-y-1">
+                        <label htmlFor="percentage-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('percentageCalculator.percentageLabel')}</label>
+                        <Input
+                            id="percentage-input"
+                            type="number"
+                            value={percentage}
+                            onChange={e => {
+                                setPercentage(e.target.value);
+                                setResult(null);
+                            }}
+                            placeholder="e.g., 80"
+                            required
+                            min="1"
+                            max="200"
+                        />
+                    </div>
                     <div className="space-y-1.5">
-                        <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.unit')}</label>
-                        <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden h-11">
+                        <span className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.unit')}</span>
+                        <div className="flex bg-(--card-bg) border border-(--border-color) rounded-xl overflow-hidden h-11">
                             {(['kg', 'lbs'] as const).map(u => (
                                 <button
                                     key={u}
@@ -114,8 +123,8 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                                     onClick={() => setPlateUnit(u)}
                                     className={`flex-1 text-[10px] font-black uppercase transition-all ${
                                         plateUnit === u 
-                                            ? 'bg-[var(--primary)] text-white' 
-                                            : 'text-[var(--muted-text)] hover:bg-[var(--primary)]/10'
+                                            ? 'bg-(--primary) text-white' 
+                                            : 'text-(--muted-text) hover:bg-(--primary)/10'
                                     }`}
                                 >
                                     {u}
@@ -136,19 +145,19 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
             </form>
 
             {result && (
-                <div className="mt-8 pt-8 border-t border-[var(--border)] animate-in fade-in slide-in-from-top-4 duration-300">
-                    <p className="text-[10px] text-center text-[var(--muted-text)] font-black uppercase tracking-widest mb-6 leading-tight px-4">
+                <div className="mt-8 pt-8 border-t border-(--border) animate-in fade-in slide-in-from-top-4 duration-300">
+                    <p className="text-[10px] text-center text-(--muted-text) font-black uppercase tracking-widest mb-6 leading-tight px-4">
                         {t('percentageCalculator.basedOn', { value: result.rm.toFixed(1), unit: result.unit, exercise: result.exercise })}
                     </p>
                     
                     <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="text-center p-6 bg-[var(--primary)] bg-opacity-10 rounded-2xl border border-[var(--primary)] border-opacity-20">
-                            <p className="text-3xl font-black text-[var(--primary)] tracking-tight">
+                        <div className="text-center p-6 bg-(--primary)/10 rounded-2xl border border-(--primary)/20">
+                            <p className="text-3xl font-black text-(--primary) tracking-tight">
                                 {result.calculated.kg.toFixed(1)} <span className="text-xs font-bold opacity-70">kg</span>
                             </p>
                         </div>
-                        <div className="text-center p-6 bg-[var(--accent)] bg-opacity-10 rounded-2xl border border-[var(--accent)] border-opacity-20">
-                            <p className="text-3xl font-black text-[var(--accent)] tracking-tight">
+                        <div className="text-center p-6 bg-(--accent)/10 rounded-2xl border border-(--accent)/20">
+                            <p className="text-3xl font-black text-(--accent) tracking-tight">
                                 {result.calculated.lbs.toFixed(1)} <span className="text-xs font-bold opacity-70">lbs</span>
                             </p>
                         </div>

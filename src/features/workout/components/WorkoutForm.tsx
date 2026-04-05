@@ -103,20 +103,22 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
     <Card data-testid="workout-form-card">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input 
-            id="date"
-            label={t('workoutForm.date')}
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-            data-testid="date-input"
-          />
+          <div className="space-y-1">
+            <label htmlFor="date" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.date')}</label>
+            <Input 
+              id="date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+              data-testid="date-input"
+            />
+          </div>
           <div className="flex items-end space-x-2">
-            <div className="flex-grow">
+            <div className="grow">
+              <label htmlFor="exercise" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.exercise')}</label>
               <Input 
                 id="exercise"
-                label={t('workoutForm.exercise')}
                 type="select"
                 value={exercise}
                 onChange={(e) => setExercise(e.target.value)}
@@ -139,18 +141,20 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-3">
-            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.weight')}</label>
-            <div className="flex gap-2">
-              <Input
-                type="number"
-                step="any"
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
-                placeholder="0.00"
-                className="flex-grow font-bold"
-                data-testid="weight-input"
-              />
-              <div className="flex bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl overflow-hidden min-w-[100px]">
+            <label htmlFor="weight-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.weight')}</label>
+            <Input
+              id="weight-input"
+              type="number"
+              step="any"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              placeholder="0.00"
+              className="grow font-bold"
+              data-testid="weight-input"
+            />
+            <div className="space-y-2">
+              <span className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.unit')}</span>
+              <div className="flex bg-(--card-bg) border border-(--border-color) rounded-xl overflow-hidden min-w-[100px]">
                 {(WEIGHT_UNITS).map(unit => (
                   <button
                     key={unit}
@@ -158,8 +162,8 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
                     onClick={() => setWeightUnit(unit)}
                     className={`flex-1 py-1 text-[10px] font-black uppercase transition-all ${
                       weightUnit === unit 
-                        ? 'bg-[var(--primary)] text-white' 
-                        : 'text-[var(--muted-text)] hover:bg-[var(--primary)]/10'
+                        ? 'bg-(--primary) text-white' 
+                        : 'text-(--muted-text) hover:bg-(--primary)/10'
                     }`}
                   >
                     {unit}
@@ -170,8 +174,9 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
           </div>
 
           <div className="space-y-3">
-            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.reps')}</label>
+            <label htmlFor="reps-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.reps')}</label>
             <Input
+              id="reps-input"
               type="number"
               value={reps}
               onChange={(e) => setReps(e.target.value)}
@@ -184,9 +189,11 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-3">
-            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.time')}</label>
-            <div className="flex items-center gap-2">
+            <span id="time-label" className="block text-[13px] font-bold text-(--muted-text) uppercase tracking-widest mb-1">{t('workoutForm.time')}</span>
+            <div className="flex items-center gap-2" role="group" aria-labelledby="time-label">
               <Input
+                id="minutes-input"
+                aria-label="Minutes"
                 type="number"
                 placeholder="mm"
                 value={minutes}
@@ -194,8 +201,10 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
                 min="0"
                 className="text-center font-bold"
               />
-              <span className="font-black text-[var(--primary)]">:</span>
+              <span className="font-black text-(--primary)" aria-hidden="true">:</span>
               <Input
+                id="seconds-input"
+                aria-label="Seconds"
                 type="number"
                 placeholder="ss"
                 value={seconds}
@@ -208,14 +217,15 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
           </div>
 
           <div className="space-y-3">
-            <label className="block text-xs font-black text-[var(--muted-text)] uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
+            <label htmlFor="bar-weight-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
             <Input
+              id="bar-weight-input"
               type="number"
               step="any"
               value={barWeight}
               onChange={(e) => setBarWeight(e.target.value)}
               placeholder="20 (kg)"
-              className="font-bold border-[var(--accent)]/30"
+              className="font-bold border-(--accent)/30"
               data-testid="bar-weight-input"
             />
           </div>
@@ -230,7 +240,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
         <Button
           type="submit"
           variant="primary"
-          className="w-full py-4 text-lg font-black uppercase italic tracking-widest shadow-lg shadow-[var(--primary)]/20"
+          className="w-full py-4 text-lg font-black uppercase italic tracking-widest shadow-lg shadow-(--primary)/20"
           icon={<PlusIcon className="w-6 h-6" />}
           data-testid="add-record-button"
         >

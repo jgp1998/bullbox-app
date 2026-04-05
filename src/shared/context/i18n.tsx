@@ -78,12 +78,6 @@ export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return result || key;
     };
 
-    if (isLoading) {
-        // Render nothing or a loading spinner while translations are being fetched.
-        // This prevents a flash of untranslated content.
-        return null;
-    }
-
     return (
         <I18nContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
             {children}
