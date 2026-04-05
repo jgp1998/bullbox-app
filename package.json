@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test -c qa/playwright.config.ts",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "release": "standard-version",
+    "prepare": "husky"
   },
   "dependencies": {
     "firebase": "^12.11.0",
@@ -26,12 +28,27 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "firebase-tools": "^13.31.0",
     "dotenv": "^17.3.1",
     "jsdom": "^29.0.1",
     "tailwindcss": "^4.2.2",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
     "vite-plugin-pwa": "^1.2.0",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.2",
+    "standard-version": "^9.5.0",
+    "husky": "^9.0.0",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "git add -A"
+    }
   }
 }
