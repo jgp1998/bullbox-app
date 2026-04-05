@@ -23,6 +23,10 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Install Functions dependencies
+      working-directory: ./functions
+      run: npm ci
+
     - name: Lint (Check Types)
       run: npm run lint
 
@@ -69,6 +73,10 @@ jobs:
 
     - name: Build Frontend
       run: npm run build
+
+    - name: Install Functions dependencies
+      working-directory: ./functions
+      run: npm ci
 
     - name: Deploy Hosting
       uses: FirebaseExtended/action-hosting-deploy@v0
