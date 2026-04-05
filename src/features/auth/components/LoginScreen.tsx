@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User } from '@/shared/types';
+import { User } from "@/shared/types";
 
 import { useI18n } from "@/shared/context/i18n";
 import { useAuthStore } from "../store/useAuthStore";
@@ -193,7 +193,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 <p className="text-sm text-red-500 text-center">{error}</p>
               )}
 
-              <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting}>
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                isLoading={isSubmitting}
+              >
                 {t("login.registerButton")}
               </Button>
             </form>
@@ -224,7 +229,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 <p className="text-sm text-red-500 text-center">{error}</p>
               )}
 
-              <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting} data-testid="login-submit">
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                isLoading={isSubmitting}
+                data-testid="login-submit"
+              >
                 {t("login.loginButton")}
               </Button>
               <div className="text-center">
@@ -263,4 +274,3 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 };
 
 export default LoginScreen;
-

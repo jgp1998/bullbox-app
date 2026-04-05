@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import WorkoutForm from "../components/WorkoutForm";
 
@@ -117,7 +117,7 @@ describe("WorkoutForm", () => {
     expect(screen.getByTestId("exercise-select")).toHaveValue("Squat");
   });
 
-  it("submits the form with weight and reps", () => {
+  it("submits the form with weight and reps", async () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
@@ -131,7 +131,9 @@ describe("WorkoutForm", () => {
     fireEvent.change(screen.getByTestId("weight-input"), { target: { value: "100" } });
     fireEvent.change(screen.getByTestId("reps-input"), { target: { value: "5" } });
 
-    fireEvent.click(screen.getByTestId("add-record-button"));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("add-record-button"));
+    });
 
     expect(mockOnAddRecord).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -143,7 +145,7 @@ describe("WorkoutForm", () => {
     );
   });
 
-  it("submits the form with time instead of weight", () => {
+  it("submits the form with time instead of weight", async () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
@@ -160,7 +162,9 @@ describe("WorkoutForm", () => {
     fireEvent.change(minInput, { target: { value: "5" } });
     fireEvent.change(secInput, { target: { value: "30" } });
 
-    fireEvent.click(screen.getByTestId("add-record-button"));
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("add-record-button"));
+    });
 
     expect(mockOnAddRecord).toHaveBeenCalledWith(
       expect.objectContaining({

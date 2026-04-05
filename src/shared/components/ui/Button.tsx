@@ -4,6 +4,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
     size?: 'sm' | 'md' | 'lg' | 'icon';
     isLoading?: boolean;
+    fullWidth?: boolean;
     icon?: React.ReactNode;
 }
 
@@ -12,6 +13,7 @@ const Button: React.FC<ButtonProps> = ({
     variant = 'primary', 
     size = 'md', 
     isLoading = false, 
+    fullWidth = false,
     icon,
     className = '',
     disabled,
@@ -36,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
 
     return (
         <button 
-            className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+            className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
             disabled={disabled || isLoading}
             {...props}
         >

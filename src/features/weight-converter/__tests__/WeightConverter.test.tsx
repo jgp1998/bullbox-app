@@ -38,10 +38,15 @@ vi.mock("@/shared/components/ui/Card", () => ({
 }));
 
 vi.mock("@/shared/components/ui/Input", () => ({
-  default: ({ label, value, onChange }: any) => (
+  default: ({ id, label, value, onChange, "data-testid": testId }: any) => (
     <div>
-      <label>{label}</label>
-      <input data-testid={`input-${label}`} value={value} onChange={onChange} />
+      {label && <label htmlFor={id}>{label}</label>}
+      <input 
+        id={id}
+        data-testid={testId} 
+        value={value} 
+        onChange={onChange} 
+      />
     </div>
   ),
 }));
@@ -67,10 +72,10 @@ describe("WeightConverter", () => {
 
     expect(screen.getByText("weightConverter.title")).toBeInTheDocument();
     expect(
-      screen.getByTestId("input-workoutForm.barWeight"),
+      screen.getByTestId("converter-bar-weight"),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("input-KG")).toBeInTheDocument();
-    expect(screen.getByTestId("input-LBS")).toBeInTheDocument();
+    expect(screen.getByTestId("converter-kg-input")).toBeInTheDocument();
+    expect(screen.getByTestId("converter-lbs-input")).toBeInTheDocument();
   });
 
   it("calls handleKgChange on KG input change", () => {
@@ -90,7 +95,7 @@ describe("WeightConverter", () => {
 
     render(<WeightConverter user={mockUser} />);
 
-    const kgInput = screen.getByTestId("input-KG");
+    const kgInput = screen.getByTestId("converter-kg-input");
     fireEvent.change(kgInput, { target: { value: "100" } });
 
     expect(handleKgChange).toHaveBeenCalledWith("100");

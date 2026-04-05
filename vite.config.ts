@@ -44,6 +44,17 @@ export default defineConfig(({ mode }) => {
           '@': path.resolve(__dirname, './src'),
         }
       },
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+              'vendor-charts': ['recharts'],
+              'vendor-react': ['react', 'react-dom'],
+            },
+          },
+        },
+      },
       test: {
         globals: true,
         environment: 'jsdom',

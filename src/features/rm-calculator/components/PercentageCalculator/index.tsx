@@ -81,6 +81,7 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                             }}
                             options={weightPBs.map(pb => ({ value: pb.exercise, label: pb.exercise }))}
                             disabled={weightPBs.length === 0}
+                            data-testid="percentage-exercise-select"
                         />
                     </div>
                     <div className="space-y-1">
@@ -92,6 +93,7 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                             onChange={(e) => setBarWeight(e.target.value)}
                             placeholder="20"
                             className="font-bold border-(--primary)/20"
+                            data-testid="percentage-bar-weight"
                         />
                     </div>
                 </div>
@@ -111,6 +113,7 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                             required
                             min="1"
                             max="200"
+                            data-testid="percentage-input"
                         />
                     </div>
                     <div className="space-y-1.5">

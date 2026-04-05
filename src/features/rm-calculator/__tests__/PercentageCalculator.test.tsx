@@ -42,12 +42,13 @@ vi.mock("@/shared/components/ui/Card", () => ({
 }));
 
 vi.mock("@/shared/components/ui/Input", () => ({
-  default: ({ label, value, onChange, options, type, required }: any) => (
+  default: ({ id, label, value, onChange, options, type, required, "data-testid": testId }: any) => (
     <div>
-      <label>{label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
       {type === "select" ? (
         <select
-          data-testid={`select-${label}`}
+          id={id}
+          data-testid={testId}
           value={value}
           onChange={onChange}
           required={required}
@@ -60,7 +61,8 @@ vi.mock("@/shared/components/ui/Input", () => ({
         </select>
       ) : (
         <input
-          data-testid={`input-${label}`}
+          id={id}
+          data-testid={testId}
           value={value || ""}
           onChange={onChange}
           required={required}
@@ -111,7 +113,7 @@ describe("PercentageCalculator", () => {
 
     expect(screen.getByText("percentageCalculator.title")).toBeInTheDocument();
     const select = screen.getByTestId(
-      "select-percentageCalculator.exerciseLabel",
+      "percentage-exercise-select",
     ) as HTMLSelectElement;
     expect(select.value).toBe("Squat");
   });
@@ -123,7 +125,7 @@ describe("PercentageCalculator", () => {
     // 80% of 116.7kg = 93.3kg
 
     const percInput = screen.getByTestId(
-      "input-percentageCalculator.percentageLabel",
+      "percentage-input",
     );
     fireEvent.change(percInput, { target: { value: "80" } });
 
@@ -144,7 +146,7 @@ describe("PercentageCalculator", () => {
     render(<PercentageCalculator records={mockRecords} user={mockUser} />);
 
     const percInput = screen.getByTestId(
-      "input-percentageCalculator.percentageLabel",
+      "percentage-input",
     );
     fireEvent.change(percInput, { target: { value: "90" } });
     fireEvent.click(
