@@ -41,6 +41,9 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.9.5"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
