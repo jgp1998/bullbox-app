@@ -1,10 +1,10 @@
 import React from 'react';
-import { ExerciseDetail } from '@/types';
-import { BookOpenIcon, CheckCircleIcon, XCircleIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import Modal from '@/src/shared/components/ui/Modal';
-import Spinner from '@/src/shared/components/ui/Spinner';
-import Alert from '@/src/shared/components/ui/Alert';
+import { ExerciseDetail } from '@/shared/types';
+import { BookOpenIcon, CheckCircleIcon, XCircleIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import Modal from '@/shared/components/ui/Modal';
+import Spinner from '@/shared/components/ui/Spinner';
+import Alert from '@/shared/components/ui/Alert';
 
 interface ExerciseDetailModalProps {
   isOpen: boolean;

@@ -3,10 +3,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import PasswordResetModal from '../components/PasswordResetModal';
 import { useAuthStore } from '../store/useAuthStore';
-import { useI18n } from '@/context/i18n';
+import { useI18n } from '@/shared/context/i18n';
 
 // Mock Dependencies
-vi.mock('@/context/i18n', () => ({
+vi.mock('@/shared/context/i18n', () => ({
     useI18n: vi.fn(() => ({
         t: vi.fn((key) => key), // Just return the key
     })),
@@ -19,7 +19,7 @@ vi.mock('../store/useAuthStore', () => ({
 }));
 
 // Mock Modal as it might have portals
-vi.mock('@/src/shared/components/ui/Modal', () => ({
+vi.mock('@/shared/components/ui/Modal', () => ({
     default: ({ children, isOpen, onClose, title }: any) => isOpen ? (
         <div data-testid="modal">
             <h1>{title}</h1>

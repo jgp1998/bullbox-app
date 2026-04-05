@@ -1,5 +1,5 @@
-import { Theme, RecordType, WeightUnit } from './types';
-import { Plate } from '@/src/features/weight-converter';
+import { Theme, RecordType, WeightUnit } from '@/shared/types';
+import { Plate } from '@/features/weight-converter';
 
 export const themes: Theme[] = [
   {
@@ -63,6 +63,7 @@ export const PLATES_KG: Plate[] = [
   { weight: 2.5, color: '#F2F2F7' }, // ⚪ White/Light Grey
   { weight: 2, color: '#FF3B30' },   // 🔴 Red
   { weight: 1.5, color: '#007AFF' }, // 🔵 Blue
+  { weight: 1.25, color: '#8E8E93' }, // ⚪ Grey (Standard increment)
   { weight: 1, color: '#FFCC00' },   // 🟡 Yellow
   { weight: 0.5, color: '#28CD41' }, // 🟢 Green
 ];

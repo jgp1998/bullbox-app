@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { MailIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import Modal from '@/src/shared/components/ui/Modal';
-import Input from '@/src/shared/components/ui/Input';
-import Button from '@/src/shared/components/ui/Button';
+import { MailIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import Modal from '@/shared/components/ui/Modal';
+import Input from '@/shared/components/ui/Input';
+import Button from '@/shared/components/ui/Button';
 import { useAuthStore } from '../store/useAuthStore';
 
 interface PasswordResetModalProps {

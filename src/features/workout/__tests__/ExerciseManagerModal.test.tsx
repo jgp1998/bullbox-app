@@ -3,14 +3,14 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import ExerciseManagerModal from "../components/ExerciseManagerModal";
 
 // Mock context/i18n
-vi.mock("@/context/i18n", () => ({
+vi.mock("@/shared/context/i18n", () => ({
   useI18n: () => ({
     t: (key: string) => key,
   }),
 }));
 
 // Mock UI components
-vi.mock("@/src/shared/components/ui/Modal", () => ({
+vi.mock("@/shared/components/ui/Modal", () => ({
   default: ({ children, title, isOpen, onClose }: any) =>
     isOpen ? (
       <div data-testid="modal">
@@ -23,7 +23,7 @@ vi.mock("@/src/shared/components/ui/Modal", () => ({
     ) : null,
 }));
 
-vi.mock("@/src/shared/components/ui/Button", () => ({
+vi.mock("@/shared/components/ui/Button", () => ({
   default: ({ onClick, children, title, "aria-label": ariaLabel }: any) => (
     <button
       data-testid={`button-${children || title || ariaLabel}`}
@@ -36,7 +36,7 @@ vi.mock("@/src/shared/components/ui/Button", () => ({
   ),
 }));
 
-vi.mock("@/src/shared/components/ui/Input", () => ({
+vi.mock("@/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange, placeholder, ...props }: any) => (
     <div>
       {label && <label>{label}</label>}
@@ -52,9 +52,17 @@ vi.mock("@/src/shared/components/ui/Input", () => ({
 }));
 
 // Mock Icons
-vi.mock("@/src/shared/components/ui/Icons", () => ({
+vi.mock("@/shared/components/ui/Icons", () => ({
   PlusIcon: () => <div data-testid="plus-icon" />,
   TrashIcon: () => <div data-testid="trash-icon" />,
+}));
+
+// Mock Toast
+vi.mock("@/shared/context/ToastContext", () => ({
+  useToast: () => ({
+    showSuccess: vi.fn(),
+    showError: vi.fn(),
+  }),
 }));
 
 describe("ExerciseManagerModal", () => {

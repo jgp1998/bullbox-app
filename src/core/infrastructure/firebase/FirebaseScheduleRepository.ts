@@ -8,7 +8,7 @@ import {
   orderBy,
   updateDoc
 } from 'firebase/firestore';
-import { db } from '@/services/firebase';
+import { db } from '@/shared/services/firebase';
 import { ScheduleRepository } from '../../domain/repositories/ScheduleRepository';
 import { ScheduledSession } from '../../domain/models/Schedule';
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AnalysisResult } from '../types';
-import { XIcon, LightBulbIcon, DumbbellIcon, AppleIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
+import { AnalysisResult } from '@/shared/types';
+import { XIcon, LightBulbIcon, DumbbellIcon, AppleIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
 
 interface AnalysisModalProps {
   isOpen: boolean;

@@ -3,27 +3,28 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import WorkoutForm from "../components/WorkoutForm";
 
 // Mock context/i18n
-vi.mock("@/context/i18n", () => ({
+vi.mock("@/shared/context/i18n", () => ({
   useI18n: () => ({
     t: (key: string) => key,
   }),
 }));
 
 // Mock UI components
-vi.mock("@/src/shared/components/ui/Card", () => ({
-  default: ({ children }: any) => <div data-testid="card">{children}</div>,
+vi.mock("@/shared/components/ui/Card", () => ({
+  default: ({ children, "data-testid": testId }: any) => <div data-testid={testId || "card"}>{children}</div>,
 }));
 
-vi.mock("@/src/shared/components/ui/Button", () => ({
+vi.mock("@/shared/components/ui/Button", () => ({
   default: ({
     onClick,
     children,
     type,
     title,
     "aria-label": ariaLabel,
+    "data-testid": testId,
   }: any) => (
     <button
-      data-testid={`button-${children || title || ariaLabel}`}
+      data-testid={testId || `button-${children || title || ariaLabel}`}
       type={type}
       onClick={onClick}
       title={title}
@@ -34,14 +35,14 @@ vi.mock("@/src/shared/components/ui/Button", () => ({
   ),
 }));
 
-vi.mock("@/src/shared/components/ui/Input", () => ({
-  default: ({ label, value, onChange, type, options, id, ...props }: any) => (
+vi.mock("@/shared/components/ui/Input", () => ({
+  default: ({ label, value, onChange, type, options, id, "data-testid": testId, ...props }: any) => (
     <div>
       {label && <label htmlFor={id}>{label}</label>}
       {type === "select" ? (
         <select
           id={id}
-          data-testid={`input-${id}`}
+          data-testid={testId || `input-${id}`}
           value={value}
           onChange={onChange}
           {...props}
@@ -55,7 +56,7 @@ vi.mock("@/src/shared/components/ui/Input", () => ({
       ) : (
         <input
           id={id}
-          data-testid={`input-${id}`}
+          data-testid={testId || `input-${id}`}
           type={type}
           value={value || ""}
           onChange={onChange}
@@ -67,15 +68,38 @@ vi.mock("@/src/shared/components/ui/Input", () => ({
 }));
 
 // Mock Icons
-vi.mock("@/src/shared/components/ui/Icons", () => ({
+vi.mock("@/shared/components/ui/Icons", () => ({
   PlusIcon: () => <div data-testid="plus-icon" />,
   EditIcon: () => <div data-testid="edit-icon" />,
 }));
 
+// Mock Toast
+vi.mock("@/shared/context/ToastContext", () => ({
+  useToast: () => ({
+    showSuccess: vi.fn(),
+    showError: vi.fn(),
+  }),
+}));
+
+// Mock UI Store
+const mockOpenModal = vi.fn();
+vi.mock("@/shared/store/useUIStore", () => ({
+  useUIStore: () => ({
+    openModal: mockOpenModal,
+  }),
+}));
+
+// Mock Hooks
+const mockExercises = ["Squat", "Bench Press"];
+vi.mock("../hooks", () => ({
+    useExercises: () => ({
+        exercises: mockExercises,
+        isLoading: false
+    })
+}));
+
 describe("WorkoutForm", () => {
   const mockOnAddRecord = vi.fn();
-  const mockOnManageExercises = vi.fn();
-  const mockExercises = ["Squat", "Bench Press"];
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -85,38 +109,29 @@ describe("WorkoutForm", () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
-        onManageExercises={mockOnManageExercises}
-        exercises={mockExercises}
       />,
     );
 
     expect(screen.getByLabelText("workoutForm.date")).toBeInTheDocument();
     expect(screen.getByLabelText("workoutForm.exercise")).toBeInTheDocument();
-    expect(screen.getByTestId("input-exercise")).toHaveValue("Squat");
+    expect(screen.getByTestId("exercise-select")).toHaveValue("Squat");
   });
 
   it("submits the form with weight and reps", () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
-        onManageExercises={mockOnManageExercises}
-        exercises={mockExercises}
       />,
     );
 
-    fireEvent.change(screen.getByTestId("input-exercise"), {
+    fireEvent.change(screen.getByTestId("exercise-select"), {
       target: { value: "Squat" },
     });
 
-    // Weight is nested in a div without direct id in the original component for label but my mock uses label/id
-    // Actually the original uses labels as text nodes.
-    const weightInput = screen.getAllByPlaceholderText("0.00")[0];
-    fireEvent.change(weightInput, { target: { value: "100" } });
+    fireEvent.change(screen.getByTestId("weight-input"), { target: { value: "100" } });
+    fireEvent.change(screen.getByTestId("reps-input"), { target: { value: "5" } });
 
-    const repsInput = screen.getByPlaceholderText("0");
-    fireEvent.change(repsInput, { target: { value: "5" } });
-
-    fireEvent.click(screen.getByTestId("button-workoutForm.addRecord"));
+    fireEvent.click(screen.getByTestId("add-record-button"));
 
     expect(mockOnAddRecord).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -132,12 +147,10 @@ describe("WorkoutForm", () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
-        onManageExercises={mockOnManageExercises}
-        exercises={mockExercises}
       />,
     );
 
-    fireEvent.change(screen.getByTestId("input-exercise"), {
+    fireEvent.change(screen.getByTestId("exercise-select"), {
       target: { value: "Bench Press" },
     });
 
@@ -147,7 +160,7 @@ describe("WorkoutForm", () => {
     fireEvent.change(minInput, { target: { value: "5" } });
     fireEvent.change(secInput, { target: { value: "30" } });
 
-    fireEvent.click(screen.getByTestId("button-workoutForm.addRecord"));
+    fireEvent.click(screen.getByTestId("add-record-button"));
 
     expect(mockOnAddRecord).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -161,12 +174,10 @@ describe("WorkoutForm", () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
-        onManageExercises={mockOnManageExercises}
-        exercises={mockExercises}
       />,
     );
 
-    fireEvent.click(screen.getByTestId("button-workoutForm.addRecord"));
+    fireEvent.click(screen.getByTestId("add-record-button"));
 
     expect(
       screen.getByText("workoutForm.errors.atLeastOneMetric"),
@@ -174,19 +185,18 @@ describe("WorkoutForm", () => {
     expect(mockOnAddRecord).not.toHaveBeenCalled();
   });
 
-  it("calls onManageExercises when clicking edit button", () => {
+  it("calls openModal when clicking edit button", () => {
     render(
       <WorkoutForm
         onAddRecord={mockOnAddRecord}
-        onManageExercises={mockOnManageExercises}
-        exercises={mockExercises}
       />,
     );
 
     const manageBtn = screen.getByTitle("workoutForm.manageExercises");
     fireEvent.click(manageBtn);
 
-    expect(mockOnManageExercises).toHaveBeenCalled();
+    expect(mockOpenModal).toHaveBeenCalledWith('exerciseManager');
   });
 });
+
 

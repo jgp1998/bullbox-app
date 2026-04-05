@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import type { ToastVariant } from '@/src/shared/components/ui/Toast';
-import Toast from '@/src/shared/components/ui/Toast';
+import type { ToastVariant } from '@/shared/components/ui/Toast';
+import Toast from '@/shared/components/ui/Toast';
 
 interface ToastOptions {
     variant?: ToastVariant;

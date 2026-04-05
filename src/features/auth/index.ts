@@ -1,4 +1,4 @@
-export * from './types';
+export * from '@/shared/types';
 export * from './hooks/useAuth';
 export * from './store/useAuthStore';
 export { default as LoginScreen } from './components/LoginScreen';

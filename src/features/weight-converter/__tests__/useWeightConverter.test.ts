@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 import { useWeightConverter } from "../hooks/useWeightConverter";
 
 // Mock formatters as they might be imported from root
-vi.mock("@/utils/formatters", () => ({
+vi.mock("@/shared/utils/formatters", () => ({
   kgToLbs: (kg: number) => kg * 2.20462,
   lbsToKg: (lbs: number) => lbs / 2.20462,
 }));

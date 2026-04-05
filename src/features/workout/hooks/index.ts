@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecords } from '@/src/features/records';
+import { useRecords } from '@/features/records';
 import { useWorkoutStore } from '../store/useWorkoutStore';
 import { useAuthStore } from '../../auth/store/useAuthStore';
 

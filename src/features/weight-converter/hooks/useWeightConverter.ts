@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { kgToLbs, lbsToKg } from '@/utils/formatters';
-import { WeightUnit } from '../types';
+import { kgToLbs, lbsToKg } from '@/shared/utils/formatters';
+import { WeightUnit } from '@/shared/types';
 
 export const useWeightConverter = () => {
     const [kg, setKg] = useState<string>('');

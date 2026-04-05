@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { themes } from '../constants';
-import { Theme, ScheduledSession } from '../types';
+import { themes } from '@/shared/constants';
+import { Theme, ScheduledSession } from '@/shared/types';
 
 interface UIState {
     theme: Theme;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { WorkoutRecord } from '../types';
-import { Theme } from '@/types';
-import { lbsToKg, formatDate } from '@/utils/formatters';
-import { useI18n } from '@/context/i18n';
+import { WorkoutRecord } from '@/shared/types';
+import { Theme } from '@/shared/types';
+import { lbsToKg, formatDate } from '@/shared/utils/formatters';
+import { useI18n } from '@/shared/context/i18n';
 
 interface ProgressChartProps {
   records: WorkoutRecord[];

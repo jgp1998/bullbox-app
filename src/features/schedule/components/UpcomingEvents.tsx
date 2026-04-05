@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdminEvent } from '@/types';
-import Card from '@/src/shared/components/ui/Card';
+import { AdminEvent } from '@/shared/types';
+import Card from '@/shared/components/ui/Card';
 
 interface UpcomingEventsProps {
     events: AdminEvent[];

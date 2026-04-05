@@ -7,7 +7,7 @@ import {
   User as FirebaseUser
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/services/firebase';
+import { auth, db } from '@/shared/services/firebase';
 import { User } from '../../domain/models/User';
 import { AuthRepository } from '../../domain/repositories/AuthRepository';
 import { FirebaseUserMapper } from './FirebaseUserMapper';

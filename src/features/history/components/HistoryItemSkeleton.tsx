@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '@/src/shared/components/ui/Skeleton';
+import Skeleton from '@/shared/components/ui/Skeleton';
 
 /**
  * Skeleton for a single row in WorkoutHistory.

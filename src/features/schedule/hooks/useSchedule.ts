@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useScheduleStore } from '../store/useScheduleStore';
 import { useAuthStore } from '../../auth/store/useAuthStore';
-import { ScheduledSession } from '@/src/core/domain/models/Schedule';
+import { ScheduledSession } from '@/core/domain/models/Schedule';
 
 export const useSchedule = () => {
     const { user } = useAuthStore();

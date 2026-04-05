@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useRecordsStore } from "../store/useRecordsStore";
-import { WorkoutRecord } from "../types";
+import { WorkoutRecord } from '@/shared/types';
 
 describe("useRecordsStore", () => {
   beforeEach(() => {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { ShareIcon, DownloadIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import Card from '@/src/shared/components/ui/Card';
-import Button from '@/src/shared/components/ui/Button';
+import { ShareIcon, DownloadIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import Card from '@/shared/components/ui/Card';
+import Button from '@/shared/components/ui/Button';
 
-import { usePWA } from "@/src/features/pwa/hooks/usePWA";
+import { usePWA } from "@/features/pwa/hooks/usePWA";
 
 const ShareAndInfo: React.FC = () => {
   const { t } = useI18n();

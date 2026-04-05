@@ -1,16 +1,17 @@
 import React from 'react';
-import { WorkoutRecord } from '../types';
-import { TrophyIcon, BookOpenIcon } from '@/src/shared/components/ui/Icons';
-import { formatDuration, kgToLbs, lbsToKg, formatDate } from '@/utils/formatters';
-import { calculate1RM } from '@/src/features/rm-calculator';
-import { useI18n } from '@/context/i18n';
-import Card from '@/src/shared/components/ui/Card';
-import Button from '@/src/shared/components/ui/Button';
+import { WorkoutRecord } from '@/shared/types';
+import { TrophyIcon, BookOpenIcon } from '@/shared/components/ui/Icons';
+import { formatDuration, kgToLbs, lbsToKg, formatDate } from '@/shared/utils/formatters';
+import { calculate1RM } from '@/shared/utils/calculator';
+import { useI18n } from '@/shared/context/i18n';
+import Card from '@/shared/components/ui/Card';
+import Button from '@/shared/components/ui/Button';
 import RecordCardSkeleton from './RecordCardSkeleton';
+
+import { useUIStore } from '@/shared/store/useUIStore';
 
 interface PersonalBestsProps {
   records: WorkoutRecord[];
-  onShowDetails: (exerciseName: string) => void;
   isLoading?: boolean;
 }
 
@@ -37,8 +38,9 @@ const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
   );
 };
 
-const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails, isLoading }) => {
+const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => {
   const { t } = useI18n();
+  const { openModal } = useUIStore();
   
   return (
     <Card title={t('personalBests.title')}>
@@ -58,7 +60,7 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, onShowDetails, i
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => onShowDetails(record.exercise)}
+                  onClick={() => openModal('exerciseDetail', record.exercise)}
                   className="absolute top-3 right-3 sm:opacity-0 group-hover:opacity-100 transition-opacity z-10"
                   title={t('personalBests.viewDetails', { exercise: record.exercise })}
                   icon={<BookOpenIcon className="w-4 h-4" />}

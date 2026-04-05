@@ -1,10 +1,10 @@
 import React from 'react';
-import { themes } from '@/constants';
-import { useI18n } from '@/context/i18n';
-import { useUIStore } from '@/store/useUIStore';
-import { useAuth } from '@/src/features/auth';
-import Button from '@/src/shared/components/ui/Button';
-import Input from '@/src/shared/components/ui/Input';
+import { themes } from '@/shared/constants';
+import { useI18n } from '@/shared/context/i18n';
+import { useUIStore } from '@/shared/store/useUIStore';
+import { useAuth } from '@/features/auth';
+import Button from '@/shared/components/ui/Button';
+import Input from '@/shared/components/ui/Input';
 
 const Header: React.FC = () => {
     const { t, language, setLanguage } = useI18n();

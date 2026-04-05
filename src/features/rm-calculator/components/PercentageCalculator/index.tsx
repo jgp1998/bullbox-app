@@ -1,14 +1,14 @@
 import React, { useState, useMemo } from 'react';
-import type { User } from '@/src/features/auth/types';
-import type { WorkoutRecord } from '@/types';
-import { CalculatorIcon } from '@/src/shared/components/ui/Icons';
-import { calculate1RM } from '../../utils/calculations';
-import { kgToLbs, lbsToKg } from '@/utils/formatters';
-import { useI18n } from '@/context/i18n';
-import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
-import Card from '@/src/shared/components/ui/Card';
-import Input from '@/src/shared/components/ui/Input';
-import Button from '@/src/shared/components/ui/Button';
+import type { User } from '@/features/auth/types';
+import type { WorkoutRecord } from '@/shared/types';
+import { CalculatorIcon } from '@/shared/components/ui/Icons';
+import { calculate1RM } from '@/shared/utils/calculator';
+import { kgToLbs, lbsToKg } from '@/shared/utils/formatters';
+import { useI18n } from '@/shared/context/i18n';
+import PlateBreakdown from '@/shared/components/calculators/PlateBreakdown';
+import Card from '@/shared/components/ui/Card';
+import Input from '@/shared/components/ui/Input';
+import Button from '@/shared/components/ui/Button';
 
 interface PercentageCalculatorProps {
   records: WorkoutRecord[];

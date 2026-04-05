@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculatePlates } from '@/src/shared/utils/calculator';
+import { calculatePlates } from '@/shared/utils/calculator';
 
 describe("PlateBreakdown Logic", () => {
   describe("calculatePlates", () => {

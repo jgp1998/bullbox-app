@@ -1,5 +1,5 @@
-import { OLYMPIC_BARBELLS, PLATES_KG, PLATES_LBS } from '@/constants';
-import { lbsToKg, kgToLbs } from '@/utils/formatters';
+import { OLYMPIC_BARBELLS, PLATES_KG, PLATES_LBS } from '@/shared/constants';
+import { lbsToKg, kgToLbs } from '@/shared/utils/formatters';
 
 export type WeightUnit = 'kg' | 'lbs';
 
@@ -46,7 +46,8 @@ export const calculatePlates = (
         let minDiff = Math.abs(remaining);
 
         for (const plate of plates) {
-            const diff = Math.abs(remaining - plate.weight);
+            if (plate.weight > remaining + 0.001) continue; // Do not exceed weight
+            const diff = remaining - plate.weight;
             if (diff < minDiff) {
                 minDiff = diff;
                 bestPlate = plate;
@@ -75,4 +76,20 @@ export const calculatePlates = (
 
     // Sort stack by weight descending for consistent display
     return stack.sort((a, b) => b.weight - a.weight);
+};
+
+/**
+ * Calculates 1RM (One Rep Max) using Epley Formula: 1RM = weight * (1 + reps/30)
+ */
+export const calculate1RM = (weight?: number, reps?: number): number => {
+    if (!weight) return 0;
+    if (!reps || reps <= 1) return weight;
+    return weight * (1 + (reps / 30));
+};
+
+/**
+ * Calculates the percentage of a given max weight.
+ */
+export const calculatePercentage = (max: number, percentage: number): number => {
+    return (max * percentage) / 100;
 };

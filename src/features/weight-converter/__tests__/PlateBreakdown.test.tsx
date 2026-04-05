@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
-import type { User } from "@/src/features/auth/types";
+import PlateBreakdown from '@/shared/components/calculators/PlateBreakdown';
+import type { User } from "@/features/auth/types";
 
 // Mock context/i18n
-vi.mock("@/context/i18n", () => ({
+vi.mock("@/shared/context/i18n", () => ({
   useI18n: () => ({
     t: (key: string, params?: any) => {
       if (key === "percentageCalculator.plateBreakdown") {

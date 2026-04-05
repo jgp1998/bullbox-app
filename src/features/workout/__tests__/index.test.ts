@@ -1,12 +1,12 @@
 import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useWorkouts, useExercises } from "../index";
-import { useRecords } from "@/src/features/records";
+import { useRecords } from "@/features/records";
 import { useWorkoutStore } from "../store/useWorkoutStore";
 import { useAuthStore } from "../../auth/store/useAuthStore";
 
 // Mock dependencies
-vi.mock("@/src/features/records", () => ({
+vi.mock("@/features/records", () => ({
   useRecords: vi.fn(),
 }));
 

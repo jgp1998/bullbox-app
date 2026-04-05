@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useHistoryAnalysisStore } from "../store/useHistoryAnalysisStore";
 import * as historyService from "../services/historyAnalysis.service";
-import { HistoryRecord } from "../types";
+import { HistoryRecord } from '@/shared/types';
 
 vi.mock("../services/historyAnalysis.service", () => ({
   getTrainingAdvice: vi.fn(),

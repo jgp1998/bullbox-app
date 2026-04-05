@@ -1,6 +1,6 @@
 import { httpsCallable } from "firebase/functions";
-import { functions } from "@/services/firebase";
-import { HistoryRecord, AnalysisResult, ExerciseDetail } from '../types';
+import { functions } from "@/shared/services/firebase";
+import { HistoryRecord, AnalysisResult, ExerciseDetail } from '@/shared/types';
 
 /**
  * Gets training advice for a specific record based on history.

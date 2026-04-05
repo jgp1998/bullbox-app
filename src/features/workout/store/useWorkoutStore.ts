@@ -3,9 +3,9 @@ import {
     subscribeExercisesUseCase, 
     addExerciseUseCase, 
     deleteExerciseUseCase 
-} from '@/src/core/application/use-cases/workout';
-import { WorkoutState } from '../types';
-import { DEFAULT_EXERCISES } from '../constants';
+} from '@/core/application/use-cases/workout';
+import { WorkoutState } from '@/shared/types';
+import { DEFAULT_EXERCISES } from '@/shared/constants';
 
 export const useWorkoutStore = create<WorkoutState>((set, get) => ({
     exercises: [],

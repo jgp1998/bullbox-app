@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { WorkoutRecord } from '../types';
-import { calculate1RM } from '@/src/features/rm-calculator';
-import { lbsToKg } from '@/utils/formatters';
+import { WorkoutRecord } from '@/shared/types';
+import { calculate1RM } from '@/shared/utils/calculator';
+import { lbsToKg } from '@/shared/utils/formatters';
 
 interface RecordsState {
   records: WorkoutRecord[];

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { HistoryRecord, AnalysisResult, ExerciseDetail } from '../types';
+import { HistoryRecord, AnalysisResult, ExerciseDetail } from '@/shared/types';
 import { getTrainingAdvice, getExerciseDetails as getDetails } from '../services';
 
 interface AnalysisState {

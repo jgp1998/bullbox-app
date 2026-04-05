@@ -1,5 +1,5 @@
 import React from 'react';
-import Skeleton from '@/src/shared/components/ui/Skeleton';
+import Skeleton from '@/shared/components/ui/Skeleton';
 
 /**
  * Skeleton for a single scheduled session item in the Agenda.

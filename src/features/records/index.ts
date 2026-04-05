@@ -1,4 +1,4 @@
-export * from './types';
+export * from '@/shared/types';
 export * from './hooks/useRecords';
 export * from './store/useRecordsStore';
 export { default as PersonalBests } from './components/PersonalBests';

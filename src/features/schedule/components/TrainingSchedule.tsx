@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScheduledSession } from '@/types';
-import { CalendarIcon, PlusIcon, EditIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import Card from '@/src/shared/components/ui/Card';
-import Button from '@/src/shared/components/ui/Button';
+import { ScheduledSession } from '@/shared/types';
+import { CalendarIcon, PlusIcon, EditIcon, TrashIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import Card from '@/shared/components/ui/Card';
+import Button from '@/shared/components/ui/Button';
 
 interface TrainingScheduleProps {
   sessions: ScheduledSession[];
@@ -47,6 +47,7 @@ const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSess
                     size="md"
                     icon={<PlusIcon className="w-5 h-5" />}
                     className="w-full sm:w-auto"
+                    data-testid="schedule-add-button"
                 >
                     {t('trainingSchedule.scheduleButton')}
                 </Button>

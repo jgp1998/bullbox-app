@@ -1,4 +1,4 @@
-import { useHistoryAnalysisStore } from '@/src/features/history/store/useHistoryAnalysisStore';
+import { useHistoryAnalysisStore } from '@/features/history/store/useHistoryAnalysisStore';
 
 export const useTrainingAnalysis = () => {
     const { 

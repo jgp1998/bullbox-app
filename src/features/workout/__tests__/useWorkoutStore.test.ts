@@ -4,10 +4,10 @@ import {
   subscribeExercisesUseCase, 
   addExerciseUseCase, 
   deleteExerciseUseCase 
-} from "@/src/core/application/use-cases/workout";
+} from "@/core/application/use-cases/workout";
 
 // Mock dependencies
-vi.mock("@/src/core/application/use-cases/workout", () => ({
+vi.mock("@/core/application/use-cases/workout", () => ({
   subscribeExercisesUseCase: { execute: vi.fn() },
   addExerciseUseCase: { execute: vi.fn() },
   deleteExerciseUseCase: { execute: vi.fn() },

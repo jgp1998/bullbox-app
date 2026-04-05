@@ -3,10 +3,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import LoginScreen from '../components/LoginScreen';
 import { useAuthStore } from '../store/useAuthStore';
-import { useI18n } from '@/context/i18n';
+import { useI18n } from '@/shared/context/i18n';
 
 // Mock Dependencies
-vi.mock('@/context/i18n', () => ({
+vi.mock('@/shared/context/i18n', () => ({
     useI18n: vi.fn(() => ({
         t: vi.fn((key) => key), // Just return the key for simplicity
     })),

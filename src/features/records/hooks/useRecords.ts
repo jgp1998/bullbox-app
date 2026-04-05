@@ -5,8 +5,8 @@ import {
   subscribeRecordsUseCase, 
   addRecordUseCase, 
   deleteRecordUseCase 
-} from '@/src/core/application/use-cases/records';
-import { WorkoutRecord } from '../types';
+} from '@/core/application/use-cases/records';
+import { WorkoutRecord } from '@/shared/types';
 
 /**
  * Hook to read records data and execute actions.

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { XIcon } from '@/src/shared/components/ui/Icons';
+import { XIcon } from '@/shared/components/ui/Icons';
 
 interface ModalProps {
     isOpen: boolean;

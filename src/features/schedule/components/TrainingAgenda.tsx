@@ -1,23 +1,24 @@
 import React from 'react';
-import { ScheduledSession } from '@/types';
-import { CalendarIcon, PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import Card from '@/src/shared/components/ui/Card';
-import Button from '@/src/shared/components/ui/Button';
+import { ScheduledSession } from '@/shared/types';
+import { CalendarIcon, PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import Card from '@/shared/components/ui/Card';
+import Button from '@/shared/components/ui/Button';
 
 import AgendaItemSkeleton from './AgendaItemSkeleton';
 
+import { useUIStore } from '@/shared/store/useUIStore';
+
 interface TrainingAgendaProps {
     sessions: ScheduledSession[];
-    onAddSession: (date?: string) => void;
-    onEditSession: (session: ScheduledSession) => void;
     onDeleteSession: (id: string) => void;
     isLoading?: boolean;
 }
 
 const TrainingAgenda: React.FC<TrainingAgendaProps> = ({ 
-    sessions, onAddSession, onEditSession, onDeleteSession, isLoading 
+    sessions, onDeleteSession, isLoading 
 }) => {
+    const { openModal } = useUIStore();
     const { t, language } = useI18n();
     const [viewDate, setViewDate] = React.useState(new Date());
 
@@ -90,7 +91,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                 {days.map((day) => (
                     <div 
                         key={day.dateStr}
-                        onClick={() => onAddSession(day.dateStr)}
+                        onClick={() => openModal('schedule', day.dateStr)}
                         className={`flex flex-col items-center p-2 sm:p-3 rounded-2xl cursor-pointer transition-all border-2 ${
                             isToday(day.date) 
                                 ? 'bg-[var(--primary)]/10 border-[var(--primary)]' 
@@ -124,7 +125,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                     days.flatMap(d => d.sessions).map(session => (
                         <div 
                             key={session.id} 
-                            onClick={() => onEditSession(session)}
+                            onClick={() => openModal('schedule', session)}
                             className="group flex items-center p-4 bg-[var(--input)]/50 rounded-2xl border border-[var(--border)] border-opacity-30 hover:border-[var(--primary)] hover:border-opacity-100 transition-all cursor-pointer animate-in fade-in"
                         >
                             <div className="w-12 h-12 rounded-xl bg-[var(--card)] flex flex-col items-center justify-center border border-[var(--border)] shrink-0 mr-4">
@@ -152,7 +153,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                 variant="primary" 
                 fullWidth 
                 className="mt-6 font-black uppercase italic tracking-widest py-3 rounded-2xl"
-                onClick={() => onAddSession()}
+                onClick={() => openModal('schedule')}
                 icon={<PlusIcon className="w-5 h-5" />}
                 data-testid="schedule-add-button"
             >

@@ -1,5 +1,5 @@
-export type { User } from '@/src/core/domain/models/User';
-import { User } from '@/src/core/domain/models/User';
+export type { User } from '@/core/domain/models/User';
+import { User } from '@/core/domain/models/User';
 
 export interface AuthState {
     user: User | null;

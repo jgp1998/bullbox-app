@@ -9,7 +9,7 @@ import {
   QuerySnapshot,
   DocumentData
 } from 'firebase/firestore';
-import { db } from '@/services/firebase';
+import { db } from '@/shared/services/firebase';
 import { RecordRepository } from '../../domain/repositories/RecordRepository';
 import { WorkoutRecord } from '../../domain/models/Record';
 

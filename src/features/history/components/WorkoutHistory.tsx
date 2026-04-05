@@ -1,14 +1,14 @@
 import React from 'react';
-import { Theme } from '@/types';
+import { Theme } from '@/shared/types';
 import ProgressChart from './ProgressChart';
 import AnalysisModal from './AnalysisModal';
 import HistoryItemSkeleton from './HistoryItemSkeleton';
-import { LightBulbIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
-import { formatWorkoutValue, formatDate } from '@/utils/formatters';
-import { useI18n } from '@/context/i18n';
-import Card from '@/src/shared/components/ui/Card';
-import Button from '@/src/shared/components/ui/Button';
-import Input from '@/src/shared/components/ui/Input';
+import { LightBulbIcon, TrashIcon } from '@/shared/components/ui/Icons';
+import { formatWorkoutValue, formatDate } from '@/shared/utils/formatters';
+import { useI18n } from '@/shared/context/i18n';
+import Card from '@/shared/components/ui/Card';
+import Button from '@/shared/components/ui/Button';
+import Input from '@/shared/components/ui/Input';
 import { useHistory } from '../hooks/useHistory';
 
 interface WorkoutHistoryProps {

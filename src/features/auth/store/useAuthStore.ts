@@ -5,8 +5,8 @@ import {
   registerUseCase, 
   resetPasswordUseCase, 
   subscribeAuthChangesUseCase 
-} from '@/src/core/application/use-cases/auth';
-import { AuthState } from '../types';
+} from '@/core/application/use-cases/auth';
+import { AuthState } from '@/shared/types';
 
 export const useAuthStore = create<AuthState>((set) => {
     // Listen for auth changes

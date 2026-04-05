@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculate1RM, calculatePercentage } from "../utils/calculations";
+import { calculate1RM, calculatePercentage } from "../../../shared/utils/calculator";
 
 describe("RM Calculations", () => {
   describe("calculate1RM (Epley Formula)", () => {

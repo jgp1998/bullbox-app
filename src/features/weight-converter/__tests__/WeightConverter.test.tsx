@@ -9,26 +9,26 @@ vi.mock("../hooks/useWeightConverter", () => ({
 }));
 
 // Mock icons
-vi.mock("@/src/shared/components/ui/Icons", () => ({
+vi.mock("@/shared/components/ui/Icons", () => ({
   CalculatorIcon: () => <div data-testid="calculator-icon" />,
 }));
 
 // Mock context/i18n
-vi.mock("@/context/i18n", () => ({
+vi.mock("@/shared/context/i18n", () => ({
   useI18n: () => ({
     t: (key: string) => key,
   }),
 }));
 
 // Mock child component
-vi.mock("@/src/shared/components/calculators/PlateBreakdown", () => ({
+vi.mock("@/shared/components/calculators/PlateBreakdown", () => ({
   default: ({ totalWeight }: any) => (
     <div data-testid="plate-breakdown">Breakdown for {totalWeight}</div>
   ),
 }));
 
 // Mock UI components
-vi.mock("@/src/shared/components/ui/Card", () => ({
+vi.mock("@/shared/components/ui/Card", () => ({
   default: ({ children, title }: any) => (
     <div data-testid="card">
       <h2>{title}</h2>
@@ -37,7 +37,7 @@ vi.mock("@/src/shared/components/ui/Card", () => ({
   ),
 }));
 
-vi.mock("@/src/shared/components/ui/Input", () => ({
+vi.mock("@/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange }: any) => (
     <div>
       <label>{label}</label>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { User } from "../types";
+import { User } from '@/shared/types';
 
-import { useI18n } from "@/context/i18n";
+import { useI18n } from "@/shared/context/i18n";
 import { useAuthStore } from "../store/useAuthStore";
-import Card from "@/src/shared/components/ui/Card";
-import Button from "@/src/shared/components/ui/Button";
-import Input from "@/src/shared/components/ui/Input";
+import Card from "@/shared/components/ui/Card";
+import Button from "@/shared/components/ui/Button";
+import Input from "@/shared/components/ui/Input";
 import PasswordResetModal from "./PasswordResetModal";
 
 interface LoginScreenProps {

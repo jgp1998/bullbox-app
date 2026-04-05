@@ -1,4 +1,4 @@
-import type { WorkoutRecord } from '../types';
+import type { WorkoutRecord } from '@/shared/types';
 
 const KG_TO_LBS = 2.20462;
 

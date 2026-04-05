@@ -1,6 +1,6 @@
 import React from 'react';
-import { useI18n } from '@/context/i18n';
-import type { PlateStack, WeightUnit } from '@/src/shared/utils/calculator';
+import { useI18n } from '@/shared/context/i18n';
+import type { PlateStack, WeightUnit } from '@/shared/utils/calculator';
 
 interface PlateDisplayProps {
   stack: PlateStack[];

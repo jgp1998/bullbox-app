@@ -4,8 +4,8 @@ import {
     addSessionUseCase, 
     updateSessionUseCase, 
     deleteSessionUseCase 
-} from '@/src/core/application/use-cases/schedule';
-import { ScheduledSession } from '@/src/core/domain/models/Schedule';
+} from '@/core/application/use-cases/schedule';
+import { ScheduledSession } from '@/core/domain/models/Schedule';
 
 interface ScheduleState {
     scheduledSessions: ScheduledSession[];

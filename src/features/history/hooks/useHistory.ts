@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
-import { HistoryRecord } from '../types';
+import { HistoryRecord } from '@/shared/types';
 import { useHistoryAnalysisStore } from '../store/useHistoryAnalysisStore';
-import { useRecords } from '@/src/features/records';
-import { useI18n } from '@/context/i18n';
+import { useRecords } from '@/features/records';
+import { useI18n } from '@/shared/context/i18n';
 
 export const useHistory = () => {
     const { records, deleteRecord, isLoading: isRecordsLoading } = useRecords();

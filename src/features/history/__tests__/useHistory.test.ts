@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { useHistoryAnalysisStore } from "../store/useHistoryAnalysisStore";
-import { useRecords } from "@/src/features/records";
+import { useRecords } from "@/features/records";
 import { useHistory } from "../hooks/useHistory";
 
 // Mock the stores
@@ -10,8 +10,14 @@ vi.mock("../store/useHistoryAnalysisStore", () => ({
   useHistoryAnalysisStore: vi.fn(),
 }));
 
-vi.mock("@/src/features/records", () => ({
+vi.mock("@/features/records", () => ({
   useRecords: vi.fn(),
+}));
+
+vi.mock("@/shared/context/i18n", () => ({
+  useI18n: () => ({
+    language: "en",
+  }),
 }));
 
 describe("useHistory", () => {
@@ -78,7 +84,7 @@ describe("useHistory", () => {
       await result.current.handleGetAnalysis(mockRecords[0] as any);
     });
 
-    expect(mockGetAnalysis).toHaveBeenCalledWith(mockRecords[0], mockRecords);
+    expect(mockGetAnalysis).toHaveBeenCalledWith(mockRecords[0], mockRecords, "en");
   });
 
   it("should call deleteRecord properly", () => {

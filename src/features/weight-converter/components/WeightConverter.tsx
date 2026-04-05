@@ -1,9 +1,9 @@
 import React from 'react';
-import { useI18n } from '@/context/i18n';
-import { User } from '@/src/features/auth/types';
-import PlateBreakdown from '@/src/shared/components/calculators/PlateBreakdown';
-import Card from '@/src/shared/components/ui/Card';
-import Input from '@/src/shared/components/ui/Input';
+import { useI18n } from '@/shared/context/i18n';
+import { User } from '@/features/auth/types';
+import PlateBreakdown from '@/shared/components/calculators/PlateBreakdown';
+import Card from '@/shared/components/ui/Card';
+import Input from '@/shared/components/ui/Input';
 import { useWeightConverter } from '../hooks/useWeightConverter';
 
 interface WeightConverterProps {

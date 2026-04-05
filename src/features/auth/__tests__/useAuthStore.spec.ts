@@ -6,9 +6,9 @@ import {
     registerUseCase, 
     resetPasswordUseCase, 
     subscribeAuthChangesUseCase 
-} from '@/src/core/application/use-cases/auth';
+} from '@/core/application/use-cases/auth';
 
-vi.mock('@/src/core/application/use-cases/auth', () => ({
+vi.mock('@/core/application/use-cases/auth', () => ({
     loginUseCase: { execute: vi.fn() },
     logoutUseCase: { execute: vi.fn() },
     registerUseCase: { execute: vi.fn() },

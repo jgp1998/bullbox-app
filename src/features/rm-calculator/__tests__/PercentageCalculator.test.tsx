@@ -1,11 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import type { WorkoutRecord } from "@/types";
-import type { User } from "@/src/features/auth/types";
+import type { WorkoutRecord } from "@/shared/types";
+import type { User } from "@/features/auth/types";
 import PercentageCalculator from "../components/PercentageCalculator";
 
 // Mock context/i18n
-vi.mock("@/context/i18n", () => ({
+vi.mock("@/shared/context/i18n", () => ({
   useI18n: () => ({
     t: (key: string, params?: any) => {
       if (key === "percentageCalculator.basedOn") {
@@ -17,12 +17,12 @@ vi.mock("@/context/i18n", () => ({
 }));
 
 // Mock icons
-vi.mock("@/src/shared/components/ui/Icons", () => ({
+vi.mock("@/shared/components/ui/Icons", () => ({
   CalculatorIcon: () => <div data-testid="calculator-icon" />,
 }));
 
 // Mock child component
-vi.mock("@/src/shared/components/calculators/PlateBreakdown", () => ({
+vi.mock("@/shared/components/calculators/PlateBreakdown", () => ({
   default: ({ totalWeight }: any) => (
     <div data-testid="plate-breakdown">
       Breakdown for {totalWeight.toFixed(1)}
@@ -31,7 +31,7 @@ vi.mock("@/src/shared/components/calculators/PlateBreakdown", () => ({
 }));
 
 // Mock UI components
-vi.mock("@/src/shared/components/ui/Card", () => ({
+vi.mock("@/shared/components/ui/Card", () => ({
   default: ({ children, title, icon }: any) => (
     <div data-testid="card">
       {icon}
@@ -41,7 +41,7 @@ vi.mock("@/src/shared/components/ui/Card", () => ({
   ),
 }));
 
-vi.mock("@/src/shared/components/ui/Input", () => ({
+vi.mock("@/shared/components/ui/Input", () => ({
   default: ({ label, value, onChange, options, type, required }: any) => (
     <div>
       <label>{label}</label>
@@ -70,7 +70,7 @@ vi.mock("@/src/shared/components/ui/Input", () => ({
   ),
 }));
 
-vi.mock("@/src/shared/components/ui/Button", () => ({
+vi.mock("@/shared/components/ui/Button", () => ({
   default: ({ children, disabled, type }: any) => (
     <button disabled={disabled} type={type}>
       {children}

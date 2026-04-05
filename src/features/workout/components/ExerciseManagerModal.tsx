@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { PlusIcon, TrashIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import { useToast } from '@/context/ToastContext';
-import Modal from '@/src/shared/components/ui/Modal';
-import Input from '@/src/shared/components/ui/Input';
-import Button from '@/src/shared/components/ui/Button';
+import { PlusIcon, TrashIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import { useToast } from '@/shared/context/ToastContext';
+import Modal from '@/shared/components/ui/Modal';
+import Input from '@/shared/components/ui/Input';
+import Button from '@/shared/components/ui/Button';
 
 interface ExerciseManagerModalProps {
   isOpen: boolean;

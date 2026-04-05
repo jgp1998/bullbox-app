@@ -6,7 +6,7 @@ import {
   arrayUnion, 
   arrayRemove
 } from 'firebase/firestore';
-import { db } from '@/services/firebase';
+import { db } from '@/shared/services/firebase';
 import { WorkoutRepository } from '../../domain/repositories/WorkoutRepository';
 
 export class FirebaseWorkoutRepository implements WorkoutRepository {

@@ -1,4 +1,4 @@
-import { RecordType, WeightUnit } from '../types';
+import { RecordType, WeightUnit } from '@/shared/types';
 
 export const RECORD_TYPES: RecordType[] = ['Weight', 'Reps', 'Time'];
 export const WEIGHT_UNITS: WeightUnit[] = ['kg', 'lbs'];

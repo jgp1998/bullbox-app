@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { WorkoutRecord, WeightUnit } from '../types';
-import { WEIGHT_UNITS } from '../constants';
-import { PlusIcon, EditIcon } from '@/src/shared/components/ui/Icons';
-import { useI18n } from '@/context/i18n';
-import { useToast } from '@/context/ToastContext';
-import Card from '@/src/shared/components/ui/Card';
-import Button from '@/src/shared/components/ui/Button';
-import Input from '@/src/shared/components/ui/Input';
+import { WorkoutRecord, WeightUnit } from '@/shared/types';
+import { WEIGHT_UNITS } from '@/shared/constants';
+import { PlusIcon, EditIcon } from '@/shared/components/ui/Icons';
+import { useI18n } from '@/shared/context/i18n';
+import { useToast } from '@/shared/context/ToastContext';
+import Card from '@/shared/components/ui/Card';
+import Button from '@/shared/components/ui/Button';
+import Input from '@/shared/components/ui/Input';
+import { useUIStore } from '@/shared/store/useUIStore';
+import { useExercises } from '../hooks';
 
-interface WorkoutFormProps {
-  onAddRecord: (record: Omit<WorkoutRecord, 'id'>) => void;
-  onManageExercises: () => void;
-  exercises: string[];
-}
-
-const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercises, exercises }) => {
+const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) => void }> = ({ onAddRecord }) => {
+  const { openModal } = useUIStore();
+  const { exercises } = useExercises();
   const { t } = useI18n();
   const { showSuccess, showError } = useToast();
   const [exercise, setExercise] = useState('');
@@ -131,7 +129,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddRecord, onManageExercise
               type="button"
               variant="secondary"
               size="icon"
-              onClick={onManageExercises}
+              onClick={() => openModal('exerciseManager')}
               title={t('workoutForm.manageExercises')}
               icon={<EditIcon className="w-5 h-5" />}
               className="mb-1"
