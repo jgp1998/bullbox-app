@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { HistoryRecord } from '../types';
 import { Theme } from '@/types';
-import { lbsToKg } from '@/utils/formatters';
+import { lbsToKg, formatDate } from '@/utils/formatters';
 import { useI18n } from '@/context/i18n';
 
 interface ProgressChartProps {
@@ -15,7 +15,18 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ records, exercise, theme 
   const { t } = useI18n();
   const filteredRecords = records
     .filter(r => r.exercise === exercise)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .sort((a, b) => {
+      const dateA = a.date.split('-').map(Number);
+      const dateB = b.date.split('-').map(Number);
+      // If we have YYYY-MM-DD
+      if (dateA.length === 3 && dateB.length === 3) {
+        const timeA = new Date(dateA[0], dateA[1] - 1, dateA[2]).getTime();
+        const timeB = new Date(dateB[0], dateB[1] - 1, dateB[2]).getTime();
+        return timeA - timeB;
+      }
+      // Fallback for other formats
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
     
   if (filteredRecords.length < 2) {
     return (
@@ -27,15 +38,25 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ records, exercise, theme 
     );
   }
 
-  const recordType = filteredRecords[0]?.type;
+  // Determine chart type based on record data
+  const hasWeight = filteredRecords.some(r => r.weight !== undefined && r.weight !== null && r.weight > 0);
+  const hasTime = filteredRecords.some(r => r.time !== undefined && r.time !== null && r.time > 0 && !r.weight);
+  
+  const recordType = hasWeight ? 'Weight' : (hasTime ? 'Time' : 'Reps');
 
   const data = filteredRecords.map(r => {
-    let value = r.value;
-    if (r.type === 'Weight' && r.unit === 'lbs') {
-      value = lbsToKg(r.value);
+    let value: number;
+    if (recordType === 'Weight') {
+      value = r.weight || 0;
+      if (r.unit === 'lbs') value = lbsToKg(value);
+    } else if (recordType === 'Time') {
+      value = r.time || 0;
+    } else {
+      value = r.reps || 0;
     }
+    
     return {
-      date: new Date(r.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: formatDate(r.date, { month: 'short', day: 'numeric' }),
       value: value as number,
     };
   });
