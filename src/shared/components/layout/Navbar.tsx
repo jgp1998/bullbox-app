@@ -135,7 +135,7 @@ const Navbar: React.FC = () => {
       <div className="lg:hidden">
         {/* Backdrop */}
         <div 
-          className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 z-[100] ${
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 z-100 ${
             isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`} 
           onClick={() => setIsOpen(false)}
@@ -143,7 +143,7 @@ const Navbar: React.FC = () => {
         
         {/* Drawer */}
         <div 
-          className={`fixed right-0 top-0 h-full w-4/5 max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col p-6 z-[110] transform transition-transform duration-300 ease-out border-l border-(--border) ${
+          className={`fixed right-0 top-0 h-full w-4/5 max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col p-6 z-110 transform transition-transform duration-300 ease-out border-l border-(--border) ${
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
           style={{ 
