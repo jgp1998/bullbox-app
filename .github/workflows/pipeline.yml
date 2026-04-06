@@ -10,6 +10,9 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  HUSKY: '0'
+
 jobs:
   ci:
     name: Check Quality (Lint & Test)
@@ -115,7 +118,11 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install
+        npm install --no-save @tailwindcss/oxide
+      env:
+        npm_config_optional: true
 
     - name: Configure Git
       run: |
