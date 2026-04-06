@@ -25,7 +25,9 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: |
+        npm install
+        npm install --no-save @tailwindcss/oxide
       env:
         npm_config_optional: true
 
@@ -37,7 +39,7 @@ jobs:
 
     - name: Install Functions dependencies
       working-directory: ./functions
-      run: npm ci
+      run: npm install
 
     - name: Lint (Check Types)
       run: npm run lint
@@ -65,7 +67,9 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: |
+        npm install
+        npm install --no-save @tailwindcss/oxide
       env:
         npm_config_optional: true
 
@@ -111,7 +115,7 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: npm install
 
     - name: Configure Git
       run: |
@@ -140,7 +144,9 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: |
+        npm install
+        npm install --no-save @tailwindcss/oxide
       env:
         npm_config_optional: true
 
@@ -168,7 +174,7 @@ jobs:
 
     - name: Install Functions dependencies
       working-directory: ./functions
-      run: npm ci
+      run: npm install
 
     - name: Build Functions
       working-directory: ./functions
