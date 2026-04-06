@@ -16,6 +16,9 @@ vi.mock("@/shared/context/i18n", () => ({
       if (key === "percentageCalculator.lessThanBarbell") {
         return "Less than barbell";
       }
+      if (key === "weightConverter.plates") {
+        return "plates";
+      }
       return key;
     },
   }),
