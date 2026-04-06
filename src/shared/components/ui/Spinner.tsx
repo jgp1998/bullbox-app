@@ -27,9 +27,9 @@ const Spinner: React.FC<SpinnerProps> = ({
     const dimensions = sizeMap[size];
     
     const colorClasses = {
-        primary: 'stroke-(--primary)',
-        accent: 'stroke-(--accent)',
-        white: 'stroke-white',
+        primary: 'text-(--primary)',
+        accent: 'text-(--accent)',
+        white: 'text-white',
     };
 
     return (
@@ -85,8 +85,8 @@ const Spinner: React.FC<SpinnerProps> = ({
             </div>
 
             {label && (
-                <p className="text-sm sm:text-base font-semibold tracking-wide text-(--muted-text) animate-in">
-                    {label.toUpperCase()}
+                <p className="text-sm sm:text-base font-semibold tracking-wide uppercase text-(--muted-text) animate-in">
+                    {label}
                 </p>
             )}
         </div>
