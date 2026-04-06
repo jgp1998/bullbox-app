@@ -6,6 +6,13 @@
     "selectTheme": "Select theme",
     "selectLanguage": "Select language"
   },
+  "nav": {
+    "train": "Train",
+    "history": "History",
+    "records": "Records",
+    "converter": "Converter",
+    "calculator": "Calculator"
+  },
   "login": {
     "tagline": "Log your lifts. Smash your PRs.",
     "registerTagline": "Create your account to start tracking.",
@@ -54,7 +61,9 @@
     }
   },
   "weightConverter": {
-    "title": "Weight Converter"
+    "title": "Weight Converter",
+    "plates": "plates",
+    "platesPerSide": "Plates per side"
   },
   "percentageCalculator": {
     "title": "RM Percentage Calculator",
