@@ -19,6 +19,7 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
     const { t } = useI18n();
     const [selectedExercise, setSelectedExercise] = useState('');
     const [percentage, setPercentage] = useState('80');
+    const [manualRM, setManualRM] = useState('');
     const [barWeight, setBarWeight] = useState('20');
     const [plateUnit, setPlateUnit] = useState<'kg' | 'lbs'>('kg');
     const [result, setResult] = useState<{
@@ -41,21 +42,33 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
         const pb = weightPBs.find(r => r.exercise === selectedExercise);
         const perc = parseFloat(percentage);
 
-        if (!pb || isNaN(perc) || perc <= 0) {
+        let rmValue = 0;
+        let unit = 'kg';
+        let exerciseName = '';
+
+        if (manualRM) {
+            rmValue = parseFloat(manualRM);
+            unit = plateUnit;
+            exerciseName = t('percentageCalculator.manualMaxLabel');
+        } else if (pb) {
+            rmValue = calculate1RM(pb.weight, pb.reps);
+            unit = pb.unit || 'kg';
+            exerciseName = pb.exercise;
+        }
+
+        if (!rmValue || isNaN(perc) || perc <= 0) {
             setResult(null);
             return;
         }
 
-        const rmValue = calculate1RM(pb.weight, pb.reps);
-        const rmInKg = pb.unit === 'lbs' ? lbsToKg(rmValue) : rmValue;
-        
+        const rmInKg = unit === 'lbs' ? lbsToKg(rmValue) : rmValue;
         const calculatedKg = (rmInKg * perc) / 100;
         const calculatedLbs = kgToLbs(calculatedKg);
 
         setResult({
             rm: rmValue,
-            unit: pb.unit || 'kg',
-            exercise: pb.exercise,
+            unit: unit,
+            exercise: exerciseName,
             calculated: { kg: calculatedKg, lbs: calculatedLbs }
         });
     };
@@ -77,6 +90,7 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                             value={selectedExercise}
                             onChange={e => {
                                 setSelectedExercise(e.target.value);
+                                setManualRM('');
                                 setResult(null);
                             }}
                             options={weightPBs.map(pb => ({ value: pb.exercise, label: pb.exercise }))}
@@ -84,6 +98,25 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                             data-testid="percentage-exercise-select"
                         />
                     </div>
+                     <div className="space-y-1">
+                        <label htmlFor="percentage-manual-rm" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('percentageCalculator.manualMaxLabel')}</label>
+                        <Input
+                            id="percentage-manual-rm"
+                            type="number"
+                            value={manualRM}
+                            onChange={e => {
+                                setManualRM(e.target.value);
+                                setSelectedExercise('');
+                                setResult(null);
+                            }}
+                            placeholder="100"
+                            className="font-bold border-(--primary)/20"
+                            data-testid="percentage-manual-rm"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
                         <label htmlFor="percentage-bar-weight" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
                         <Input
@@ -96,9 +129,6 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                             data-testid="percentage-bar-weight"
                         />
                     </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
                         <label htmlFor="percentage-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('percentageCalculator.percentageLabel')}</label>
                         <Input
@@ -109,13 +139,16 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                                 setPercentage(e.target.value);
                                 setResult(null);
                             }}
-                            placeholder="e.g., 80"
+                            placeholder="80"
                             required
                             min="1"
                             max="200"
                             data-testid="percentage-input"
                         />
                     </div>
+                </div>
+                
+                <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-1.5">
                         <span className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.unit')}</span>
                         <div className="flex bg-(--card-bg) border border-(--border-color) rounded-xl overflow-hidden h-11">
@@ -140,8 +173,9 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                 <Button
                     type="submit"
                     variant="primary"
-                    disabled={weightPBs.length === 0}
+                    disabled={!selectedExercise && !manualRM}
                     className="w-full py-4 text-lg font-black uppercase italic tracking-widest"
+                    data-testid="percentage-calculate-button"
                 >
                     {t('percentageCalculator.calculate')}
                 </Button>
@@ -154,12 +188,12 @@ const PercentageCalculator: React.FC<PercentageCalculatorProps> = ({ records, us
                     </p>
                     
                     <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="text-center p-6 bg-(--primary)/10 rounded-2xl border border-(--primary)/20">
+                        <div className="text-center p-6 bg-(--primary)/10 rounded-2xl border border-(--primary)/20" data-testid="percentage-result-kg">
                             <p className="text-3xl font-black text-(--primary) tracking-tight">
                                 {result.calculated.kg.toFixed(1)} <span className="text-xs font-bold opacity-70">kg</span>
                             </p>
                         </div>
-                        <div className="text-center p-6 bg-(--accent)/10 rounded-2xl border border-(--accent)/20">
+                        <div className="text-center p-6 bg-(--accent)/10 rounded-2xl border border-(--accent)/20" data-testid="percentage-result-lbs">
                             <p className="text-3xl font-black text-(--accent) tracking-tight">
                                 {result.calculated.lbs.toFixed(1)} <span className="text-xs font-bold opacity-70">lbs</span>
                             </p>

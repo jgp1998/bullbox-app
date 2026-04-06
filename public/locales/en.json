@@ -59,6 +59,7 @@
   "percentageCalculator": {
     "title": "RM Percentage Calculator",
     "exerciseLabel": "Exercise (1RM)",
+    "manualMaxLabel": "Manual 1RM (Optional)",
     "noPBs": "Log a 'Weight' personal best to use this feature.",
     "percentageLabel": "Percentage",
     "calculate": "Calculate",

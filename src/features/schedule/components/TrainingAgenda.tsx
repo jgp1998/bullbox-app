@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScheduledSession } from '@/shared/types';
-import { CalendarIcon, PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@/shared/components/ui/Icons';
+import { CalendarIcon, PlusIcon, ChevronLeftIcon, ChevronRightIcon, EditIcon, TrashIcon } from '@/shared/components/ui/Icons';
 import { useI18n } from '@/shared/context/i18n';
 import Card from '@/shared/components/ui/Card';
 import Button from '@/shared/components/ui/Button';
@@ -18,13 +18,15 @@ interface TrainingAgendaProps {
 const TrainingAgenda: React.FC<TrainingAgendaProps> = ({ 
     sessions, onDeleteSession, isLoading 
 }) => {
-    const { openModal } = useUIStore();
     const { t, language } = useI18n();
+    const { openModal } = useUIStore();
     const [viewDate, setViewDate] = React.useState(new Date());
 
     const days = React.useMemo(() => {
         const start = new Date(viewDate);
-        start.setDate(start.getDate() - start.getDay() + 1); // Start with Monday
+        const day = start.getDay();
+        const diff = start.getDate() - day + (day === 0 ? -6 : 1);
+        start.setDate(diff); // Start with Monday
         
         return Array.from({ length: 7 }, (_, i) => {
             const date = new Date(start);
@@ -56,7 +58,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
     };
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden" data-testid="training-agenda-container">
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
                     <div className="p-2 bg-[var(--primary)]/10 rounded-xl">
@@ -123,26 +125,51 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                     ))
                 ) : days.some(d => d.sessions.length > 0) ? (
                     days.flatMap(d => d.sessions).map(session => (
-                        <div 
-                            key={session.id} 
-                            onClick={() => openModal('schedule', session)}
-                            className="group flex items-center p-4 bg-[var(--input)]/50 rounded-2xl border border-[var(--border)] border-opacity-30 hover:border-[var(--primary)] hover:border-opacity-100 transition-all cursor-pointer animate-in fade-in"
-                        >
-                            <div className="w-12 h-12 rounded-xl bg-[var(--card)] flex flex-col items-center justify-center border border-[var(--border)] shrink-0 mr-4">
-                                <span className="text-[10px] font-black text-[var(--muted-text)] leading-none uppercase">{session.date.split('-')[2]}</span>
-                                <span className="text-xs font-black text-[var(--primary)] mt-0.5">{session.time}</span>
-                            </div>
-                            <div className="flex-grow min-w-0">
-                                <h4 className="font-black text-[var(--text)] uppercase tracking-tight truncate">{session.title}</h4>
-                                {session.notes && <p className="text-xs text-[var(--muted-text)] italic truncate mt-0.5">{session.notes}</p>}
-                            </div>
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                <PlusIcon className="w-5 h-5 text-[var(--primary)] rotate-45" />
+                        <div key={session.id} className="relative group" data-testid="session-card">
+                            <div className="absolute -inset-0.5 bg-[var(--primary)]/10 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
+                            <div className="relative flex items-center gap-4 p-4 bg-[var(--background)]/50 rounded-2xl border border-transparent hover:border-[var(--border)] transition-all duration-300">
+                                <div className="flex flex-col items-center justify-center min-w-[70px] border-r border-[var(--border)]/50 pr-4">
+                                    <span className="text-sm font-black text-[var(--primary)] leading-none">
+                                        {session.time}
+                                    </span>
+                                    <span className="text-[9px] font-black uppercase tracking-tighter text-[var(--muted-text)] mt-0.5">
+                                        {session.date.split('-').slice(1).reverse().join('/')}
+                                    </span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <h4 className="font-black text-(--text) uppercase tracking-widest truncate" data-testid="session-title">
+                                            {session.title}
+                                        </h4>
+                                        {session.notes && (
+                                            <div className="w-1.5 h-1.5 rounded-full bg-(--primary) animate-pulse" title="Has notes" />
+                                        )}
+                                    </div>
+                                    {session.notes && (
+                                        <p className="text-[10px] text-(--muted-text) font-medium uppercase tracking-wider line-clamp-1 italic">
+                                            {session.notes}
+                                        </p>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                    <button 
+                                        onClick={() => openModal('schedule', session)}
+                                        className="p-2 text-(--muted-text) hover:text-(--primary) hover:bg-(--primary)/10 rounded-xl transition-all active:scale-90"
+                                    >
+                                        <EditIcon className="w-4 h-4" />
+                                    </button>
+                                    <button 
+                                        onClick={() => onDeleteSession(session.id)}
+                                        className="p-2 text-(--muted-text) hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all active:scale-90"
+                                    >
+                                        <TrashIcon className="w-4 h-4" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div className="flex flex-col items-center justify-center py-10 opacity-30 select-none bg-[var(--input)] rounded-3xl border border-dashed border-[var(--border)]">
+                    <div className="flex flex-col items-center justify-center py-10 opacity-30 select-none bg-[var(--input)] rounded-3xl border border-dashed border-[var(--border)]" data-testid="no-sessions-message">
                         <CalendarIcon className="w-8 h-8 mb-2" />
                         <p className="text-xs font-black uppercase tracking-widest">{t('trainingSchedule.noSessions')}</p>
                     </div>
@@ -162,7 +189,8 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
         </Card>
     );
 };
-
+ 
 export default TrainingAgenda;
+
 
 

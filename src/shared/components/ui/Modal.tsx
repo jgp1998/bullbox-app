@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { XIcon } from '@/shared/components/ui/Icons';
 
-interface ModalProps {
+interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
     isOpen: boolean;
     onClose: () => void;
     title?: string;
@@ -17,7 +17,9 @@ const Modal: React.FC<ModalProps> = ({
     title, 
     children, 
     footer,
-    size = 'md' 
+    size = 'md',
+    className = '',
+    ...props
 }) => {
     const [mounted, setMounted] = useState(false);
 
@@ -47,25 +49,26 @@ const Modal: React.FC<ModalProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 sm:pb-20">
             {/* Overlay */}
             <div 
-                className="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm transition-opacity animate-in fade-in duration-300" 
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
                 onClick={onClose}
             />
             
             {/* Modal Content */}
             <div 
-                className={`relative bg-[var(--card)] w-full ${sizeClasses[size]} rounded-xl shadow-2xl border border-[var(--border)] flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 fade-in duration-300`}
+                className={`relative w-full ${sizeClasses[size]} bg-(--card) rounded-xl shadow-2xl border border-(--border) overflow-hidden transform transition-all flex flex-col max-h-[90vh] ${className}`}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="modal-title"
+                {...props}
             >
                 {/* Header */}
-                <div className="p-4 sm:p-6 border-b border-[var(--border)] flex items-center justify-between bg-[var(--card)] sticky top-0 z-10">
-                    <h2 id="modal-title" className="text-xl font-bold text-[var(--primary)] truncate pr-8">
+                <div className="px-6 py-4 border-b border-(--border) flex items-center justify-between bg-(--card)">
+                    <h2 id="modal-title" className="text-xl font-bold text-(--primary)">
                         {title}
                     </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-full hover:bg-[var(--input)] text-[var(--muted-text)] hover:text-[var(--text)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                        className="p-2 rounded-lg hover:bg-(--input) text-(--muted-text) hover:text-(--text) transition-colors focus:outline-hidden focus:ring-2 focus:ring-(--primary)"
                         aria-label="Close modal"
                     >
                         <XIcon className="w-6 h-6" />
@@ -73,13 +76,13 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
 
                 {/* Body */}
-                <div className="p-4 sm:p-6 overflow-y-auto custom-scrollbar flex-grow">
+                <div className="px-6 py-4 overflow-y-auto grow custom-scrollbar">
                     {children}
                 </div>
 
                 {/* Footer */}
                 {footer && (
-                    <div className="p-4 sm:p-6 border-t border-[var(--border)] flex justify-end space-x-3 bg-[var(--card)] sticky bottom-0 z-10">
+                    <div className="px-6 py-4 border-t border-(--border) bg-(--card) flex justify-end space-x-3">
                         {footer}
                     </div>
                 )}
@@ -104,6 +107,7 @@ const Modal: React.FC<ModalProps> = ({
         document.body
     );
 };
+
 
 export default Modal;
 

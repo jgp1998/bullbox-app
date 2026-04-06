@@ -59,6 +59,7 @@
   "percentageCalculator": {
     "title": "Calculadora de % de RM",
     "exerciseLabel": "Ejercicio (1RM)",
+    "manualMaxLabel": "1RM Manual (Opcional)",
     "noPBs": "Registra un récord personal de 'Peso' para usar esta función.",
     "percentageLabel": "Porcentaje",
     "calculate": "Calcular",
