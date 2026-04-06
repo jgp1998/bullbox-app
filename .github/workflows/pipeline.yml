@@ -2,9 +2,13 @@ name: Main CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   ci:
@@ -18,13 +22,18 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
 
-    - name: Install dependencies (fresh for Linux bindings)
-      run: |
-        rm -f package-lock.json
-        npm install
+    - name: Install dependencies
+      run: npm ci
       env:
         npm_config_optional: true
+
+    - name: Cache Functions dependencies
+      uses: actions/cache@v4
+      with:
+        path: functions/node_modules
+        key: ${{ runner.os }}-functions-${{ hashFiles('functions/package-lock.json') }}
 
     - name: Install Functions dependencies
       working-directory: ./functions
@@ -45,23 +54,32 @@ jobs:
   e2e:
     name: E2E Tests (Playwright)
     needs: ci
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'e2e')
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') || contains(github.event.pull_request.labels.*.name, 'e2e')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
 
-    - name: Install dependencies (fresh for Linux bindings)
-      run: |
-        rm -f package-lock.json
-        npm install
+    - name: Install dependencies
+      run: npm ci
       env:
         npm_config_optional: true
 
+    - name: Cache Playwright Browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
     - name: Install Playwright
       run: npx playwright install --with-deps
+
     - name: Run E2E
       run: npm run test:e2e
       env:
@@ -75,9 +93,40 @@ jobs:
         TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
         TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
+  release:
+    name: Automated Release (standard-version)
+    needs: [ci, e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Run standard-version
+      run: npm run release
+
+    - name: Push release changes
+      run: git push --follow-tags origin main
+
   deploy:
     name: Deploy to Firebase
-    needs: [ci, e2e]
+    needs: release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
@@ -88,11 +137,10 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
 
-    - name: Install dependencies (fresh for Linux bindings)
-      run: |
-        rm -f package-lock.json
-        npm install
+    - name: Install dependencies
+      run: npm ci
       env:
         npm_config_optional: true
 
@@ -112,6 +160,11 @@ jobs:
         VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
         VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
 
+    - name: Cache Functions dependencies
+      uses: actions/cache@v4
+      with:
+        path: functions/node_modules
+        key: ${{ runner.os }}-functions-${{ hashFiles('functions/package-lock.json') }}
 
     - name: Install Functions dependencies
       working-directory: ./functions
