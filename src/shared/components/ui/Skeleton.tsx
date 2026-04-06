@@ -5,24 +5,30 @@ interface SkeletonProps {
     width?: string | number;
     height?: string | number;
     variant?: 'circle' | 'rect' | 'text';
+    shimmer?: boolean;
 }
 
 /**
- * A highly customizable Skeleton component for loading states.
+ * Enhanced Skeleton component with Shimmer effect.
  * Uses system variables for design consistency.
  */
 const Skeleton: React.FC<SkeletonProps> = ({ 
     className = '', 
     width, 
     height, 
-    variant = 'rect' 
+    variant = 'rect',
+    shimmer = true
 }) => {
-    const baseClasses = 'animate-pulse bg-[var(--input)] opacity-50';
+    // Base skeleton styling
+    const baseClasses = `bg-(--input) overflow-hidden relative`;
+    
+    // Pulse is kept as a backup or if shimmer is disabled
+    const animationClass = shimmer ? 'animate-shimmer' : 'animate-pulse opacity-50';
     
     const variantClasses = {
         circle: 'rounded-full',
-        rect: 'rounded-lg',
-        text: 'rounded h-4 mb-2',
+        rect: 'rounded-xl',
+        text: 'rounded-md h-4 mb-2',
     };
 
     const style: React.CSSProperties = {
@@ -32,9 +38,14 @@ const Skeleton: React.FC<SkeletonProps> = ({
 
     return (
         <div 
-            className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+            className={`${baseClasses} ${variantClasses[variant]} ${animationClass} ${className}`}
             style={style}
-        />
+        >
+            {/* Shimmer overlay for extra polish if shimmer is on */}
+            {shimmer && (
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2.5s_infinite]" />
+            )}
+        </div>
     );
 };
 

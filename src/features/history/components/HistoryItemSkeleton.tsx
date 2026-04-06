@@ -7,7 +7,7 @@ import Skeleton from '@/shared/components/ui/Skeleton';
  */
 const HistoryItemSkeleton: React.FC = () => {
     return (
-        <div className="bg-[var(--input)] p-4 rounded-lg flex items-center justify-between border border-transparent opacity-60">
+        <div className="bg-(--input) p-4 rounded-lg flex items-center justify-between border border-transparent opacity-60">
             <div className="flex flex-col space-y-2 w-1/2">
                 {/* Exercise name */}
                 <Skeleton variant="text" width="70%" />
