@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/jgp1998/bullbox-app/compare/v1.1.0...v1.1.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* **ci:** add build secrets verification diagnostics ([7615492](https://github.com/jgp1998/bullbox-app/commit/7615492fd7d68d86ef327be080c6578a6464c9dd))
+
 ## 1.1.0 (2026-04-06)
 
 
