@@ -60,6 +60,11 @@ export default defineConfig(({ mode }) => {
         environment: 'jsdom',
         setupFiles: './setupTests.ts',
         exclude: ['**/node_modules/**', '**/dist/**', '**/qa/**', '**/e2e/**'],
+        server: {
+          deps: {
+            inline: ['@asamuzakjp/css-color']
+          }
+        }
       },
     };
 });
