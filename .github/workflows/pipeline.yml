@@ -162,6 +162,17 @@ jobs:
       with:
         credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JORNLIFT }}'
 
+    - name: Verify Build Secrets
+      run: |
+        echo "Checking environment variables for build..."
+        [ -z "$VITE_FIREBASE_API_KEY" ] && echo "::error::VITE_FIREBASE_API_KEY is MISSING" || echo "VITE_FIREBASE_API_KEY is present"
+        [ -z "$VITE_FIREBASE_PROJECT_ID" ] && echo "::error::VITE_FIREBASE_PROJECT_ID is MISSING" || echo "VITE_FIREBASE_PROJECT_ID is present"
+        [ -z "$VITE_FIREBASE_APP_ID" ] && echo "::error::VITE_FIREBASE_APP_ID is MISSING" || echo "VITE_FIREBASE_APP_ID is present"
+      env:
+        VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+        VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+        VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+
     - name: Build Frontend
       run: npm run build
       env:
