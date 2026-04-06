@@ -39,5 +39,6 @@ export default defineConfig({
     command: "npm run dev",
     url: "http://localhost:3001",
     reuseExistingServer: true,
+    cwd: path.resolve(__dirname, ".."),
   },
 });
