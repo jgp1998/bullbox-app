@@ -7,7 +7,7 @@ import Skeleton from '@/shared/components/ui/Skeleton';
  */
 const RecordCardSkeleton: React.FC = () => {
     return (
-        <div className="bg-[var(--input)] p-5 rounded-3xl border border-[var(--border)] opacity-60 flex flex-col items-center justify-between space-y-4 h-full min-h-[160px]">
+        <div className="bg-(--input) p-5 rounded-3xl border border-(--border) opacity-60 flex flex-col items-center justify-between space-y-4 h-full min-h-[160px]">
             {/* Exercise name placeholder */}
             <Skeleton variant="text" width="60%" className="mx-auto" />
             

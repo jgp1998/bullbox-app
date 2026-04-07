@@ -60,6 +60,16 @@ body {
   to { opacity: 1; }
 }
 
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -68,6 +78,21 @@ body {
 @keyframes slideInFromTop {
   from { opacity: 0; transform: translateY(-1rem); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    to right,
+    var(--input) 8%,
+    var(--border) 18%,
+    var(--input) 33%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.animate-orbit {
+  animation: orbit 1s linear infinite;
 }
 
 .animate-in {

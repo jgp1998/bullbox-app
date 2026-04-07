@@ -6,6 +6,13 @@
     "selectTheme": "Seleccionar tema",
     "selectLanguage": "Seleccionar idioma"
   },
+  "nav": {
+    "train": "Entrenar",
+    "history": "Historial",
+    "records": "Marcas",
+    "converter": "Conversor",
+    "calculator": "Calculadora"
+  },
   "login": {
     "tagline": "Registra tus levantamientos. Rompe tus récords.",
     "registerTagline": "Crea tu cuenta para empezar a registrar.",
@@ -54,7 +61,9 @@
     }
   },
   "weightConverter": {
-    "title": "Conversor de Peso"
+    "title": "Conversor de Pesos",
+    "plates": "discos",
+    "platesPerSide": "Discos por lado"
   },
   "percentageCalculator": {
     "title": "Calculadora de % de RM",

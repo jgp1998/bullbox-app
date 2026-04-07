@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExerciseDetail } from '@/shared/types';
-import { BookOpenIcon, CheckCircleIcon, XCircleIcon } from '@/shared/components/ui/Icons';
+import { CheckCircleIcon, XCircleIcon } from '@/shared/components/ui/Icons';
 import { useI18n } from '@/shared/context/i18n';
 import Modal from '@/shared/components/ui/Modal';
 import Spinner from '@/shared/components/ui/Spinner';
@@ -18,24 +18,24 @@ interface ExerciseDetailModalProps {
 const DetailDisplay: React.FC<{ details: ExerciseDetail }> = ({ details }) => {
     const { t } = useI18n();
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 animate-in">
             <section>
-                <h3 className="text-xl font-bold text-[var(--text)] mb-3">{t('modals.description')}</h3>
-                <div className="bg-[var(--input)] p-4 rounded-xl border border-[var(--border)]">
-                    <p className="text-base text-[var(--text)] leading-relaxed font-medium">{details.description}</p>
+                <h3 className="text-xl font-bold text-(--text) mb-3">{t('modals.description')}</h3>
+                <div className="bg-(--input) p-4 rounded-xl border border-(--border)">
+                    <p className="text-base text-(--text) leading-relaxed font-medium">{details.description}</p>
                 </div>
             </section>
 
             <section>
                 <div className="flex items-center space-x-3 mb-3">
-                    <div className="p-2 bg-green-500 bg-opacity-10 rounded-lg">
+                    <div className="p-2 bg-green-500/10 rounded-lg">
                         <CheckCircleIcon className="w-6 h-6 text-green-500"/>
                     </div>
-                    <h3 className="text-xl font-bold text-[var(--text)]">{t('modals.bestPractices')}</h3>
+                    <h3 className="text-xl font-bold text-(--text)">{t('modals.bestPractices')}</h3>
                 </div>
                 <ul className="grid grid-cols-1 gap-3">
                     {details.bestPractices.map((tip, index) => (
-                        <li key={index} className="flex items-center p-3 bg-[var(--input)] rounded-lg border border-[var(--border)] text-sm font-medium">
+                        <li key={index} className="flex items-center p-3 bg-(--input) rounded-lg border border-(--border) text-sm font-medium">
                             <span className="w-2 h-2 bg-green-500 rounded-full mr-3 shrink-0" />
                             {tip}
                         </li>
@@ -45,14 +45,14 @@ const DetailDisplay: React.FC<{ details: ExerciseDetail }> = ({ details }) => {
             
             <section>
                 <div className="flex items-center space-x-3 mb-3">
-                    <div className="p-2 bg-red-500 bg-opacity-10 rounded-lg">
+                    <div className="p-2 bg-red-500/10 rounded-lg">
                         <XCircleIcon className="w-6 h-6 text-red-500"/>
                     </div>
-                    <h3 className="text-xl font-bold text-[var(--text)]">{t('modals.commonMistakes')}</h3>
+                    <h3 className="text-xl font-bold text-(--text)">{t('modals.commonMistakes')}</h3>
                 </div>
                 <ul className="grid grid-cols-1 gap-3">
                     {details.commonMistakes.map((mistake, index) => (
-                        <li key={index} className="flex items-center p-3 bg-[var(--input)] rounded-lg border border-[var(--border)] text-sm font-medium">
+                        <li key={index} className="flex items-center p-3 bg-(--input) rounded-lg border border-(--border) text-sm font-medium">
                             <span className="w-2 h-2 bg-red-500 rounded-full mr-3 shrink-0" />
                             {mistake}
                         </li>
@@ -75,7 +75,9 @@ const ExerciseDetailModal: React.FC<ExerciseDetailModalProps> = ({ isOpen, onClo
     >
         <div className="min-h-[300px] flex flex-col justify-center">
             {isLoading && (
-                <Spinner size="xl" label={t('modals.loadingDetails')} />
+                <div className="py-8">
+                    <Spinner size="xl" label={t('modals.loadingDetails')} />
+                </div>
             )}
             
             {error && (
@@ -87,7 +89,9 @@ const ExerciseDetailModal: React.FC<ExerciseDetailModalProps> = ({ isOpen, onClo
             )}
             
             {details && !isLoading && !error && (
-                <DetailDisplay details={details} />
+                <div className="animate-in">
+                    <DetailDisplay details={details} />
+                </div>
             )}
         </div>
     </Modal>
@@ -95,5 +99,3 @@ const ExerciseDetailModal: React.FC<ExerciseDetailModalProps> = ({ isOpen, onClo
 };
 
 export default ExerciseDetailModal;
-
-

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { I18nProvider } from '@/shared/context/i18n';
 import { ToastProvider } from '@/shared/context/ToastContext';
@@ -13,11 +14,13 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <I18nProvider>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </I18nProvider>
+    <BrowserRouter>
+      <I18nProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </I18nProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
