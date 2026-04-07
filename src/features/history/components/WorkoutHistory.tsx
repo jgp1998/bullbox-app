@@ -61,13 +61,13 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                     ))
                 ) : filteredRecords.length > 0 ? (
                     filteredRecords.map(record => (
-                        <div key={record.id} className="bg-[var(--input)] p-4 rounded-lg flex items-center justify-between hover:border-[var(--primary)] border border-transparent transition-all">
+                        <div key={record.id} data-testid="history-item" className="bg-[var(--input)] p-4 rounded-lg flex items-center justify-between hover:border-[var(--primary)] border border-transparent transition-all">
                             <div>
                                 <p className="font-bold text-lg text-[var(--text)]">{record.exercise}</p>
                                 <p className="text-sm text-[var(--muted-text)]">{formatDate(record.date)}</p>
                             </div>
                             <div className="flex items-center space-x-2 text-right">
-                                <p className="text-sm font-black text-[var(--accent)] mr-2 tracking-tight">
+                                <p data-testid="record-value" className="text-sm font-black text-[var(--accent)] mr-2 tracking-tight">
                                     {formatWorkoutValue(record)}
                                 </p>
                                 <Button

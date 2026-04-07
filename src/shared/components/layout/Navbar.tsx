@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   }, [location]);
 
-  if (!user && !isLoading) return null;
+  if (!user) return null;
 
   const navLinks = [
     { path: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -53,7 +53,10 @@ const Navbar: React.FC = () => {
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <h1 className="text-xl sm:text-2xl font-black text-(--primary) tracking-tighter uppercase italic drop-shadow-sm select-none">
+                <h1 
+                  data-testid="header-logo"
+                  className="text-xl sm:text-2xl font-black text-(--primary) tracking-tighter uppercase italic drop-shadow-sm select-none"
+                >
                   BULL<span className="text-(--text)">BOX</span>
                 </h1>
               </Link>
@@ -109,6 +112,7 @@ const Navbar: React.FC = () => {
               
               <Button
                 onClick={() => logout()}
+                data-testid="logout-button"
                 variant="outline"
                 size="sm"
                 className="rounded-xl border-(--border) hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/50"
@@ -217,6 +221,7 @@ const Navbar: React.FC = () => {
 
             <Button
               onClick={() => logout()}
+              data-testid="logout-button"
               variant="primary"
               className="w-full flex items-center justify-center py-5 rounded-2xl font-black bg-red-500 hover:bg-red-600 border-none shadow-xl shadow-red-500/30 text-white uppercase tracking-wider italic animate-in"
             >

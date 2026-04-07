@@ -65,7 +65,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                         <CalendarIcon className="w-6 h-6 text-[var(--primary)]" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-black text-[var(--text)] uppercase tracking-tight leading-none">{t('trainingSchedule.title')}</h2>
+                        <h2 data-testid="agenda-title" className="text-xl font-black text-[var(--text)] uppercase tracking-tight leading-none">{t('trainingSchedule.title')}</h2>
                         <p className="text-[10px] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 italic">
                             {viewDate.toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'long', year: 'numeric' })}
                         </p>

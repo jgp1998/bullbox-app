@@ -1,4 +1,4 @@
-import { test, Page, expect } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 export async function login(page: Page) {
   // Go to root
@@ -6,7 +6,7 @@ export async function login(page: Page) {
 
   // If we are already logged in (Home shown and settled), just return
   // We check for logout-button as a signal that authLoading is false
-  if (await page.getByTestId('logout-button').isVisible()) {
+  if (await page.getByTestId('logout-button').first().isVisible()) {
     return;
   }
 
@@ -24,7 +24,7 @@ export async function login(page: Page) {
       ]);
       
       // If logout button appeared, we are already logged in
-      if (await page.getByTestId('logout-button').isVisible()) {
+      if (await page.getByTestId('logout-button').first().isVisible()) {
         return;
       }
     } catch (e) {
@@ -51,7 +51,10 @@ export async function login(page: Page) {
   // Wait for login success AND app to be loaded (!authLoading)
   // logout-button is the best candidate because it only renders when !authLoading && user
   try {
-    await expect(page.getByTestId('logout-button')).toBeVisible({ timeout: 30000 });
+    await expect(page.getByTestId('logout-button').first()).toBeVisible({ timeout: 30000 });
+    
+    // Explicitly wait for login screen to disappear to avoid race conditions
+    await expect(page.getByTestId('login-username')).not.toBeVisible();
     
     // Also wait for the main content to be visible to ensure stability
     await expect(page.getByTestId('header-logo')).toBeVisible();

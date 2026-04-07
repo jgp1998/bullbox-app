@@ -131,6 +131,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
               type="button"
               variant="secondary"
               size="icon"
+              data-testid="manage-exercises-button"
               onClick={() => openModal('exerciseManager')}
               title={t('workoutForm.manageExercises')}
               icon={<EditIcon className="w-5 h-5" />}
