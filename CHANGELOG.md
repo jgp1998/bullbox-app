@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/jgp1998/bullbox-app/compare/v1.1.1...v1.2.0) (2026-04-07)
+
+
+### Features
+
+* navegation desktop and mobile ([e239280](https://github.com/jgp1998/bullbox-app/commit/e23928068bc11e77e23748c8cdfc784a85ffed5c))
+* **ui:** improve loading experience with Orbit Spinner and Shimmer Skeletons ([e084480](https://github.com/jgp1998/bullbox-app/commit/e084480028f445ab336d991ef373ab832907662c))
+
+
+### Bug Fixes
+
+* **e2e:** playwright test ([7d33241](https://github.com/jgp1998/bullbox-app/commit/7d33241be090cdbef5b40ebf82d21f7198bfca9c))
+* **ui:** improve LoadingOverlay a11y and fix Spinner localization & SVG colors ([d8722fd](https://github.com/jgp1998/bullbox-app/commit/d8722fdedc6260901fc6fa6e5608638cdac6de4b))
+
 ### [1.1.1](https://github.com/jgp1998/bullbox-app/compare/v1.1.0...v1.1.1) (2026-04-06)
 
 
