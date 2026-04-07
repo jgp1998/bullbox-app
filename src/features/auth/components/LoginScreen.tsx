@@ -190,7 +190,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               />
 
               {error && (
-                <p className="text-sm text-red-500 text-center">{error}</p>
+                <p 
+                  data-testid="login-error"
+                  className="text-sm text-red-500 text-center"
+                >
+                  {error}
+                </p>
               )}
 
               <Button
@@ -226,7 +231,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               />
 
               {error && (
-                <p className="text-sm text-red-500 text-center">{error}</p>
+                <p 
+                  data-testid="login-error"
+                  className="text-sm text-red-500 text-center"
+                >
+                  {error}
+                </p>
               )}
 
               <Button
