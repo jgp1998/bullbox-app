@@ -5,6 +5,9 @@ test.describe('Workout Management', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
     
+    // Navigate to the workout registration page explicitly
+    await page.goto('/entrenar');
+    
     // Ensure the main form is truly ready and stable
     const formCard = page.getByTestId('workout-form-card');
     await expect(formCard).toBeVisible({ timeout: 20000 });
@@ -27,23 +30,32 @@ test.describe('Workout Management', () => {
     // Add record
     await page.getByTestId('add-record-button').click();
     
+    // Navigate back to the dashboard to see the history
+    await page.goto('/');
+    
     // Check if the record appears in history
-    // We expect "110 kg" and "3 reps" in the workout history list
-    const historyList = page.locator('.space-y-4'); // Container for history items
-    await expect(page.getByText('110 kg').first()).toBeVisible({ timeout: 15000 });
-    await expect(page.getByText('3 reps').first()).toBeVisible();
+    // We look for the record that specifically contains the value we just added
+    const recordValue = page.getByTestId('record-value').filter({ hasText: '110 kg' }).first();
+    await expect(recordValue).toBeVisible({ timeout: 20000 });
+    await expect(recordValue).toContainText('110 kg');
+    await expect(recordValue).toContainText('3 reps');
   });
 
   test('should allow managing exercises via modal', async ({ page }) => {
-    // Check manage exercises button or any button that opens a modal
-    // In WorkoutForm, we might have a button for managing list
     const manageBtn = page.getByTestId('manage-exercises-button');
-    if (await manageBtn.isVisible()) {
-      await manageBtn.click();
-      // Ensure the modal header is visible
-      await expect(page.getByRole('heading')).toBeVisible();
-      // Close modal
-      await page.keyboard.press('Escape');
-    }
+    
+    // Explicitly wait for the button and click it
+    await expect(manageBtn).toBeVisible({ timeout: 10000 });
+    await manageBtn.click();
+    
+    // Ensure the modal is visible
+    const modal = page.getByRole('dialog');
+    await expect(modal).toBeVisible();
+    
+    // Close modal using Escape key
+    await page.keyboard.press('Escape');
+    
+    // Ensure the modal is gone
+    await expect(modal).not.toBeVisible();
   });
 });

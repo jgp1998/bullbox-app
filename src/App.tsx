@@ -19,8 +19,24 @@ const GlobalModalContainer = lazy(() => import("@/shared/components/layout/Globa
 const App = () => {
   const { user, isLoading: authLoading } = useAuthStore();
 
+  // 0. Initial Auth Loading State
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-(--background)">
+        <Suspense fallback={null}>
+          <div className="flex flex-col items-center space-y-4">
+            <h1 className="text-3xl font-black text-(--primary) tracking-tighter uppercase italic animate-pulse">
+              BULL<span className="text-(--text)">BOX</span>
+            </h1>
+            <div className="w-12 h-12 border-4 border-(--primary)/20 border-t-(--primary) rounded-full animate-spin" />
+          </div>
+        </Suspense>
+      </div>
+    );
+  }
+
   // 1. Unauthenticated state
-  if (!authLoading && !user) {
+  if (!user) {
     return (
       <Suspense fallback={null}>
         <LoginScreen onLogin={() => {}} />

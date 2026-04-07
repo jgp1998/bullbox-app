@@ -6,7 +6,7 @@ test.describe('Training Schedule', () => {
     await login(page);
     
     // Ensure agenda is visible before starting
-    const agendaTitle = page.getByRole('heading', { name: /AGENDA/i });
+    const agendaTitle = page.getByTestId('agenda-title');
     await expect(agendaTitle).toBeVisible({ timeout: 15000 });
   });
 
