@@ -109,9 +109,25 @@
     "noRecords": "No records found. Add a workout to get started!",
     "logTwoRecords": "Log at least two records for this exercise to see a progress chart."
   },
+  "history": {
+    "noInsights": "No significant insights detected for this period."
+  },
   "modals": {
     "aiPerformanceReview": "AI Performance Review",
-    "loadingAnalysis": "Coach Bull is analyzing your performance...",
+    "coachInsights": "Coach Insights",
+    "basedOnHistory": "Based on your recent history",
+    "priorityLow": "Low",
+    "priorityMedium": "Medium",
+    "priorityHigh": "High",
+    "confidence": "Confidence",
+    "keyMetric": "Key Metric",
+    "previousMilestone": "Previous Milestone",
+    "current": "Current",
+    "periodWeeks": "Calculated over {weeks} weeks",
+    "coachDiagnosis": "Coach Diagnosis",
+    "immediateAction": "Immediate Action",
+    "effortRPE": "EFFORT RPE",
+    "loadingAnalysis": "Coach Coach is analyzing your performance...",
     "errorTitle": "Oops! Something went wrong.",
     "analysis": "Analysis",
     "trainingTips": "Training Tips",
@@ -147,5 +163,40 @@
     "sessionNotesPlaceholder": "Focus on form, 5x5 sets...",
     "saveChanges": "Save Changes",
     "addSession": "Add Session"
+  },
+  "aiAssistant": {
+    "title": "AI Coach Settings",
+    "modeLabel": "Processing Mode",
+    "cloudMode": "Cloud (Standard)",
+    "localMode": "Offline (WebLLM)",
+    "webGpuSupported": "WebGPU Compatible",
+    "webGpuNotSupported": "WebGPU not supported on this device",
+    "status": {
+      "uninitialized": "Local AI uninitialized",
+      "loading": "Loading AI Engine...",
+      "ready": "AI Engine Ready",
+      "error": "AI Engine Error"
+    },
+    "download": {
+      "notice": "The first time will download ~1.5GB of data.",
+      "progress": "Downloading models: {progress}%",
+      "caching": "Caching for offline use...",
+      "preparing": "Starting background download for offline use..."
+    },
+    "actions": {
+      "switchToCloud": "Switch to Cloud Mode",
+      "switchToLocal": "Switch to Offline Mode"
+    },
+    "retry": "Retry",
+    "offlineModeActive": "Offline Mode Active",
+    "localReady": "Local model ready. Generating analysis...",
+    "requestingCloud": "Requesting cloud analysis...",
+    "webGpuRequirement": "Offline processing requires WebGPU compatible hardware.",
+    "verifyingHardware": "Verifying hardware...",
+    "preparingModels": "Detecting hardware and preparing models...",
+    "firstTimeOnly": "This will only happen the first time.",
+    "loadingFromCache": "Loading from local memory...",
+    "downloadingFromNetwork": "Downloading model weights...",
+    "storagePersisted": "Permanent storage enabled"
   }
 }

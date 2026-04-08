@@ -1,7 +1,7 @@
 import React from 'react';
 import { Theme } from '@/shared/types';
 import ProgressChart from './ProgressChart';
-import AnalysisModal from './AnalysisModal';
+import AIAssistantModal from '@/features/ai/components/AIAssistantModal';
 import HistoryItemSkeleton from './HistoryItemSkeleton';
 import { LightBulbIcon, TrashIcon } from '@/shared/components/ui/Icons';
 import { formatWorkoutValue, formatDate } from '@/shared/utils/formatters';
@@ -49,7 +49,7 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
             </div>
             
             {selectedExercise !== 'All' && filteredRecords.length > 0 && (
-                 <div className="mb-8 p-4 bg-[var(--input)] rounded-xl border border-[var(--border)]">
+                 <div className="mb-8 p-4 bg-(--input) rounded-xl border border-(--border)">
                     <ProgressChart records={records} exercise={selectedExercise} theme={theme} />
                 </div>
             )}
@@ -61,13 +61,13 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                     ))
                 ) : filteredRecords.length > 0 ? (
                     filteredRecords.map(record => (
-                        <div key={record.id} data-testid="history-item" className="bg-[var(--input)] p-4 rounded-lg flex items-center justify-between hover:border-[var(--primary)] border border-transparent transition-all">
+                        <div key={record.id} data-testid="history-item" className="bg-(--input) p-4 rounded-lg flex items-center justify-between hover:border-(--primary) border border-transparent transition-all">
                             <div>
-                                <p className="font-bold text-lg text-[var(--text)]">{record.exercise}</p>
-                                <p className="text-sm text-[var(--muted-text)]">{formatDate(record.date)}</p>
+                                <p className="font-bold text-lg text-(--text)">{record.exercise}</p>
+                                <p className="text-sm text-(--muted-text)">{formatDate(record.date)}</p>
                             </div>
                             <div className="flex items-center space-x-2 text-right">
-                                <p data-testid="record-value" className="text-sm font-black text-[var(--accent)] mr-2 tracking-tight">
+                                <p data-testid="record-value" className="text-sm font-black text-(--accent) mr-2 tracking-tight">
                                     {formatWorkoutValue(record)}
                                 </p>
                                 <Button
@@ -75,7 +75,7 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                                     size="icon"
                                     onClick={() => handleGetAnalysis(record)}
                                     title={t('workoutHistory.getAiAnalysis')}
-                                    icon={<LightBulbIcon className="w-5 h-5 text-[var(--primary)]" />}
+                                    icon={<LightBulbIcon className="w-5 h-5 text-(--primary)" />}
                                 />
                                 <Button
                                     variant="ghost"
@@ -90,12 +90,12 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                     ))
                 ) : (
                     <div className="text-center py-12">
-                        <p className="text-[var(--muted-text)]">{t('workoutHistory.noRecords')}</p>
+                        <p className="text-(--muted-text) text-sm italic">Completa entrenamientos para recibir consejos personalizados de IA.</p>
                     </div>
                 )}
             </div>
             
-            <AnalysisModal
+            <AIAssistantModal
                 isOpen={!!analysisResult || isLoading || !!error}
                 onClose={handleCloseAnalysis}
                 result={analysisResult}

@@ -109,8 +109,24 @@
     "noRecords": "No se encontraron registros. ¡Añade un entrenamiento para empezar!",
     "logTwoRecords": "Registra al menos dos marcas para este ejercicio para ver un gráfico de progreso."
   },
+  "history": {
+    "noInsights": "No se detectaron hallazgos significativos para este periodo."
+  },
   "modals": {
     "aiPerformanceReview": "Análisis de Rendimiento por IA",
+    "coachInsights": "Insights del Coach",
+    "basedOnHistory": "Basado en tu historial reciente",
+    "priorityLow": "Baja",
+    "priorityMedium": "Media",
+    "priorityHigh": "Alta",
+    "confidence": "Confianza",
+    "keyMetric": "Dato Clave",
+    "previousMilestone": "Hito Anterior",
+    "current": "Actual",
+    "periodWeeks": "Calculado en un periodo de {weeks} semanas",
+    "coachDiagnosis": "Diagnóstico del Coach",
+    "immediateAction": "Acción Inmediata",
+    "effortRPE": "ESFUERZO RPE",
     "loadingAnalysis": "El Coach Bull está analizando tu rendimiento...",
     "errorTitle": "¡Ups! Algo salió mal.",
     "analysis": "Análisis",
@@ -147,5 +163,40 @@
     "sessionNotesPlaceholder": "Enfocarse en la técnica, series 5x5...",
     "saveChanges": "Guardar Cambios",
     "addSession": "Añadir Sesión"
+  },
+  "aiAssistant": {
+    "title": "Configuración de IA coach",
+    "modeLabel": "Modo de Procesamiento",
+    "cloudMode": "Nube (Estándar)",
+    "localMode": "Offline (WebLLM)",
+    "webGpuSupported": "Compatible con WebGPU",
+    "webGpuNotSupported": "WebGPU no soportado en este dispositivo",
+    "status": {
+      "uninitialized": "IA Local sin inicializar",
+      "loading": "Cargando Motor de IA...",
+      "ready": "Motor de IA Listo",
+      "error": "Error en el Motor de IA"
+    },
+    "download": {
+      "notice": "La primera vez se descargarán ~1.5GB de datos.",
+      "progress": "Descargando modelos: {progress}%",
+      "caching": "Guardando en caché para uso offline...",
+      "preparing": "Iniciando descarga en segundo plano para uso offline..."
+    },
+    "actions": {
+      "switchToCloud": "Cambiar a modo Cloud",
+      "switchToLocal": "Cambiar a modo Offline"
+    },
+    "retry": "Reintentar",
+    "offlineModeActive": "Modo Offline Activo",
+    "localReady": "Modelo local listo. Generando análisis...",
+    "requestingCloud": "Solicitando análisis a la nube...",
+    "webGpuRequirement": "El procesamiento offline requiere hardware compatible con WebGPU.",
+    "verifyingHardware": "Verificando hardware...",
+    "preparingModels": "Detectando hardware y preparando modelos...",
+    "firstTimeOnly": "Esto solo ocurrirá la primera vez.",
+    "loadingFromCache": "Cargando desde la memoria local...",
+    "downloadingFromNetwork": "Descargando modelo (solo la primera vez)...",
+    "storagePersisted": "Almacenamiento permanente activado"
   }
 }
