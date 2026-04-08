@@ -131,6 +131,7 @@ export class WebLLMAnalysisRepository implements AnalysisRepository {
         try {
             const repairedContent = jsonrepair(content);
             const parsed = JSON.parse(repairedContent) as { insights: StructuredInsight[] };
+            console.log("DEBUG: Parsed insights count:", parsed.insights?.length);
             
             // Apply Guardrails
             return (parsed.insights || []).map(insight => this.sanitizeInsight(
@@ -141,6 +142,7 @@ export class WebLLMAnalysisRepository implements AnalysisRepository {
                 changePercent
             ));
         } catch (e) {
+            console.log("DEBUG: Error in getTrainingAdvice:", e);
             console.error("AI Training Advice Response parsing failed. Original content:", content);
             // Return a safe fallback if everything fails
             return [this.generateFallbackInsight(record.exercise, baselineValue, currentValue, changePercent)];
@@ -154,6 +156,7 @@ export class WebLLMAnalysisRepository implements AnalysisRepository {
         current: number, 
         change: number
     ): StructuredInsight {
+        console.log("DEBUG: Sanitizing insight for:", exerciseName);
         // 1. Force Exercise Name (LLM often uses placeholders)
         const name = exerciseName;
 
