@@ -1,1 +1,5 @@
+npm run lint
 npm test
+cd qa
+npm run test
+cd ..

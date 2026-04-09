@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
         VitePWA({
           registerType: 'autoUpdate',
           includeAssets: ['icon.svg'],
+          workbox: {
+            maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
+          },
           manifest: {
             name: 'BULLBOX record',
             short_name: 'BullBox',
@@ -51,6 +54,7 @@ export default defineConfig(({ mode }) => {
               'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
               'vendor-charts': ['recharts'],
               'vendor-react': ['react', 'react-dom'],
+              'vendor-ai': ['@mlc-ai/web-llm', 'jsonrepair'],
             },
           },
         },
