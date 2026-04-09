@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/jgp1998/bullbox-app/compare/v1.2.0...v1.3.0) (2026-04-09)
+
+
+### Features
+
+* **ai:** local ia web llm ([8581b76](https://github.com/jgp1998/bullbox-app/commit/8581b7665f53abe1d727323e53a9d6dc7032ba61))
+
 ## [1.2.0](https://github.com/jgp1998/bullbox-app/compare/v1.1.1...v1.2.0) (2026-04-07)
 
 
