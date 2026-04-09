@@ -139,3 +139,9 @@ export const ClockIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
 );
+
+export const BrainCircuitIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9.5 14.5a3 3 0 10-5.927-.674M9.5 14.5a3 3 0 11-5.927.674m5.927-.674H20m0 0a3 3 0 10-5.927-.674M20 14.5a3 3 0 11-5.927.674m-5.927-.674V2m0 0a3 3 0 10-5.927-.674M9.5 2a3 3 0 11-5.927.674m5.927-.674H20M9.5 2v12.5" />
+  </svg>
+);

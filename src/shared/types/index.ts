@@ -15,5 +15,5 @@ export type {
 export type { ScheduledSession } from '@/core/domain/models/Schedule';
 export type { User } from '@/core/domain/models/User';
 export type { ExerciseDetail } from '@/core/domain/models/Exercise';
-export type { AnalysisResult } from '@/core/domain/models/Analysis';
+export type { AnalysisResult, HistoricalAnalysisResult, StructuredInsight } from '@/core/domain/models/Analysis';
 export type { AdminEvent } from '@/core/domain/models/AdminEvent';
