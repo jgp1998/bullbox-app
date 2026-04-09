@@ -1,11 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useHistoryAnalysisStore } from "../store/useHistoryAnalysisStore";
-import * as historyService from "../services/historyAnalysis.service";
 import { HistoryRecord } from '@/shared/types';
+import { firebaseAnalysisRepository, webLLMAnalysisRepository } from "@/core/infrastructure";
 
-vi.mock("../services/historyAnalysis.service", () => ({
-  getTrainingAdvice: vi.fn(),
-  getExerciseDetails: vi.fn(),
+vi.mock("@/core/infrastructure", () => ({
+  firebaseAnalysisRepository: {
+    getTrainingAdvice: vi.fn(),
+    getExerciseDetails: vi.fn(),
+  },
+  webLLMAnalysisRepository: {
+    getTrainingAdvice: vi.fn(),
+    getExerciseDetails: vi.fn(),
+  },
 }));
 
 describe("useHistoryAnalysisStore", () => {
@@ -26,7 +32,7 @@ describe("useHistoryAnalysisStore", () => {
 
   it("should set error state on getAnalysis failure", async () => {
     const errorMessage = "API Failed";
-    vi.mocked(historyService.getTrainingAdvice).mockRejectedValueOnce(
+    vi.mocked(firebaseAnalysisRepository.getTrainingAdvice).mockRejectedValueOnce(
       new Error(errorMessage),
     );
 
@@ -50,14 +56,36 @@ describe("useHistoryAnalysisStore", () => {
   });
 
   it("should set analysis result on getAnalysis success", async () => {
-    const mockResult = {
-      analysis: "Good",
-      trainingTips: ["Tip 1"],
-      nutritionSuggestion: "Eat",
-    };
-    vi.mocked(historyService.getTrainingAdvice).mockResolvedValueOnce(
-      mockResult,
+    const mockResult = [{
+      type: "strength_progress",
+      priority: "high",
+      priorityScore: 0.9,
+      confidence: 0.95,
+      metric: {
+          name: "Back Squat",
+          type: "weight",
+          change_percent: 12.5,
+          period_weeks: 4,
+          baseline_value: 100,
+          current_value: 112.5,
+          unit: "kg"
+      },
+      diagnosis: {
+          trend: "strength_up"
+      },
+      action: {
+          exercise: "Back Squat",
+          type: "increase_load",
+          amount: 2.5,
+          unit: "kg",
+          per: "workout",
+          duration_weeks: 2
+      }
+    }];
+    vi.mocked(firebaseAnalysisRepository.getTrainingAdvice).mockResolvedValueOnce(
+      mockResult as any,
     );
+
 
     const state = useHistoryAnalysisStore.getState();
     const dummyRecord = {
@@ -84,7 +112,7 @@ describe("useHistoryAnalysisStore", () => {
       bestPractices: ["Do this"],
       commonMistakes: ["Not this"],
     };
-    vi.mocked(historyService.getExerciseDetails).mockResolvedValueOnce(
+    vi.mocked(firebaseAnalysisRepository.getExerciseDetails).mockResolvedValueOnce(
       mockDetail,
     );
 
@@ -96,5 +124,58 @@ describe("useHistoryAnalysisStore", () => {
     expect(newState.isLoading).toBe(false);
     expect(newState.error).toBeNull();
     expect(newState.exerciseDetail).toEqual(mockDetail);
+  });
+  
+  it("should use webLLMAnalysisRepository when mode is 'local'", async () => {
+    const mockResult = [{
+      type: "strength_progress",
+      priority: "high",
+      priorityScore: 0.9,
+      confidence: 0.95,
+      metric: {
+          name: "Back Squat",
+          type: "weight",
+          change_percent: 12.5,
+          period_weeks: 4,
+          baseline_value: 100,
+          current_value: 112.5,
+          unit: "kg"
+      },
+      diagnosis: {
+          trend: "strength_up"
+      },
+      action: {
+          exercise: "Back Squat",
+          type: "increase_load",
+          amount: 2.5,
+          unit: "kg",
+          per: "workout",
+          duration_weeks: 2
+      }
+    }];
+    vi.mocked(webLLMAnalysisRepository.getTrainingAdvice).mockResolvedValueOnce(
+      mockResult as any,
+    );
+
+
+    const state = useHistoryAnalysisStore.getState();
+    state.setMode('local');
+    
+    const dummyRecord = {
+      id: "1",
+      date: "2023-01-01",
+      exercise: "Squat",
+      value: 100,
+      type: "Weight",
+      reps: 5,
+      weight: 100,
+    } as HistoryRecord;
+
+    await state.getAnalysis(dummyRecord, [dummyRecord]);
+
+    const newState = useHistoryAnalysisStore.getState();
+    expect(newState.analysisResult).toEqual(mockResult);
+    expect(webLLMAnalysisRepository.getTrainingAdvice).toHaveBeenCalled();
+    expect(firebaseAnalysisRepository.getTrainingAdvice).not.toHaveBeenCalled();
   });
 });

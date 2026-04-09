@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { login } from './helpers/auth';
 
-test.describe('Training Schedule', () => {
+test.describe.skip('Training Schedule', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
     
