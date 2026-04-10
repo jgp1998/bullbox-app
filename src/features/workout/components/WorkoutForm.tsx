@@ -194,6 +194,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
         <button 
           type="button"
           onClick={() => setShowAdvanced(!showAdvanced)}
+          data-testid="advanced-toggle"
           className="flex items-center gap-2 text-xs font-black text-(--primary) uppercase tracking-widest hover:opacity-80 transition-opacity"
         >
           <span className={`transition-transform duration-300 ${showAdvanced ? 'rotate-180' : ''}`}>

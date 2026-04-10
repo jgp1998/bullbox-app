@@ -71,6 +71,7 @@ vi.mock("@/shared/components/ui/Input", () => ({
 vi.mock("@/shared/components/ui/Icons", () => ({
   PlusIcon: () => <div data-testid="plus-icon" />,
   EditIcon: () => <div data-testid="edit-icon" />,
+  ChevronDownIcon: () => <div data-testid="chevron-down-icon" />,
 }));
 
 // Mock Toast
@@ -155,6 +156,9 @@ describe("WorkoutForm", () => {
     fireEvent.change(screen.getByTestId("exercise-select"), {
       target: { value: "Bench Press" },
     });
+
+    // Toggle advanced features to show time inputs
+    fireEvent.click(screen.getByTestId("advanced-toggle"));
 
     const minInput = screen.getByPlaceholderText("mm");
     const secInput = screen.getByPlaceholderText("ss");
