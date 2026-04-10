@@ -57,7 +57,11 @@
       "positiveValue": "Por favor, introduce un valor positivo.",
       "selectExercise": "Por favor, selecciona un ejercicio.",
       "atLeastOneMetric": "Por favor, añade al menos un valor (Peso, Reps o Tiempo).",
-      "failedToAdd": "No se pudo añadir el registro. Inténtalo de nuevo."
+      "failedToAdd": "No se pudo añadir el registro. Inténtalo de nuevo.",
+      "advancedOptions": "Opciones Avanzadas",
+      "hideAdvanced": "Ocultar Opciones",
+      "advancedToggle": "Funciones Avanzadas",
+      "advancedFeatures": "Mostrar/Ocultar campos especializados"
     }
   },
   "weightConverter": {
@@ -85,6 +89,11 @@
     "infoTitle": "Instalar BULLBOX",
     "infoText": "¡Para una experiencia como la de una app, instala BULLBOX en tu dispositivo! Busca la opción 'Añadir a pantalla de inicio' o 'Instalar' en el menú de tu navegador."
   },
+  "dashboard": {
+    "aiCoach": "IA Coach Bullbox",
+    "aiCoachDescription": "Analizo tus progresos y te doy consejos personalizados para optimizar tu entrenamiento. Completa una sesión para recibir feedback.",
+    "seeAnalysis": "Ver Análisis"
+  },
   "common": {
     "today": "Hoy",
     "or": "O"
@@ -92,14 +101,14 @@
   "personalBests": {
     "title": "Récords Personales",
     "viewDetails": "Ver detalles de {exercise}",
-    "noPBs": "Tus récords personales aparecerán aquí a medida que registres entrenamientos."
+    "noPBs": "Supera tus límites"
   },
   "trainingSchedule": {
     "title": "Agenda de Entrenamiento",
     "scheduleButton": "Agendar",
     "editSession": "Editar Sesión",
     "deleteSession": "Eliminar Sesión",
-    "noSessions": "No hay sesiones próximas. ¡Agenda un entrenamiento para mantenerte en camino!"
+    "noSessions": "No hay sesiones planeadas"
   },
   "workoutHistory": {
     "title": "Historial de Entrenamientos",

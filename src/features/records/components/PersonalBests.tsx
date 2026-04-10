@@ -26,12 +26,12 @@ const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-baseline space-x-1">
-        <span className="text-3xl font-black text-[var(--accent)] tracking-tighter tabular-nums">
+        <span className="text-3xl font-black text-(--accent) tracking-tighter tabular-nums">
           {rmValue.toFixed(1)}
         </span>
-        <span className="text-xs font-black text-[var(--muted-text)] uppercase">{unit}</span>
+        <span className="text-xs font-black text-(--muted-text) uppercase">{unit}</span>
       </div>
-      <p className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-tighter opacity-80">
+      <p className="text-[10px] font-black text-(--muted-text) uppercase tracking-tighter opacity-80">
         1RM est. ({convertedRM.toFixed(1)} {otherUnit})
       </p>
     </div>
@@ -46,7 +46,7 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => 
     <Card title={t('personalBests.title')}>
       <div className="flex items-center mb-6">
          <TrophyIcon className="w-6 h-6 mr-2 text-yellow-500" />
-         <h3 className="text-xl font-bold text-[var(--text)]">{t('personalBests.title')}</h3>
+         <h3 className="text-xl font-bold text-(--text)">{t('personalBests.title')}</h3>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -56,7 +56,7 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => 
           ))
         ) : records.length > 0 ? (
           records.map(record => (
-            <div key={record.id} className="relative bg-[var(--input)] p-5 rounded-3xl text-center group border border-transparent hover:border-[var(--primary)] transition-all shadow-sm">
+            <div key={record.id} className="relative bg-(--input) p-5 rounded-3xl text-center group border border-transparent hover:border-(--primary) transition-all shadow-sm">
                 <Button
                   variant="ghost"
                   size="icon"
@@ -66,27 +66,27 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => 
                   icon={<BookOpenIcon className="w-4 h-4" />}
                 />
               <div className="space-y-4">
-                <p className="font-black text-[10px] text-[var(--muted-text)] uppercase tracking-widest truncate px-4" title={record.exercise}>
+                <p className="font-black text-[10px] text-(--muted-text) uppercase tracking-widest truncate px-4" title={record.exercise}>
                     {record.exercise}
                 </p>
                 <div className="font-black">
                    {record.weight ? (
                       <RMDisplay record={record} />
-                   ) : (
+                    ) : (
                       <div className="flex flex-col items-center">
                         <div className="flex items-baseline justify-center space-x-1">
-                            <span className="text-3xl font-black text-[var(--accent)] tracking-tighter tabular-nums">
+                            <span className="text-3xl font-black text-(--accent) tracking-tighter tabular-nums">
                                 {record.time ? formatDuration(record.time) : (record.reps || 0)}
                             </span>
-                            <span className="text-xs font-black text-[var(--muted-text)] ml-1 uppercase">
+                            <span className="text-xs font-black text-(--muted-text) ml-1 uppercase">
                                 {record.time ? 'min' : 'reps'}
                             </span>
                         </div>
                       </div>
-                   )}
+                    )}
                 </div>
                 <div className="flex justify-center">
-                    <p className="text-[9px] text-[var(--muted-text)] font-black bg-[var(--card)] px-3 py-1 rounded-full border border-[var(--border)] uppercase tracking-tighter">
+                    <p className="text-[9px] text-(--muted-text) font-black bg-(--card) px-3 py-1 rounded-full border border-(--border) uppercase tracking-tighter">
                         {formatDate(record.date)}
                     </p>
                 </div>
@@ -94,9 +94,23 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => 
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center py-12">
-              <TrophyIcon className="w-12 h-12 mx-auto mb-4 text-[var(--muted-text)] opacity-20" />
-              <p className="text-[var(--muted-text)] font-bold max-w-xs mx-auto">{t('personalBests.noPBs')}</p>
+          <div className="col-span-full text-center py-16 px-4 bg-(--input)/30 rounded-[2.5rem] border-2 border-dashed border-(--border)/50 flex flex-col items-center justify-center space-y-4">
+              <div className="w-20 h-20 bg-(--primary)/10 rounded-full flex items-center justify-center mb-2 animate-bounce-slow">
+                <TrophyIcon className="w-10 h-10 text-(--primary) opacity-40" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-(--text) font-black text-xl uppercase italic tracking-tight">{t('personalBests.noPBs')}</p>
+                <p className="text-(--muted-text) font-medium text-sm max-w-xs mx-auto">
+                  Every record starts somewhere. Log your first session today and begin your journey to greatness.
+                </p>
+              </div>
+              <Button 
+                variant="primary" 
+                className="mt-4 px-8 shadow-xl shadow-(--primary)/20"
+                onClick={() => window.location.hash = '/entrenar'}
+              >
+                {t('nav.train')}
+              </Button>
           </div>
         )}
       </div>

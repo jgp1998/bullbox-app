@@ -45,7 +45,7 @@ ui-debug.log*
 *.sw?
 
 # AI Agents
-.agent/
+.agents/
 
 # Playwright
 /test-results/
