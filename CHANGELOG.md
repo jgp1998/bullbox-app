@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/jgp1998/bullbox-app/compare/v1.3.1...v1.4.0) (2026-04-10)
+
+
+### Features
+
+* removed gemini subscription and consolidated webllm ([7e02add](https://github.com/jgp1998/bullbox-app/commit/7e02add3460aebf802059184e9820f82520d7ebf))
+
 ### [1.3.1](https://github.com/jgp1998/bullbox-app/compare/v1.3.0...v1.3.1) (2026-04-09)
 
 
