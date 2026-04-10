@@ -25,6 +25,8 @@ vi.mock("../../../store/useUIStore", () => ({
   useUIStore: () => ({
     theme: themes[0],
     setTheme: vi.fn(),
+    isMobileMenuOpen: false,
+    setIsMobileMenuOpen: vi.fn(),
   }),
 }));
 
