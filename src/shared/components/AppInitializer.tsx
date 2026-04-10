@@ -33,11 +33,6 @@ export const AppInitializer: React.FC<{ children: React.ReactNode }> = ({
     
     const handleOffline = () => {
         useAIStore.getState().setOnline(false);
-        // Auto-switch to local mode if offline and engine is ready/loading
-        const { engineStatus } = useAIStore.getState();
-        if (engineStatus === 'ready' || engineStatus === 'loading') {
-            useHistoryAnalysisStore.getState().setMode('local');
-        }
     };
 
     window.addEventListener('online', handleOnline);

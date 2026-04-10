@@ -65,13 +65,11 @@ const ResultDisplay: React.FC<{ insights: StructuredInsight[] }> = ({ insights }
 
 const AIAssistantModal: React.FC<AIAssistantModalProps> = ({ isOpen, onClose, result, isLoading, error }) => {
   const { t } = useI18n();
-  const { mode, setMode } = useHistoryAnalysisStore();
-    const { engineStatus, isOnline, progress } = useAIStore();
+  const { engineStatus, isOnline, progress } = useAIStore();
 
   if (!isOpen) return null;
 
-  const isLocalReady = mode === 'local' && engineStatus === 'ready';
-  const showLoading = isLoading || (mode === 'local' && engineStatus === 'loading');
+  const showLoading = isLoading || engineStatus === 'loading';
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 transition-opacity duration-300">
@@ -94,51 +92,26 @@ const AIAssistantModal: React.FC<AIAssistantModalProps> = ({ isOpen, onClose, re
         </div>
 
         <div className="p-6 sm:p-8 overflow-y-auto flex-1">
-          {/* Mode Selector */}
-          <div className="mb-6 flex p-1 bg-white/5 rounded-xl border border-white/10">
-              <button 
-                onClick={() => isOnline && setMode('cloud')}
-                disabled={!isOnline}
-                className={`flex-1 py-2 px-3 rounded-lg text-sm font-bold transition-all relative ${mode === 'cloud' ? 'bg-(--primary) text-white shadow-lg' : 'text-(--muted-text) hover:text-white'} ${!isOnline ? 'opacity-50 cursor-not-allowed grayscale' : ''}`}
-              >
-                  {t('aiAssistant.cloudMode')}
-                  {!isOnline && (
-                      <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                      </span>
-                  )}
-              </button>
-              <button 
-                onClick={() => setMode('local')}
-                className={`flex-1 py-2 px-3 rounded-lg text-sm font-bold transition-all ${mode === 'local' ? 'bg-(--primary) text-white shadow-lg' : 'text-(--muted-text) hover:text-white'}`}
-              >
-                  {t('aiAssistant.localMode')}
-              </button>
+          <div className="mb-6 space-y-3">
+            {!isOnline && (
+                <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 flex items-center space-x-2">
+                    <span className="flex h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                    <p className="text-yellow-500 text-[10px] font-bold uppercase tracking-wider">{t('aiAssistant.offlineModeActive')}</p>
+                </div>
+            )}
+            <ModelStatusCard />
           </div>
-
-          {mode === 'local' && (
-              <div className="mb-6 space-y-3">
-                {!isOnline && (
-                    <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 flex items-center space-x-2">
-                        <span className="flex h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
-                        <p className="text-yellow-500 text-[10px] font-bold uppercase tracking-wider">{t('aiAssistant.offlineModeActive')}</p>
-                    </div>
-                )}
-                <ModelStatusCard />
-              </div>
-          )}
           
           <div className="min-h-[200px]">
               {showLoading && (
                 <div className="py-12 flex flex-col items-center">
                   <Spinner size="xl" />
                   <p className="mt-4 text-(--muted-text) text-center animate-pulse">
-                    {mode === 'local' && engineStatus === 'loading' 
+                    {engineStatus === 'loading' 
                       ? t('aiAssistant.status.loading') 
                       : t('modals.loadingAnalysis')}
                   </p>
-                  {mode === 'local' && engineStatus === 'loading' && (
+                  {engineStatus === 'loading' && (
                     <div className="mt-6 w-full max-w-xs">
                         <div className="flex justify-between text-[10px] mb-1 text-(--muted-text)">
                             <span>{t('aiAssistant.download.preparing')}</span>
@@ -158,7 +131,11 @@ const AIAssistantModal: React.FC<AIAssistantModalProps> = ({ isOpen, onClose, re
                   <ErrorDisplay message={error} />
                   <div className="mt-6 flex justify-center">
                       <button 
-                        onClick={() => useHistoryAnalysisStore.getState().setMode(mode)}
+                        onClick={() => useHistoryAnalysisStore.getState().getAnalysis(
+                          useHistoryAnalysisStore.getState().lastAnalyzedRecord!, 
+                          useHistoryAnalysisStore.getState().lastHistory!, 
+                          useHistoryAnalysisStore.getState().lastLanguage
+                        )}
                         className="px-4 py-2 bg-(--primary) text-white rounded-xl text-sm font-bold shadow-lg hover:bg-(--primary-hover) transition-all"
                       >
                           {t('aiAssistant.retry')}
@@ -168,10 +145,10 @@ const AIAssistantModal: React.FC<AIAssistantModalProps> = ({ isOpen, onClose, re
               )}
               {result && !showLoading && <ResultDisplay insights={result} />}
               
-              {!result && !showLoading && !error && (mode === 'cloud' || isLocalReady) && (
+              {!result && !showLoading && !error && engineStatus === 'ready' && (
                   <div className="py-12 text-center text-(--muted-text)">
                       <p className="text-sm italic">
-                          {mode === 'local' ? t('aiAssistant.localReady') : t('aiAssistant.requestingCloud')}
+                          {t('aiAssistant.localReady')}
                       </p>
                   </div>
               )}

@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { HistoricalAnalysisResult, WorkoutRecord, User } from '@/shared/types';
 import { preprocessHistory, PreprocessedData } from '../services/historyPreprocessing.service';
-import { useAIStore } from '@/features/ai/store/useAIStore';
+import { webLLMAnalysisRepository } from '@/core/infrastructure';
 
 interface HistoricalAnalysisState {
     result: HistoricalAnalysisResult | null;
     preprocessedData: PreprocessedData | null;
     isLoading: boolean;
     error: string | null;
-    runAnalysis: (records: WorkoutRecord[], mode: 'cloud' | 'local', language?: string, user?: User | null) => Promise<void>;
+    runAnalysis: (records: WorkoutRecord[], language?: string, user?: User | null) => Promise<void>;
     reset: () => void;
 }
 
@@ -18,7 +18,7 @@ export const useHistoricalAnalysisStore = create<HistoricalAnalysisState>((set) 
     isLoading: false,
     error: null,
 
-    runAnalysis: async (records, mode, language = 'es', user = null) => {
+    runAnalysis: async (records, language = 'es', user = null) => {
         set({ isLoading: true, error: null });
         
         try {
@@ -26,13 +26,8 @@ export const useHistoricalAnalysisStore = create<HistoricalAnalysisState>((set) 
             const preprocessedData = preprocessHistory(records, user);
             set({ preprocessedData });
             
-            // 2. Get Repository
-            const repo = mode === 'local' 
-                ? (await import('@/core/infrastructure')).webLLMAnalysisRepository 
-                : (await import('@/core/infrastructure')).firebaseAnalysisRepository;
-
-            // 3. Inference
-            const result = await repo.getHistoricalAnalysis(preprocessedData, language);
+            // 2. Inference (Always local WebLLM)
+            const result = await webLLMAnalysisRepository.getHistoricalAnalysis(preprocessedData, language);
             set({ result, isLoading: false });
         } catch (e: any) {
             console.error("Historical analysis failed:", e);
