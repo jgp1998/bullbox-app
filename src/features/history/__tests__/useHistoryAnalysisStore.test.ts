@@ -1,13 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useHistoryAnalysisStore } from "../store/useHistoryAnalysisStore";
 import { HistoryRecord } from '@/shared/types';
-import { firebaseAnalysisRepository, webLLMAnalysisRepository } from "@/core/infrastructure";
+import { webLLMAnalysisRepository } from "@/core/infrastructure";
 
 vi.mock("@/core/infrastructure", () => ({
-  firebaseAnalysisRepository: {
-    getTrainingAdvice: vi.fn(),
-    getExerciseDetails: vi.fn(),
-  },
   webLLMAnalysisRepository: {
     getTrainingAdvice: vi.fn(),
     getExerciseDetails: vi.fn(),
@@ -32,7 +28,7 @@ describe("useHistoryAnalysisStore", () => {
 
   it("should set error state on getAnalysis failure", async () => {
     const errorMessage = "API Failed";
-    vi.mocked(firebaseAnalysisRepository.getTrainingAdvice).mockRejectedValueOnce(
+    vi.mocked(webLLMAnalysisRepository.getTrainingAdvice).mockRejectedValueOnce(
       new Error(errorMessage),
     );
 
@@ -82,7 +78,7 @@ describe("useHistoryAnalysisStore", () => {
           duration_weeks: 2
       }
     }];
-    vi.mocked(firebaseAnalysisRepository.getTrainingAdvice).mockResolvedValueOnce(
+    vi.mocked(webLLMAnalysisRepository.getTrainingAdvice).mockResolvedValueOnce(
       mockResult as any,
     );
 
@@ -104,6 +100,7 @@ describe("useHistoryAnalysisStore", () => {
     expect(newState.isLoading).toBe(false);
     expect(newState.error).toBeNull();
     expect(newState.analysisResult).toEqual(mockResult);
+    expect(webLLMAnalysisRepository.getTrainingAdvice).toHaveBeenCalled();
   });
 
   it("should set exercise detail on getExerciseDetails success", async () => {
@@ -112,7 +109,7 @@ describe("useHistoryAnalysisStore", () => {
       bestPractices: ["Do this"],
       commonMistakes: ["Not this"],
     };
-    vi.mocked(firebaseAnalysisRepository.getExerciseDetails).mockResolvedValueOnce(
+    vi.mocked(webLLMAnalysisRepository.getExerciseDetails).mockResolvedValueOnce(
       mockDetail,
     );
 
@@ -124,58 +121,6 @@ describe("useHistoryAnalysisStore", () => {
     expect(newState.isLoading).toBe(false);
     expect(newState.error).toBeNull();
     expect(newState.exerciseDetail).toEqual(mockDetail);
-  });
-  
-  it("should use webLLMAnalysisRepository when mode is 'local'", async () => {
-    const mockResult = [{
-      type: "strength_progress",
-      priority: "high",
-      priorityScore: 0.9,
-      confidence: 0.95,
-      metric: {
-          name: "Back Squat",
-          type: "weight",
-          change_percent: 12.5,
-          period_weeks: 4,
-          baseline_value: 100,
-          current_value: 112.5,
-          unit: "kg"
-      },
-      diagnosis: {
-          trend: "strength_up"
-      },
-      action: {
-          exercise: "Back Squat",
-          type: "increase_load",
-          amount: 2.5,
-          unit: "kg",
-          per: "workout",
-          duration_weeks: 2
-      }
-    }];
-    vi.mocked(webLLMAnalysisRepository.getTrainingAdvice).mockResolvedValueOnce(
-      mockResult as any,
-    );
-
-
-    const state = useHistoryAnalysisStore.getState();
-    state.setMode('local');
-    
-    const dummyRecord = {
-      id: "1",
-      date: "2023-01-01",
-      exercise: "Squat",
-      value: 100,
-      type: "Weight",
-      reps: 5,
-      weight: 100,
-    } as HistoryRecord;
-
-    await state.getAnalysis(dummyRecord, [dummyRecord]);
-
-    const newState = useHistoryAnalysisStore.getState();
-    expect(newState.analysisResult).toEqual(mockResult);
-    expect(webLLMAnalysisRepository.getTrainingAdvice).toHaveBeenCalled();
-    expect(firebaseAnalysisRepository.getTrainingAdvice).not.toHaveBeenCalled();
+    expect(webLLMAnalysisRepository.getExerciseDetails).toHaveBeenCalledWith("Squat", undefined);
   });
 });

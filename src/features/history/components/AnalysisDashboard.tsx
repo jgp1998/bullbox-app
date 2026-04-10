@@ -28,8 +28,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ records }) => {
     const { user } = useAuthStore();
 
     const handleRunAnalysis = () => {
-        const mode = engineStatus === 'ready' ? 'local' : 'cloud';
-        runAnalysis(records, mode, 'es', user);
+        runAnalysis(records, 'es', user);
     };
 
     if (isLoading) {
