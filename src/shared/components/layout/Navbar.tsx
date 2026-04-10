@@ -21,15 +21,14 @@ import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { t, language, setLanguage } = useI18n();
-  const { theme, setTheme } = useUIStore();
+  const { theme, setTheme, isMobileMenuOpen, setIsMobileMenuOpen } = useUIStore();
   const { user, logout, isLoading } = useAuthStore();
 
   // Close mobile menu on route change
   useEffect(() => {
-    setIsOpen(false);
+    setIsMobileMenuOpen(false);
   }, [location]);
 
   if (!user) return null;
@@ -124,11 +123,11 @@ const Navbar: React.FC = () => {
             {/* Mobile Menu Button */}
             <div className="lg:hidden flex items-center">
               <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="p-2 rounded-xl text-(--text) hover:bg-(--input) transition-colors"
                 aria-label="Toggle menu"
               >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
@@ -140,15 +139,15 @@ const Navbar: React.FC = () => {
         {/* Backdrop */}
         <div 
           className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 z-100 ${
-            isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`} 
-          onClick={() => setIsOpen(false)}
+          onClick={() => setIsMobileMenuOpen(false)}
         />
         
         {/* Drawer */}
         <div 
           className={`fixed right-0 top-0 h-full w-4/5 max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col p-6 z-110 transform transition-transform duration-300 ease-out border-l border-(--border) ${
-            isOpen ? "translate-x-0" : "translate-x-full"
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
           style={{ 
             backgroundColor: theme.colors['--background'] || '#1a1a1a',
@@ -158,7 +157,7 @@ const Navbar: React.FC = () => {
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-xl font-black text-(--text) tracking-tighter italic">MENU</h2>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 rounded-xl bg-(--input) text-(--text) hover:bg-(--primary) hover:text-white transition-colors"
             >
               <X className="w-6 h-6" />
