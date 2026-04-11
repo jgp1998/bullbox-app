@@ -61,17 +61,17 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
         <Card className="overflow-hidden" data-testid="training-agenda-container">
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-[var(--primary)]/10 rounded-xl">
-                        <CalendarIcon className="w-6 h-6 text-[var(--primary)]" />
+                    <div className="p-2 bg-(--primary)/10 rounded-xl">
+                        <CalendarIcon className="w-6 h-6 text-(--primary)" />
                     </div>
                     <div>
-                        <h2 data-testid="agenda-title" className="text-xl font-black text-[var(--text)] uppercase tracking-tight leading-none">{t('trainingSchedule.title')}</h2>
-                        <p className="text-[10px] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 italic">
+                        <h2 data-testid="agenda-title" className="text-xl font-black text-(--text) uppercase tracking-tight leading-none">{t('trainingSchedule.title')}</h2>
+                        <p className="text-[10px] font-bold text-(--muted-text) uppercase tracking-widest mt-1 italic">
                             {viewDate.toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'long', year: 'numeric' })}
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center bg-[var(--input)] rounded-xl p-1 border border-[var(--border)]">
+                <div className="flex items-center bg-(--input) rounded-xl p-1 border border-(--border)">
                     <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="h-8 w-8 min-h-0">
                         <ChevronLeftIcon className="w-4 h-4" />
                     </Button>
@@ -94,24 +94,24 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                     <div 
                         key={day.dateStr}
                         onClick={() => openModal('schedule', day.dateStr)}
-                        className={`flex flex-col items-center p-2 sm:p-3 rounded-2xl cursor-pointer transition-all border-2 ${
+                        className={`flex flex-col items-center p-1 sm:p-3 rounded-2xl cursor-pointer transition-all border-2 ${
                             isToday(day.date) 
-                                ? 'bg-[var(--primary)]/10 border-[var(--primary)]' 
-                                : 'bg-[var(--background)]/50 border-transparent hover:border-[var(--border)]'
+                                ? 'bg-(--primary)/10 border-(--primary)' 
+                                : 'bg-(--background)/50 border-transparent hover:border-(--border)'
                         }`}
                     >
                         <span className={`text-[10px] font-black uppercase tracking-tighter ${
-                            isToday(day.date) ? 'text-[var(--primary)]' : 'text-[var(--muted-text)]'
+                            isToday(day.date) ? 'text-(--primary)' : 'text-(--muted-text)'
                         }`}>
                             {formatDayName(day.date)}
                         </span>
                         <span className="text-lg font-black mt-1 leading-none">{day.date.getDate()}</span>
                         <div className="flex space-x-0.5 mt-2">
                             {day.sessions.slice(0, 3).map((_, i) => (
-                                <div key={i} className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
+                                <div key={i} className="w-1.5 h-1.5 rounded-full bg-(--primary) animate-pulse" />
                             ))}
                             {day.sessions.length > 3 && (
-                                <div className="w-1.5 h-1.5 rounded-full bg-[var(--muted-text)]" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-(--muted-text)" />
                             )}
                         </div>
                     </div>
@@ -126,13 +126,13 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                 ) : days.some(d => d.sessions.length > 0) ? (
                     days.flatMap(d => d.sessions).map(session => (
                         <div key={session.id} className="relative group" data-testid="session-card">
-                            <div className="absolute -inset-0.5 bg-[var(--primary)]/10 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-                            <div className="relative flex items-center gap-4 p-4 bg-[var(--background)]/50 rounded-2xl border border-transparent hover:border-[var(--border)] transition-all duration-300">
-                                <div className="flex flex-col items-center justify-center min-w-[70px] border-r border-[var(--border)]/50 pr-4">
-                                    <span className="text-sm font-black text-[var(--primary)] leading-none">
+                            <div className="absolute -inset-0.5 bg-(--primary)/10 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
+                            <div className="relative flex items-center gap-4 p-4 bg-(--background)/50 rounded-2xl border border-transparent hover:border-(--border) transition-all duration-300">
+                                <div className="flex flex-col items-center justify-center min-w-[70px] border-r border-(--border)/50 pr-4">
+                                    <span className="text-sm font-black text-(--primary) leading-none">
                                         {session.time}
                                     </span>
-                                    <span className="text-[9px] font-black uppercase tracking-tighter text-[var(--muted-text)] mt-0.5">
+                                    <span className="text-[9px] font-black uppercase tracking-tighter text-(--muted-text) mt-0.5">
                                         {session.date.split('-').slice(1).reverse().join('/')}
                                     </span>
                                 </div>
@@ -169,7 +169,7 @@ const TrainingAgenda: React.FC<TrainingAgendaProps> = ({
                         </div>
                     ))
                 ) : (
-                    <div className="flex flex-col items-center justify-center py-10 opacity-30 select-none bg-[var(--input)] rounded-3xl border border-dashed border-[var(--border)]" data-testid="no-sessions-message">
+                    <div className="flex flex-col items-center justify-center py-10 opacity-30 select-none bg-(--input) rounded-3xl border border-dashed border-(--border)" data-testid="no-sessions-message">
                         <CalendarIcon className="w-8 h-8 mb-2" />
                         <p className="text-xs font-black uppercase tracking-widest">{t('trainingSchedule.noSessions')}</p>
                     </div>
