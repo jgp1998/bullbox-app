@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/jgp1998/bullbox-app/compare/v1.4.0...v1.5.0) (2026-04-11)
+
+
+### Features
+
+* added agents/ to gitigore ([53bcb96](https://github.com/jgp1998/bullbox-app/commit/53bcb96b2965e7bacb15233dd58690a8e8dc5009))
+* added bottom nabvar mobile ([0c4d6a6](https://github.com/jgp1998/bullbox-app/commit/0c4d6a68456f02817cd3ca0f9dee1e3b80889833))
+* config mobile pwa ([3efae7e](https://github.com/jgp1998/bullbox-app/commit/3efae7e5d3d1b88eb29ac2e7ff2a88c68ef07df8))
+* improve ui ([9fbe432](https://github.com/jgp1998/bullbox-app/commit/9fbe432e11a88d4458c2344d2b296a51d2c07a34))
+
+
+### Bug Fixes
+
+* horizontal scroll mobile ([896ff91](https://github.com/jgp1998/bullbox-app/commit/896ff919f5478fb00dc902d26628af16386fd4a5))
+* remove ai webllm and gemini from views ([070183d](https://github.com/jgp1998/bullbox-app/commit/070183d45770206e4b8eb541ff0dbe285f3abae0))
+
 ## [1.4.0](https://github.com/jgp1998/bullbox-app/compare/v1.3.1...v1.4.0) (2026-04-10)
 
 
