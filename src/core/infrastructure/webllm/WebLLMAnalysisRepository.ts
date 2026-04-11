@@ -12,6 +12,10 @@ export class WebLLMAnalysisRepository implements AnalysisRepository {
     private persistenceRequested = false;
 
     async initialize() {
+        if (import.meta.env.VITE_ENABLE_WEBLLM !== 'true') {
+            console.log("WebLLM is disabled by configuration (VITE_ENABLE_WEBLLM).");
+            return;
+        }
         try {
             await this.requestPersistence();
             await this.ensureEngine();
@@ -46,6 +50,12 @@ export class WebLLMAnalysisRepository implements AnalysisRepository {
     }
 
     private async ensureEngine() {
+        if (import.meta.env.VITE_ENABLE_WEBLLM !== 'true') {
+            const errorMsg = "WebLLM is disabled (VITE_ENABLE_WEBLLM is not true)";
+            useAIStore.getState().setError(errorMsg);
+            throw new Error(errorMsg);
+        }
+        
         if (this.engine) return this.engine;
         if (this.initPromise) return this.initPromise;
 
