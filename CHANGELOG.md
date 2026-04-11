@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/jgp1998/bullbox-app/compare/v1.5.0...v1.6.0) (2026-04-11)
+
+
+### Features
+
+* changed logo ([7fcfdcf](https://github.com/jgp1998/bullbox-app/commit/7fcfdcf95a51d20a5d9c617a24e34e8ee2b6d80e))
+* disable webllm ([501cdd2](https://github.com/jgp1998/bullbox-app/commit/501cdd2197aef350c989fb5358ac23d01bb2d4d5))
+
 ## [1.5.0](https://github.com/jgp1998/bullbox-app/compare/v1.4.0...v1.5.0) (2026-04-11)
 
 
