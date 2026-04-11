@@ -13,6 +13,7 @@ import { useUIStore } from '@/shared/store/useUIStore';
 interface PersonalBestsProps {
   records: WorkoutRecord[];
   isLoading?: boolean;
+  showAiAnalysis?: boolean;
 }
 
 const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
@@ -38,7 +39,7 @@ const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
   );
 };
 
-const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => {
+const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading, showAiAnalysis = false }) => {
   const { t } = useI18n();
   const { openModal } = useUIStore();
   
@@ -57,14 +58,6 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading }) => 
         ) : records.length > 0 ? (
           records.map(record => (
             <div key={record.id} className="relative bg-(--input) p-5 rounded-3xl text-center group border border-transparent hover:border-(--primary) transition-all shadow-sm">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => openModal('exerciseDetail', record.exercise)}
-                  className="absolute top-3 right-3 sm:opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                  title={t('personalBests.viewDetails', { exercise: record.exercise })}
-                  icon={<BookOpenIcon className="w-4 h-4" />}
-                />
               <div className="space-y-4">
                 <p className="font-black text-[10px] text-(--muted-text) uppercase tracking-widest truncate px-4" title={record.exercise}>
                     {record.exercise}

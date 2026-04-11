@@ -42,6 +42,7 @@ const DashboardPage = () => {
           <PersonalBests
             records={personalBests}
             isLoading={workoutsLoading || authLoading}
+            showAiAnalysis={false}
           />
         </Suspense>
 
@@ -53,7 +54,7 @@ const DashboardPage = () => {
         />
       </div>
 
-      {/* AI Coach Insight */}
+      {/* AI Coach Insight - HIDDEN FOR LATER LAUNCH
       <Card className="bg-linear-to-br from-(--primary)/20 to-transparent border-(--primary)/30 overflow-hidden relative group">
         <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
            <BrainCircuitIcon className="w-32 h-32 text-(--primary)" />
@@ -78,10 +79,11 @@ const DashboardPage = () => {
           </Button>
         </div>
       </Card>
+      */}
 
       {/* Workout History (Lazy) */}
       <Suspense fallback={<div className="h-96 bg-(--card) rounded-3xl animate-pulse border border-(--border)" />}>
-        <WorkoutHistory theme={theme} />
+        <WorkoutHistory theme={theme} showAiAnalysis={false} />
       </Suspense>
 
       {/* Info section at the bottom */}
