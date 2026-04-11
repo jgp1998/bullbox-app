@@ -14,6 +14,7 @@ const RecordsPage = () => {
                 <PersonalBests
                     records={personalBests}
                     isLoading={workoutsLoading || authLoading}
+                    showAiAnalysis={false}
                 />
             </Suspense>
         </div>
