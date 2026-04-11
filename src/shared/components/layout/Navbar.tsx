@@ -19,6 +19,7 @@ import { useUIStore } from "@/shared/store/useUIStore";
 import { useAuthStore } from "@/features/auth";
 import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
+import { BullboxLogo } from "@/shared/components/ui/Icons";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -52,7 +53,8 @@ const Navbar: React.FC = () => {
           <div className="flex justify-between h-16 items-center">
             {/* Logo & Dynamic Title */}
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-2">
+              <Link to="/" className="flex items-center space-x-3 group">
+                <BullboxLogo className="w-10 h-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-lg shadow-(--primary)/20" />
                 <h1 
                   data-testid="header-logo"
                   className="text-xl sm:text-2xl font-black text-(--primary) tracking-tighter uppercase italic drop-shadow-sm select-none"

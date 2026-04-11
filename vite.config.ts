@@ -14,9 +14,9 @@ export default defineConfig(({ mode }) => {
       plugins: [
         react(),
         tailwindcss(),
-          VitePWA({
+      VitePWA({
           registerType: 'prompt',
-          includeAssets: ['icon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'],
+          includeAssets: ['logo.png', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
           workbox: {
             cleanupOutdatedCaches: true,
             skipWaiting: false,
@@ -104,19 +104,16 @@ export default defineConfig(({ mode }) => {
             background_color: '#121212',
             icons: [
               {
-                src: 'icon.svg',
-                sizes: '192x192',
-                type: 'image/svg+xml'
-              },
-              {
-                src: 'icon-192.png',
-                sizes: '192x192',
-                type: 'image/png'
-              },
-              {
-                src: 'icon-512.png',
+                src: 'logo.png',
                 sizes: '512x512',
-                type: 'image/png'
+                type: 'image/png',
+                purpose: 'any'
+              },
+              {
+                src: 'logo.png',
+                sizes: '512x512',
+                type: 'image/png',
+                purpose: 'maskable'
               }
             ]
           }
