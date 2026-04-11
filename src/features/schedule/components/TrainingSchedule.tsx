@@ -38,8 +38,8 @@ const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSess
         <Card>
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
                 <div className="flex items-center">
-                    <CalendarIcon className="w-6 h-6 mr-3 text-[var(--primary)]" />
-                    <h2 className="text-2xl font-bold text-[var(--text)]">{t('trainingSchedule.title')}</h2>
+                    <CalendarIcon className="w-6 h-6 mr-3 text-(--primary)" />
+                    <h2 className="text-2xl font-bold text-(--text)">{t('trainingSchedule.title')}</h2>
                 </div>
                 <Button
                     onClick={onAddSession}
@@ -56,32 +56,32 @@ const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSess
             <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                 {sortedSessions.length > 0 ? (
                     sortedSessions.map(session => (
-                        <div key={session.id} className="bg-[var(--input)] p-5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-transparent hover:border-[var(--primary)] transition-all animate-in fade-in slide-in-from-right-4">
-                            <div className="space-y-2 flex-grow min-w-0">
-                                <p className="font-black text-lg text-[var(--text)] truncate uppercase tracking-tight" title={session.title}>
+                        <div className="bg-(--input) p-5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-transparent hover:border-(--primary) transition-all animate-in fade-in slide-in-from-right-4">
+                            <div className="space-y-2 grow min-w-0">
+                                <p className="font-black text-lg text-(--text) truncate uppercase tracking-tight" title={session.title}>
                                     {session.title}
                                 </p>
-                                <p className="text-xs font-bold text-[var(--primary)] uppercase tracking-widest bg-[var(--primary)] bg-opacity-10 px-2 py-1 rounded inline-block">
+                                <p className="text-xs font-bold text-(--primary) uppercase tracking-widest bg-(--primary) bg-opacity-10 px-2 py-1 rounded inline-block">
                                     {formatSessionTime(session.date, session.time)}
                                 </p>
                                 {session.notes && (
-                                    <div className="mt-3 p-3 bg-[var(--card)] rounded-xl border border-[var(--border)] border-l-4 border-l-[var(--primary)] shadow-inner">
-                                        <p className="text-sm text-[var(--muted-text)] italic leading-relaxed font-medium">
+                                    <div className="mt-3 p-3 bg-(--card) rounded-xl border border-(--border) border-l-4 border-l-(--primary) shadow-inner">
+                                        <p className="text-sm text-(--muted-text) italic leading-relaxed font-medium">
                                             "{session.notes}"
                                         </p>
                                     </div>
                                 )}
                             </div>
-                            <div className="flex items-center space-x-3 self-end sm:self-center bg-[var(--card)] sm:bg-transparent p-2 sm:p-0 rounded-lg border border-[var(--border)] sm:border-0">
+                            <div className="flex items-center space-x-3 self-end sm:self-center bg-(--card) sm:bg-transparent p-2 sm:p-0 rounded-lg border border-(--border) sm:border-0">
                                 <Button
                                     variant="ghost"
                                     size="icon"
                                     onClick={() => onEditSession(session)}
                                     title={t('trainingSchedule.editSession')}
                                     icon={<EditIcon className="w-5 h-5" />}
-                                    className="hover:text-[var(--primary)]"
+                                    className="hover:text-(--primary)"
                                 />
-                                <div className="w-px h-4 bg-[var(--border)] sm:hidden"></div>
+                                <div className="w-px h-4 bg-(--border) sm:hidden"></div>
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -94,8 +94,23 @@ const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSess
                         </div>
                     ))
                 ) : (
-                    <div className="text-center py-12 bg-[var(--input)] rounded-xl border border-dashed border-[var(--border)]">
-                        <p className="text-[var(--muted-text)] font-medium">{t('trainingSchedule.noSessions')}</p>
+                    <div className="text-center py-16 px-4 bg-(--input)/30 rounded-[2.5rem] border-2 border-dashed border-(--border)/50 flex flex-col items-center justify-center space-y-4">
+                        <div className="w-20 h-20 bg-(--primary)/10 rounded-full flex items-center justify-center mb-2 animate-pulse">
+                            <CalendarIcon className="w-10 h-10 text-(--primary) opacity-40" />
+                        </div>
+                        <div className="space-y-2">
+                            <p className="text-(--text) font-black text-xl uppercase italic tracking-tight">{t('trainingSchedule.noSessions')}</p>
+                            <p className="text-(--muted-text) font-medium text-sm max-w-xs mx-auto">
+                                Planning is half the battle. Schedule your next workout and stay consistent.
+                            </p>
+                        </div>
+                        <Button 
+                            variant="primary" 
+                            className="mt-4 px-8 shadow-xl shadow-(--primary)/20"
+                            onClick={onAddSession}
+                        >
+                            {t('trainingSchedule.scheduleButton')}
+                        </Button>
                     </div>
                 )}
             </div>

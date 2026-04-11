@@ -3,6 +3,10 @@ import { useAuthStore } from "@/features/auth";
 import { useWorkouts } from "@/features/workout";
 import { useSchedule, TrainingAgenda } from "@/features/schedule";
 import { useUIStore } from "@/shared/store/useUIStore";
+import { useI18n } from "@/shared/context/i18n";
+import Card from "@/shared/components/ui/Card";
+import Button from "@/shared/components/ui/Button";
+import { BrainCircuitIcon } from "@/shared/components/ui/Icons";
 
 // Lazy components for the dashboard
 const PersonalBests = lazy(() =>
@@ -17,6 +21,7 @@ const ShareAndInfo = lazy(() =>
 
 const DashboardPage = () => {
   const { user, isLoading: authLoading } = useAuthStore();
+  const { t } = useI18n();
   const { personalBests, isLoading: workoutsLoading } = useWorkouts();
   const {
     scheduledSessions,
@@ -41,17 +46,43 @@ const DashboardPage = () => {
         </Suspense>
 
         {/* Training Agenda (LCP element, not lazy) */}
-        {/* <TrainingAgenda
+        <TrainingAgenda
           sessions={scheduledSessions}
           onDeleteSession={deleteScheduledSession}
           isLoading={scheduleLoading || authLoading}
-        /> */}
+        />
       </div>
 
-      {/* Workout History (Lazy)
+      {/* AI Coach Insight */}
+      <Card className="bg-linear-to-br from-(--primary)/20 to-transparent border-(--primary)/30 overflow-hidden relative group">
+        <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
+           <BrainCircuitIcon className="w-32 h-32 text-(--primary)" />
+        </div>
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6 p-2">
+          <div className="flex-1 text-center sm:text-left">
+            <h3 className="text-xl font-black uppercase italic tracking-tighter text-(--primary) mb-2">{t('dashboard.aiCoach')}</h3>
+            <p className="text-sm font-medium text-(--text) max-w-md">
+              {t('dashboard.aiCoachDescription')}
+            </p>
+          </div>
+          <Button 
+            variant="primary" 
+            className="shadow-lg shadow-(--primary)/20 whitespace-nowrap"
+            onClick={() => {
+              // Open history to get analysis if needed, or just show a modal
+              const historyTab = document.querySelector('[data-tab="history"]') as HTMLElement;
+              if (historyTab) historyTab.click();
+            }}
+          >
+            {t('dashboard.seeAnalysis')}
+          </Button>
+        </div>
+      </Card>
+
+      {/* Workout History (Lazy) */}
       <Suspense fallback={<div className="h-96 bg-(--card) rounded-3xl animate-pulse border border-(--border)" />}>
         <WorkoutHistory theme={theme} />
-      </Suspense> */}
+      </Suspense>
 
       {/* Info section at the bottom */}
       <Suspense

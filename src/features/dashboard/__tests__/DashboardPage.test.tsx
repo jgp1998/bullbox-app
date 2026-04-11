@@ -26,10 +26,23 @@ vi.mock("../../schedule", () => ({
   TrainingAgenda: () => <div data-testid="training-agenda">Training Agenda</div>,
 }));
 
+// Mock UI Store
 vi.mock("../../../shared/store/useUIStore", () => ({
   useUIStore: () => ({
     theme: { name: "dark", colors: {} },
   }),
+}));
+
+// Mock i18n
+vi.mock("@/shared/context/i18n", () => ({
+  useI18n: () => ({
+    t: (key: string) => key,
+  }),
+}));
+
+// Mock Icons
+vi.mock("@/shared/components/ui/Icons", () => ({
+  BrainCircuitIcon: () => <div data-testid="brain-icon" />,
 }));
 
 // Mock lazy components

@@ -43,13 +43,14 @@ const Navbar: React.FC = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const currentLink = navLinks.find(link => isActive(link.path));
 
   return (
     <>
       <nav className="sticky top-0 z-50 w-full border-b border-(--border) bg-(--card)/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            {/* Logo */}
+            {/* Logo & Dynamic Title */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
                 <h1 
@@ -59,6 +60,15 @@ const Navbar: React.FC = () => {
                   BULL<span className="text-(--text)">BOX</span>
                 </h1>
               </Link>
+              
+              {currentLink && currentLink.path !== '/' && (
+                <div className="flex items-center space-x-2 ml-2 sm:ml-4">
+                  <span className="text-(--muted-text) opacity-30 font-black">/</span>
+                  <span className="text-sm sm:text-base font-black text-(--text) uppercase tracking-tighter truncate max-w-[120px] sm:max-w-none">
+                    {currentLink.label}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Desktop Navigation */}
