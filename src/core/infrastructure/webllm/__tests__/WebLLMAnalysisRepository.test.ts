@@ -19,6 +19,7 @@ global.Worker = class {
     dispatchEvent = vi.fn();
 } as any;
 
+// Mock import.meta.env
 describe("WebLLMAnalysisRepository", () => {
     let repository: WebLLMAnalysisRepository;
     const mockCreateEngine = vi.mocked(CreateWebWorkerMLCEngine);
@@ -26,6 +27,13 @@ describe("WebLLMAnalysisRepository", () => {
     beforeEach(() => {
         repository = new WebLLMAnalysisRepository();
         vi.clearAllMocks();
+        // Reset to enabled by default for existing tests
+        vi.stubEnv("VITE_ENABLE_WEBLLM", "true");
+    });
+
+    it("should throw error when WebLLM is disabled", async () => {
+        vi.stubEnv("VITE_ENABLE_WEBLLM", "false");
+        await expect(repository.getExerciseDetails("Squat")).rejects.toThrow("WebLLM is disabled");
     });
 
     it("should initialize engine only once", async () => {

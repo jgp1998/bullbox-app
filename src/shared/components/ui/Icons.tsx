@@ -2,12 +2,16 @@ import React from 'react';
 
 // Using the logo as a Base64-encoded image to avoid needing a separate asset file.
 // FIX: Changed props from React.SVGProps<SVGSVGElement> to React.ImgHTMLAttributes<HTMLImageElement> to match the returned <img> element.
-export const BullboxLogo: React.FC<React.ImgHTMLAttributes<HTMLImageElement>> = (props) => (
-  <img 
-    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA2gAAANoAQMAAAD MATvDAAAABlBMVEUAAAAD/AACms9mAAAAAXRSTlMAQObYZgAAAYlJREFUeJzt2LENgEAMBEFbeAXKz2I555JAFnGgmR3Nl+yWc9/ZTuu19A+YyEgcJSNxlo7EWToSZ+koPInjZCSOkpE4S0fFLO0UznaKLJ2iQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQydp2Snaop2gQyd" 
-    alt="BULLBOX logo" 
-    {...props} 
-  />
+// Using the new logo asset.
+export const BullboxLogo: React.FC<React.ImgHTMLAttributes<HTMLImageElement>> = ({ className, ...props }) => (
+  <div className={`overflow-hidden rounded-full border-2 border-(--primary)/20 bg-white flex items-center justify-center ${className}`}>
+    <img 
+      src="/logo.png" 
+      alt="BULLBOX logo" 
+      className="w-full h-full object-cover p-[5%]" 
+      {...props} 
+    />
+  </div>
 );
 
 export const EditIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (

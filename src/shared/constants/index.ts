@@ -1,53 +1,53 @@
-import { Theme, RecordType, WeightUnit } from '@/shared/types';
-import { Plate } from '@/features/weight-converter';
+import { Theme, RecordType, WeightUnit } from "@/shared/types";
+import { Plate } from "@/features/weight-converter";
 
 export const themes: Theme[] = [
   {
-    name: 'BullBox Dark',
+    name: "Dark",
     colors: {
-      '--background': '#1a1a1a',
-      '--card': '#2c2c2c',
-      '--input': '#3a3a3a',
-      '--text': '#f0f0f0',
-      '--muted-text': '#a0a0a0',
-      '--primary': '#e63946',
-      '--secondary': '#f1faee',
-      '--accent': '#a8dadc',
-      '--border': '#4a4a4a',
+      "--background": "#1a1a1a",
+      "--card": "#2c2c2c",
+      "--input": "#3a3a3a",
+      "--text": "#f0f0f0",
+      "--muted-text": "#a0a0a0",
+      "--primary": "#e63946",
+      "--secondary": "#f1faee",
+      "--accent": "#a8dadc",
+      "--border": "#4a4a4a",
     },
   },
   {
-    name: 'BullBox Light',
+    name: "Light",
     colors: {
-      '--background': '#f1faee',
-      '--card': '#ffffff',
-      '--input': '#e9ecef',
-      '--text': '#1d3557',
-      '--muted-text': '#457b9d',
-      '--primary': '#e63946',
-      '--secondary': '#1d3557',
-      '--accent': '#457b9d',
-      '--border': '#ced4da',
+      "--background": "#f1faee",
+      "--card": "#ffffff",
+      "--input": "#e9ecef",
+      "--text": "#1d3557",
+      "--muted-text": "#457b9d",
+      "--primary": "#e63946",
+      "--secondary": "#1d3557",
+      "--accent": "#457b9d",
+      "--border": "#ced4da",
     },
   },
-    {
-    name: 'Oceanic Blue',
+  {
+    name: "Bullbox",
     colors: {
-      '--background': '#023047',
-      '--card': '#023e5a',
-      '--input': '#035378',
-      '--text': '#ffffff',
-      '--muted-text': '#b3cde0',
-      '--primary': '#fb8500',
-      '--secondary': '#219ebc',
-      '--accent': '#8ecae6',
-      '--border': '#035e87',
+      "--background": "#023047",
+      "--card": "#023e5a",
+      "--input": "#035378",
+      "--text": "#ffffff",
+      "--muted-text": "#b3cde0",
+      "--primary": "#fb8500",
+      "--secondary": "#219ebc",
+      "--accent": "#8ecae6",
+      "--border": "#035e87",
     },
   },
 ];
 
-export const RECORD_TYPES: RecordType[] = ['Weight', 'Reps', 'Time'];
-export const WEIGHT_UNITS: WeightUnit[] = ['kg', 'lbs'];
+export const RECORD_TYPES: RecordType[] = ["Weight", "Reps", "Time"];
+export const WEIGHT_UNITS: WeightUnit[] = ["kg", "lbs"];
 
 export const OLYMPIC_BARBELLS = {
   male: { kg: 20, lbs: 45 },
@@ -55,25 +55,25 @@ export const OLYMPIC_BARBELLS = {
 };
 
 export const PLATES_KG: Plate[] = [
-  { weight: 25, color: '#FF3B30' }, // 🔴 Red
-  { weight: 20, color: '#007AFF' }, // 🔵 Blue
-  { weight: 15, color: '#FFCC00' }, // 🟡 Yellow
-  { weight: 10, color: '#28CD41' }, // 🟢 Green
-  { weight: 5, color: '#FFFFFF' },  // ⚪ White
-  { weight: 2.5, color: '#F2F2F7' }, // ⚪ White/Light Grey
-  { weight: 2, color: '#FF3B30' },   // 🔴 Red
-  { weight: 1.5, color: '#007AFF' }, // 🔵 Blue
-  { weight: 1.25, color: '#8E8E93' }, // ⚪ Grey (Standard increment)
-  { weight: 1, color: '#FFCC00' },   // 🟡 Yellow
-  { weight: 0.5, color: '#28CD41' }, // 🟢 Green
+  { weight: 25, color: "#FF3B30" }, // 🔴 Red
+  { weight: 20, color: "#007AFF" }, // 🔵 Blue
+  { weight: 15, color: "#FFCC00" }, // 🟡 Yellow
+  { weight: 10, color: "#28CD41" }, // 🟢 Green
+  { weight: 5, color: "#FFFFFF" }, // ⚪ White
+  { weight: 2.5, color: "#F2F2F7" }, // ⚪ White/Light Grey
+  { weight: 2, color: "#FF3B30" }, // 🔴 Red
+  { weight: 1.5, color: "#007AFF" }, // 🔵 Blue
+  { weight: 1.25, color: "#8E8E93" }, // ⚪ Grey (Standard increment)
+  { weight: 1, color: "#FFCC00" }, // 🟡 Yellow
+  { weight: 0.5, color: "#28CD41" }, // 🟢 Green
 ];
 
 export const PLATES_LBS: Plate[] = [
-  { weight: 45, color: '#FF3B30' }, // 🔴 Red
-  { weight: 35, color: '#007AFF' }, // 🔵 Blue
-  { weight: 25, color: '#FFCC00' }, // 🟡 Yellow
-  { weight: 15, color: '#28CD41' }, // 🟢 Green
-  { weight: 10, color: '#FFFFFF' }, // ⚪ White
-  { weight: 5, color: '#F2F2F7' },  // ⚪ White/Light Grey
-  { weight: 2.5, color: '#E5E5EA' }, // ⚪ Greyish
+  { weight: 45, color: "#FF3B30" }, // 🔴 Red
+  { weight: 35, color: "#007AFF" }, // 🔵 Blue
+  { weight: 25, color: "#FFCC00" }, // 🟡 Yellow
+  { weight: 15, color: "#28CD41" }, // 🟢 Green
+  { weight: 10, color: "#FFFFFF" }, // ⚪ White
+  { weight: 5, color: "#F2F2F7" }, // ⚪ White/Light Grey
+  { weight: 2.5, color: "#E5E5EA" }, // ⚪ Greyish
 ];

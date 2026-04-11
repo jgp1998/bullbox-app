@@ -7,6 +7,7 @@ import Card from "@/shared/components/ui/Card";
 import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
 import PasswordResetModal from "./PasswordResetModal";
+import { BullboxLogo } from "@/shared/components/ui/Icons";
 
 interface LoginScreenProps {
   onLogin: (user: User) => void;
@@ -119,7 +120,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       {/* Background Decoration */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--primary)] shadow-lg shadow-[var(--primary)]/20 z-50"></div>
 
-      <div className="mb-8 animate-in fade-in slide-in-from-top-8 duration-700 text-center">
+      <div className="mb-8 animate-in fade-in slide-in-from-top-12 duration-1000 text-center flex flex-col items-center">
+        <BullboxLogo className="w-24 h-24 sm:w-32 sm:h-32 mb-6 shadow-2xl shadow-(--primary)/30 animate-pulse-slow" />
         <h1 className="text-5xl sm:text-7xl font-black text-[var(--primary)] tracking-tighter uppercase italic drop-shadow-2xl">
           BULL<span className="text-[var(--text)] opacity-90">BOX</span>
         </h1>
