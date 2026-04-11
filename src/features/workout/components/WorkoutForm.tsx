@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { WorkoutRecord, WeightUnit } from '@/shared/types';
 import { WEIGHT_UNITS } from '@/shared/constants';
-import { PlusIcon, EditIcon } from '@/shared/components/ui/Icons';
+import { PlusIcon, EditIcon, ChevronDownIcon } from '@/shared/components/ui/Icons';
 import { useI18n } from '@/shared/context/i18n';
 import { useToast } from '@/shared/context/ToastContext';
 import Card from '@/shared/components/ui/Card';
@@ -32,7 +32,8 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
   const [reps, setReps] = useState('');
   const [minutes, setMinutes] = useState('');
   const [seconds, setSeconds] = useState('');
-  const [barWeight, setBarWeight] = useState(''); // Added bar weight field
+  const [barWeight, setBarWeight] = useState('');
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -94,6 +95,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
       setReps('');
       setMinutes('');
       setSeconds('');
+      setBarWeight('');
     } catch (err) {
       showError(t('workoutForm.errors.failedToAdd'));
     }
@@ -140,28 +142,28 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
           <div className="space-y-3">
             <label htmlFor="weight-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.weight')}</label>
-            <Input
-              id="weight-input"
-              type="number"
-              step="any"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              placeholder="0.00"
-              className="grow font-bold"
-              data-testid="weight-input"
-            />
-            <div className="space-y-2">
-              <span className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.unit')}</span>
-              <div className="flex bg-(--card-bg) border border-(--border-color) rounded-xl overflow-hidden min-w-[100px]">
+            <div className="flex gap-2">
+              <Input
+                id="weight-input"
+                type="number"
+                step="any"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder="0.00"
+                className="grow font-bold text-lg"
+                data-testid="weight-input"
+                inputMode="decimal"
+              />
+              <div className="flex bg-(--card-bg) border border-(--border-color) rounded-xl overflow-hidden min-w-[120px]">
                 {(WEIGHT_UNITS).map(unit => (
                   <button
                     key={unit}
                     type="button"
                     onClick={() => setWeightUnit(unit)}
-                    className={`flex-1 py-1 text-[10px] font-black uppercase transition-all ${
+                    className={`flex-1 py-3 text-xs font-black uppercase transition-all ${
                       weightUnit === unit 
                         ? 'bg-(--primary) text-white' 
                         : 'text-(--muted-text) hover:bg-(--primary)/10'
@@ -182,55 +184,73 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
               value={reps}
               onChange={(e) => setReps(e.target.value)}
               placeholder="0"
-              className="font-bold"
+              className="font-bold text-lg"
               data-testid="reps-input"
+              inputMode="numeric"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <span id="time-label" className="block text-[13px] font-bold text-(--muted-text) uppercase tracking-widest mb-1">{t('workoutForm.time')}</span>
-            <div className="flex items-center gap-2" role="group" aria-labelledby="time-label">
+        <button 
+          type="button"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          data-testid="advanced-toggle"
+          className="flex items-center gap-2 text-xs font-black text-(--primary) uppercase tracking-widest hover:opacity-80 transition-opacity"
+        >
+          <span className={`transition-transform duration-300 ${showAdvanced ? 'rotate-180' : ''}`}>
+            <ChevronDownIcon className="w-4 h-4" />
+          </span>
+          {showAdvanced ? t('workoutForm.hideAdvanced') : t('workoutForm.advancedOptions')}
+        </button>
+
+        {showAdvanced && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="space-y-3">
+              <span id="time-label" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.time')}</span>
+              <div className="flex items-center gap-2" role="group" aria-labelledby="time-label">
+                <Input
+                  id="minutes-input"
+                  aria-label="Minutes"
+                  type="number"
+                  placeholder="mm"
+                  value={minutes}
+                  onChange={(e) => setMinutes(e.target.value)}
+                  min="0"
+                  className="text-center font-bold"
+                  inputMode="numeric"
+                />
+                <span className="font-black text-(--primary)" aria-hidden="true">:</span>
+                <Input
+                  id="seconds-input"
+                  aria-label="Seconds"
+                  type="number"
+                  placeholder="ss"
+                  value={seconds}
+                  onChange={(e) => setSeconds(e.target.value)}
+                  min="0"
+                  max="59"
+                  className="text-center font-bold"
+                  inputMode="numeric"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <label htmlFor="bar-weight-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
               <Input
-                id="minutes-input"
-                aria-label="Minutes"
+                id="bar-weight-input"
                 type="number"
-                placeholder="mm"
-                value={minutes}
-                onChange={(e) => setMinutes(e.target.value)}
-                min="0"
-                className="text-center font-bold"
-              />
-              <span className="font-black text-(--primary)" aria-hidden="true">:</span>
-              <Input
-                id="seconds-input"
-                aria-label="Seconds"
-                type="number"
-                placeholder="ss"
-                value={seconds}
-                onChange={(e) => setSeconds(e.target.value)}
-                min="0"
-                max="59"
-                className="text-center font-bold"
+                step="any"
+                value={barWeight}
+                onChange={(e) => setBarWeight(e.target.value)}
+                placeholder="20 (kg)"
+                className="font-bold border-(--accent)/30"
+                data-testid="bar-weight-input"
+                inputMode="decimal"
               />
             </div>
           </div>
-
-          <div className="space-y-3">
-            <label htmlFor="bar-weight-input" className="block text-xs font-black text-(--muted-text) uppercase tracking-widest">{t('workoutForm.barWeight')}</label>
-            <Input
-              id="bar-weight-input"
-              type="number"
-              step="any"
-              value={barWeight}
-              onChange={(e) => setBarWeight(e.target.value)}
-              placeholder="20 (kg)"
-              className="font-bold border-(--accent)/30"
-              data-testid="bar-weight-input"
-            />
-          </div>
-        </div>
+        )}
         
         {error && (
           <div className="p-3 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-20 rounded-xl animate-shake">

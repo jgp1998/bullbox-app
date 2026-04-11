@@ -26,13 +26,29 @@ select option {
   --border: #4a4a4a;
 }
 
+html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   background-color: var(--background);
   color: var(--text);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure all elements respect box-sizing */
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
+/* Safety for media elements */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Custom scrollbar for better mobile/desktop consistent look */

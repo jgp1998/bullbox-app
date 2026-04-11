@@ -13,9 +13,10 @@ import { useHistory } from '../hooks/useHistory';
 
 interface WorkoutHistoryProps {
     theme: Theme;
+    showAiAnalysis?: boolean;
 }
 
-const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
+const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme, showAiAnalysis = true }) => {
     const { t } = useI18n();
     const {
         records,
@@ -70,13 +71,15 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                                 <p data-testid="record-value" className="text-sm font-black text-(--accent) mr-2 tracking-tight">
                                     {formatWorkoutValue(record)}
                                 </p>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => handleGetAnalysis(record)}
-                                    title={t('workoutHistory.getAiAnalysis')}
-                                    icon={<LightBulbIcon className="w-5 h-5 text-(--primary)" />}
-                                />
+                                {showAiAnalysis && (
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => handleGetAnalysis(record)}
+                                        title={t('workoutHistory.getAiAnalysis')}
+                                        icon={<LightBulbIcon className="w-5 h-5 text-(--primary)" />}
+                                    />
+                                )}
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -90,18 +93,20 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme }) => {
                     ))
                 ) : (
                     <div className="text-center py-12">
-                        <p className="text-(--muted-text) text-sm italic">Completa entrenamientos para recibir consejos personalizados de IA.</p>
+                        <p className="text-(--muted-text) text-sm italic">{showAiAnalysis ? "Completa entrenamientos para recibir consejos personalizados de IA." : "No hay entrenamientos registrados."}</p>
                     </div>
                 )}
             </div>
             
-            <AIAssistantModal
-                isOpen={!!analysisResult || isLoading || !!error}
-                onClose={handleCloseAnalysis}
-                result={analysisResult}
-                isLoading={isLoading}
-                error={error}
-            />
+            {showAiAnalysis && (
+                <AIAssistantModal
+                    isOpen={!!analysisResult || isLoading || !!error}
+                    onClose={handleCloseAnalysis}
+                    result={analysisResult}
+                    isLoading={isLoading}
+                    error={error}
+                />
+            )}
             
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar {

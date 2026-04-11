@@ -14,11 +14,13 @@ interface UIState {
     editingSession: ScheduledSession | null;
     schedulingInitialDate: string | null;
     currentExerciseDetail: string | null;
+    isMobileMenuOpen: boolean;
     
     // Actions
     setTheme: (theme: Theme) => void;
     openModal: (modalName: keyof UIState['modals'], data?: any) => void;
     closeModal: (modalName: keyof UIState['modals']) => void;
+    setIsMobileMenuOpen: (isOpen: boolean) => void;
     applyTheme: () => void;
 }
 
@@ -35,10 +37,15 @@ export const useUIStore = create<UIState>()(
             editingSession: null,
             schedulingInitialDate: null,
             currentExerciseDetail: null,
+            isMobileMenuOpen: false,
 
             setTheme: (theme) => {
                 set({ theme });
                 get().applyTheme();
+            },
+
+            setIsMobileMenuOpen: (isOpen) => {
+                set({ isMobileMenuOpen: isOpen });
             },
 
             applyTheme: () => {

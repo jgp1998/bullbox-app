@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "@/shared/components/layout/MainLayout";
 import AppInitializer from "@/shared/components/AppInitializer";
 import { useAuthStore } from "@/features/auth";
+import ReloadPrompt from "@/shared/components/pwa/ReloadPrompt";
+
 
 // Lazy pages
 const DashboardPage = lazy(() => import("@/features/dashboard/DashboardPage"));
@@ -65,6 +67,7 @@ const App = () => {
       <Suspense fallback={null}>
         <GlobalModalContainer />
       </Suspense>
+      <ReloadPrompt />
     </AppInitializer>
   );
 };

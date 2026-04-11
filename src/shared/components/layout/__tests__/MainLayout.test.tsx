@@ -3,9 +3,13 @@ import { describe, it, expect, vi } from "vitest";
 import MainLayout from "../MainLayout";
 import { MemoryRouter } from "react-router-dom";
 
-// Mock Navbar since it's tested separately
+// Mock Navbar and BottomNavbar since they are tested separately
 vi.mock("../Navbar", () => ({
   default: () => <nav data-testid="navbar">Navbar</nav>,
+}));
+
+vi.mock("../BottomNavbar", () => ({
+  default: () => <nav data-testid="bottom-navbar">BottomNavbar</nav>,
 }));
 
 describe("MainLayout", () => {
@@ -20,6 +24,7 @@ describe("MainLayout", () => {
     );
 
     expect(screen.getByTestId("navbar")).toBeInTheDocument();
+    expect(screen.getByTestId("bottom-navbar")).toBeInTheDocument();
     expect(screen.getByTestId("child-content")).toHaveTextContent(testContent);
   });
 
@@ -35,5 +40,6 @@ describe("MainLayout", () => {
     const layoutDiv = container.firstChild as HTMLElement;
     expect(layoutDiv).toHaveClass("min-h-screen");
     expect(layoutDiv.querySelector('main')).toHaveClass("max-w-7xl");
+    expect(layoutDiv.querySelector('main')).toHaveClass("pb-20");
   });
 });
