@@ -37,6 +37,8 @@
       "usernameTaken": "Este nombre de usuario ya está en uso.",
       "emailTaken": "Este correo electrónico ya está registrado.",
       "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+      "userNotFound": "No existe ninguna cuenta asociada a este correo electrónico.",
+      "invalidEmail": "El formato del correo electrónico no es válido.",
       "generic": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
     }
   },
@@ -162,6 +164,7 @@
     "emailPlaceholder": "tu@ejemplo.com",
     "sendResetLink": "Enviar Enlace",
     "resetSubmitted": "Si existe una cuenta con ese email, hemos enviado un enlace para restablecer la contraseña.",
+    "checkSpam": "Si no recibes el correo en unos minutos, por favor revisa tu carpeta de correo no deseado o spam.",
     "editSession": "Editar Sesión",
     "scheduleSession": "Agendar Sesión",
     "sessionTitle": "Título",
