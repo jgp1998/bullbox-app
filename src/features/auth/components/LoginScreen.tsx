@@ -116,22 +116,22 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--background)] p-4 sm:p-6 select-none overflow-hidden relative">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-(--background) p-4 sm:p-6 select-none overflow-hidden relative">
       {/* Background Decoration */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--primary)] shadow-lg shadow-[var(--primary)]/20 z-50"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-(--primary) via-(--accent) to-(--primary) shadow-lg shadow-(--primary)/20 z-50"></div>
 
       <div className="mb-8 animate-in fade-in slide-in-from-top-12 duration-1000 text-center flex flex-col items-center">
         <BullboxLogo className="w-24 h-24 sm:w-32 sm:h-32 mb-6 shadow-2xl shadow-(--primary)/30 animate-pulse-slow" />
-        <h1 className="text-5xl sm:text-7xl font-black text-[var(--primary)] tracking-tighter uppercase italic drop-shadow-2xl">
-          BULL<span className="text-[var(--text)] opacity-90">BOX</span>
+        <h1 className="text-5xl sm:text-7xl font-black text-(--primary) tracking-tighter uppercase italic drop-shadow-2xl">
+          BULL<span className="text-(--text) opacity-90">BOX</span>
         </h1>
-        <p className="text-[10px] sm:text-xs font-black text-[var(--muted-text)] uppercase tracking-[0.3em] mt-2 translate-x-1">
+        <p className="text-[10px] sm:text-xs font-black text-(--muted-text) uppercase tracking-[0.3em] mt-2 translate-x-1">
           Ultimate Training Tracker
         </p>
       </div>
 
       <Card
-        className="w-full max-w-md shadow-2xl border border-[var(--border)] animate-in fade-in slide-in-from-bottom-8 duration-500"
+        className="w-full max-w-md shadow-2xl border border-(--border) animate-in fade-in slide-in-from-bottom-8 duration-500"
         description={
           isRegistering ? t("login.registerTagline") : t("login.tagline")
         }
@@ -267,7 +267,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             <Button
               variant="ghost"
               onClick={handleToggleMode}
-              className="text-sm text-[var(--muted-text)]"
+              className="text-sm text-(--muted-text)"
             >
               {isRegistering
                 ? t("login.switchToLogin")
