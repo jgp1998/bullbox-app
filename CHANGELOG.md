@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/jgp1998/bullbox-app/compare/v1.6.0...v1.7.0) (2026-04-13)
+
+
+### Features
+
+* reset password ([b37272e](https://github.com/jgp1998/bullbox-app/commit/b37272e7a4f066449c9a6d40596dc1bb27addffb))
+
+
+### Bug Fixes
+
+* error validation sebastian ([4fc5053](https://github.com/jgp1998/bullbox-app/commit/4fc505351b3fcae7225ec93997b3809272e2a7a2))
+* repair vulnerabilities ([93d5842](https://github.com/jgp1998/bullbox-app/commit/93d58420c2e809d1d071004dcca72a31f0b319c4))
+
 ## [1.6.0](https://github.com/jgp1998/bullbox-app/compare/v1.5.0...v1.6.0) (2026-04-11)
 
 
