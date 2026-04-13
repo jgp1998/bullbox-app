@@ -39,9 +39,17 @@ const StructuredInsightCard: React.FC<StructuredInsightCardProps> = ({ insight, 
     const Icon = config.icon;
     const PriorityIcon = priority.icon;
 
-    const metric = insight?.metric || { name: 'Dato', type: 'weight', change_percent: 0, period_weeks: 0, baseline_value: 0, current_value: 0, unit: '' };
-    const diagnosis = insight?.diagnosis || { trend: 'unknown' };
-    const action = insight?.action || { exercise: '', type: '', amount: 0, unit: '', per: '', duration_weeks: 0 };
+    const metric = insight?.metric || { name: 'Dato', type: 'weight' as const, change_percent: 0, period_weeks: 0, baseline_value: 0, current_value: 0, unit: '' };
+    const diagnosis = insight?.diagnosis || { trend: 'plateau' as const };
+    const action = insight?.action || { 
+        exercise: '', 
+        type: 'increase_load' as const, 
+        amount: 0, 
+        unit: 'reps' as const, 
+        per: 'workout' as const, 
+        duration_weeks: 0,
+        target_rpe: undefined
+    };
 
     const title = formatInsightTitle(insight?.type as any) || 'Análisis';
     const diagnosisText = formatInsightDiagnosis({ ...insight, diagnosis });

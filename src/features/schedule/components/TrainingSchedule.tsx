@@ -4,6 +4,8 @@ import { CalendarIcon, PlusIcon, EditIcon, TrashIcon } from '@/shared/components
 import { useI18n } from '@/shared/context/i18n';
 import Card from '@/shared/components/ui/Card';
 import Button from '@/shared/components/ui/Button';
+import ConfirmModal from '@/shared/components/ui/ConfirmModal';
+import { useState } from 'react';
 
 interface TrainingScheduleProps {
   sessions: ScheduledSession[];
@@ -14,6 +16,20 @@ interface TrainingScheduleProps {
 
 const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSession, onEditSession, onDeleteSession }) => {
     const { t, language } = useI18n();
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
+
+    const openDeleteConfirm = (id: string) => {
+        setSessionToDelete(id);
+        setDeleteConfirmOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (sessionToDelete) {
+            onDeleteSession(sessionToDelete);
+            setSessionToDelete(null);
+        }
+    };
     
     const sortedSessions = [...sessions].sort((a, b) => {
         const dateA = new Date(`${a.date}T${a.time}`);
@@ -85,7 +101,7 @@ const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSess
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => onDeleteSession(session.id)}
+                                    onClick={() => openDeleteConfirm(session.id)}
                                     title={t('trainingSchedule.deleteSession')}
                                     icon={<TrashIcon className="w-5 h-5 text-red-500" />}
                                     className="hover:text-red-500"
@@ -127,6 +143,15 @@ const TrainingSchedule: React.FC<TrainingScheduleProps> = ({ sessions, onAddSess
                     border-radius: 10px;
                 }
             `}</style>
+
+            <ConfirmModal
+                isOpen={deleteConfirmOpen}
+                onClose={() => setDeleteConfirmOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title={t('modals.confirmDeleteTitle')}
+                message={t('common.confirmDelete')}
+                isDanger={true}
+            />
         </Card>
     );
 };

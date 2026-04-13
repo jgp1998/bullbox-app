@@ -37,6 +37,8 @@
       "usernameTaken": "This username is already taken.",
       "emailTaken": "This email is already registered.",
       "passwordTooShort": "Password must be at least 6 characters.",
+      "passwordWeak": "Password must be at least 8 characters and include uppercase, numbers, and symbols.",
+      "dobInvalid": "Invalid Date of Birth (must be at least 13 years old).",
       "generic": "An unexpected error occurred. Please try again."
     }
   },
@@ -52,16 +54,19 @@
     "addRecord": "Add Record",
     "recordAdded": "{exercise} record added successfully.",
     "exerciseAdded": "Exercise '{exercise}' added successfully!",
+    "advancedOptions": "Advanced Options",
+    "hideAdvanced": "Hide Options",
     "errors": {
       "validTime": "Please enter a valid time.",
       "positiveValue": "Please enter a positive value.",
       "selectExercise": "Please select an exercise.",
       "atLeastOneMetric": "Please add at least one value (Weight, Reps, or Time).",
       "failedToAdd": "Failed to add record. Please try again.",
-      "advancedOptions": "Advanced Options",
-      "hideAdvanced": "Hide Options",
       "advancedToggle": "Advanced Features",
-      "advancedFeatures": "Show/Hide specialized inputs"
+      "advancedFeatures": "Show/Hide specialized inputs",
+      "futureDate": "You cannot log workouts in the future.",
+      "invalidSeconds": "Seconds must be less than 60.",
+      "maxTimeReached": "Maximum time is 999 minutes."
     }
   },
   "weightConverter": {
@@ -96,12 +101,21 @@
   },
   "common": {
     "today": "Today",
-    "or": "Or"
+    "or": "Or",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "confirmDeleteDescription": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "min": "min",
+    "reps": "reps"
   },
   "personalBests": {
     "title": "Personal Bests",
     "viewDetails": "View details for {exercise}",
-    "noPBs": "Crush your limits"
+    "noPBs": "Crush your limits",
+    "noPBsDescription": "Every record starts somewhere. Log your first session today and start your journey to greatness.",
+    "estRM": "1RM est."
   },
   "trainingSchedule": {
     "title": "Training Schedule",
@@ -171,7 +185,9 @@
     "sessionNotes": "Notes (Optional)",
     "sessionNotesPlaceholder": "Focus on form, 5x5 sets...",
     "saveChanges": "Save Changes",
-    "addSession": "Add Session"
+    "addSession": "Add Session",
+    "confirmDeleteTitle": "Confirm Deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete the exercise '{exercise}'? You will not be able to select it for future workouts."
   },
   "aiAssistant": {
     "title": "AI Coach Settings",

@@ -7,6 +7,7 @@ import { useI18n } from '@/shared/context/i18n';
 import Card from '@/shared/components/ui/Card';
 import Button from '@/shared/components/ui/Button';
 import RecordCardSkeleton from './RecordCardSkeleton';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { useUIStore } from '@/shared/store/useUIStore';
 
@@ -17,6 +18,7 @@ interface PersonalBestsProps {
 }
 
 const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
+  const { t } = useI18n();
   const isKg = record.unit === 'kg' || !record.unit;
   const unit = isKg ? 'kg' : 'lbs';
   const otherUnit = isKg ? 'lbs' : 'kg';
@@ -33,7 +35,7 @@ const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
         <span className="text-xs font-black text-(--muted-text) uppercase">{unit}</span>
       </div>
       <p className="text-[10px] font-black text-(--muted-text) uppercase tracking-tighter opacity-80">
-        1RM est. ({convertedRM.toFixed(1)} {otherUnit})
+        {t('personalBests.estRM')} ({convertedRM.toFixed(1)} {otherUnit})
       </p>
     </div>
   );
@@ -41,6 +43,7 @@ const RMDisplay: React.FC<{ record: WorkoutRecord }> = ({ record }) => {
 
 const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading, showAiAnalysis = false }) => {
   const { t } = useI18n();
+  const navigate = useNavigate();
   const { openModal } = useUIStore();
   
   return (
@@ -72,7 +75,7 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading, showA
                                 {record.time ? formatDuration(record.time) : (record.reps || 0)}
                             </span>
                             <span className="text-xs font-black text-(--muted-text) ml-1 uppercase">
-                                {record.time ? 'min' : 'reps'}
+                                {record.time ? t('common.min') : t('common.reps')}
                             </span>
                         </div>
                       </div>
@@ -94,16 +97,17 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading, showA
               <div className="space-y-2">
                 <p className="text-(--text) font-black text-xl uppercase italic tracking-tight">{t('personalBests.noPBs')}</p>
                 <p className="text-(--muted-text) font-medium text-sm max-w-xs mx-auto">
-                  Every record starts somewhere. Log your first session today and begin your journey to greatness.
+                  {t('personalBests.noPBsDescription')}
                 </p>
               </div>
+            <Link to="/entrenar">
               <Button 
                 variant="primary" 
                 className="mt-4 px-8 shadow-xl shadow-(--primary)/20"
-                onClick={() => window.location.hash = '/entrenar'}
               >
                 {t('nav.train')}
               </Button>
+            </Link>
           </div>
         )}
       </div>
