@@ -72,15 +72,15 @@ const Toast: React.FC<ToastProps> = ({
             `}
             role="alert"
         >
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
                 {style.icon}
             </div>
-            <p className="flex-grow text-sm font-bold tracking-tight">
+            <p className="grow text-sm font-bold tracking-tight">
                 {message}
             </p>
             <button 
                 onClick={handleClose}
-                className="flex-shrink-0 p-1 rounded-full hover:bg-black/10 transition-colors"
+                className="shrink-0 p-1 rounded-full hover:bg-black/10 transition-colors"
                 aria-label="Close"
             >
                 <XIcon className="w-4 h-4" />

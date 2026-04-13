@@ -80,8 +80,8 @@ describe('LoginScreen', () => {
         fireEvent.change(screen.getByLabelText('login.username'), { target: { value: 'newuser' } });
         fireEvent.change(screen.getByLabelText('login.email'), { target: { value: 'new@example.com' } });
         fireEvent.change(screen.getByLabelText('login.dob'), { target: { value: '2000-01-01' } });
-        fireEvent.change(screen.getByLabelText('login.password'), { target: { value: 'password123' } });
-        fireEvent.change(screen.getByLabelText('login.confirmPassword'), { target: { value: 'password123' } });
+        fireEvent.change(screen.getByLabelText('login.password'), { target: { value: 'Password123!' } });
+        fireEvent.change(screen.getByLabelText('login.confirmPassword'), { target: { value: 'Password123!' } });
         
         fireEvent.click(screen.getByText('login.registerButton'));
         
@@ -99,8 +99,8 @@ describe('LoginScreen', () => {
         fireEvent.change(screen.getByLabelText('login.username'), { target: { value: 'newuser' } });
         fireEvent.change(screen.getByLabelText('login.email'), { target: { value: 'new@example.com' } });
         fireEvent.change(screen.getByLabelText('login.dob'), { target: { value: '2000-01-01' } });
-        fireEvent.change(screen.getByLabelText('login.password'), { target: { value: 'password123' } });
-        fireEvent.change(screen.getByLabelText('login.confirmPassword'), { target: { value: 'password123' } });
+        fireEvent.change(screen.getByLabelText('login.password'), { target: { value: 'Password123!' } });
+        fireEvent.change(screen.getByLabelText('login.confirmPassword'), { target: { value: 'Password123!' } });
         
         fireEvent.click(screen.getByText('login.registerButton'));
         

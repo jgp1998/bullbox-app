@@ -58,7 +58,36 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
     const numTime = (mins * 60) + secs;
     const numBarWeight = parseFloat(barWeight) || 0;
 
-    // Validate that at least one metric is provided
+    // 1. Date Validation (No future dates)
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate > today) {
+      setError(t('workoutForm.errors.futureDate'));
+      return;
+    }
+
+    // 2. Seconds Validation
+    if (secs >= 60) {
+      setError(t('workoutForm.errors.invalidSeconds'));
+      return;
+    }
+
+    // 3. Max Time Validation
+    if (mins > 999) {
+      setError(t('workoutForm.errors.maxTimeReached'));
+      return;
+    }
+
+    // 4. Positive Values Validation
+    if ((!isNaN(numWeight) && numWeight < 0) || 
+        (!isNaN(numReps) && numReps < 0) || 
+        (numBarWeight < 0)) {
+      setError(t('workoutForm.errors.positiveValue')); 
+      return;
+    }
+
+    // 5. Metric Selection Validation
     if (isNaN(numWeight) && isNaN(numReps) && numTime === 0) {
       setError(t('workoutForm.errors.atLeastOneMetric'));
       return;
@@ -253,8 +282,8 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
         )}
         
         {error && (
-          <div className="p-3 bg-red-500 bg-opacity-10 border border-red-500 border-opacity-20 rounded-xl animate-shake">
-            <p className="text-xs text-red-500 font-bold text-center uppercase tracking-tight">{error}</p>
+          <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl animate-shake">
+            <p className="text-xs text-red-300 font-bold text-center uppercase tracking-tight">{error}</p>
           </div>
         )}
         

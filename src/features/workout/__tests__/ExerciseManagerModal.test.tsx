@@ -10,6 +10,21 @@ vi.mock("@/shared/context/i18n", () => ({
 }));
 
 // Mock UI components
+vi.mock("@/shared/components/ui/ConfirmModal", () => ({
+  default: ({ isOpen, onConfirm, onClose, title }: any) =>
+    isOpen ? (
+      <div data-testid="confirm-modal">
+        <h3>{title}</h3>
+        <button data-testid="confirm-button" onClick={onConfirm}>
+          Confirm
+        </button>
+        <button data-testid="cancel-button" onClick={onClose}>
+          Cancel
+        </button>
+      </div>
+    ) : null,
+}));
+
 vi.mock("@/shared/components/ui/Modal", () => ({
   default: ({ children, title, isOpen, onClose }: any) =>
     isOpen ? (
@@ -168,6 +183,9 @@ describe("ExerciseManagerModal", () => {
 
     const deleteButtons = screen.getAllByTitle(/modals\.deleteExercise/);
     fireEvent.click(deleteButtons[0]);
+
+    const confirmButton = screen.getByTestId("confirm-button");
+    fireEvent.click(confirmButton);
 
     expect(mockOnDeleteExercise).toHaveBeenCalledWith("Squat");
   });

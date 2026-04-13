@@ -5,6 +5,7 @@ import { useToast } from '@/shared/context/ToastContext';
 import Modal from '@/shared/components/ui/Modal';
 import Input from '@/shared/components/ui/Input';
 import Button from '@/shared/components/ui/Button';
+import ConfirmModal from '@/shared/components/ui/ConfirmModal';
 
 interface ExerciseManagerModalProps {
   isOpen: boolean;
@@ -19,6 +20,9 @@ const ExerciseManagerModal: React.FC<ExerciseManagerModalProps> = ({ isOpen, onC
   const { showSuccess } = useToast();
   const [newExercise, setNewExercise] = useState('');
   const [error, setError] = useState('');
+  
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [exerciseToDelete, setExerciseToDelete] = useState('');
 
   const handleAdd = () => {
     setError('');
@@ -35,72 +39,95 @@ const ExerciseManagerModal: React.FC<ExerciseManagerModalProps> = ({ isOpen, onC
     setNewExercise('');
   };
 
+  const openDeleteConfirm = (ex: string) => {
+    setExerciseToDelete(ex);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (exerciseToDelete) {
+        onDeleteExercise(exerciseToDelete);
+        setExerciseToDelete('');
+    }
+  };
+
   return (
-    <Modal 
-        isOpen={isOpen} 
-        onClose={onClose} 
-        title={t('modals.manageExercises')}
-        size="md"
-    >
-        <div className="space-y-6">
-            <div className="flex items-end space-x-2">
-                <div className="flex-grow">
-                    <Input
-                        label={t('workoutForm.exercise')} // Reusing label
-                        type="text"
-                        value={newExercise}
-                        onChange={(e) => setNewExercise(e.target.value)}
-                        placeholder={t('modals.addExercisePlaceholder')}
+    <>
+        <Modal 
+            isOpen={isOpen} 
+            onClose={onClose} 
+            title={t('modals.manageExercises')}
+            size="md"
+        >
+            <div className="space-y-6">
+                <div className="flex items-end space-x-2">
+                    <div className="grow">
+                        <Input
+                            label={t('workoutForm.exercise')} // Reusing label
+                            type="text"
+                            value={newExercise}
+                            onChange={(e) => setNewExercise(e.target.value)}
+                            placeholder={t('modals.addExercisePlaceholder')}
+                        />
+                    </div>
+                    <Button
+                        onClick={handleAdd}
+                        size="icon"
+                        aria-label={t('modals.addNewExercise')}
+                        icon={<PlusIcon className="w-6 h-6" />}
                     />
                 </div>
-                <Button
-                    onClick={handleAdd}
-                    size="icon"
-                    aria-label={t('modals.addNewExercise')}
-                    icon={<PlusIcon className="w-6 h-6" />}
-                />
-            </div>
-            
-            {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
-            
-            <div className="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
-                {exercises.length > 0 ? (
-                    exercises.map(ex => (
-                        <div key={ex} className="flex items-center justify-between bg-[var(--input)] p-3 rounded-lg border border-transparent hover:border-[var(--border)] transition-all">
-                            <span className="text-[var(--text)] font-medium">{ex}</span>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => onDeleteExercise(ex)}
-                                title={t('modals.deleteExercise', { exercise: ex })}
-                                icon={<TrashIcon className="w-5 h-5 text-red-500" />}
-                                className="hover:text-red-500"
-                            />
+                
+                {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
+                
+                <div className="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+                    {exercises.length > 0 ? (
+                        exercises.map(ex => (
+                            <div key={ex} className="flex items-center justify-between bg-(--input) p-3 rounded-lg border border-transparent hover:border-(--border) transition-all">
+                                <span className="text-(--text) font-medium">{ex}</span>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => openDeleteConfirm(ex)}
+                                    title={t('modals.deleteExercise', { exercise: ex })}
+                                    icon={<TrashIcon className="w-5 h-5 text-red-500" />}
+                                    className="hover:text-red-500"
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center py-8">
+                            <p className="text-(--muted-text)">{t('modals.noExercises')}</p>
                         </div>
-                    ))
-                ) : (
-                    <div className="text-center py-8">
-                        <p className="text-[var(--muted-text)]">{t('modals.noExercises')}</p>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-        </div>
-        
-        <style>{`
-            .custom-scrollbar::-webkit-scrollbar {
-                width: 4px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-                background: transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-                background: var(--border);
-                border-radius: 10px;
-            }
-        `}</style>
-    </Modal>
+            
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: var(--border);
+                    border-radius: 10px;
+                }
+            `}</style>
+        </Modal>
+
+        <ConfirmModal
+            isOpen={deleteConfirmOpen}
+            onClose={() => setDeleteConfirmOpen(false)}
+            onConfirm={handleConfirmDelete}
+            title={t('modals.confirmDeleteTitle')}
+            message={t('modals.confirmDeleteMessage', { exercise: exerciseToDelete })}
+            confirmText={t('common.delete')}
+            isDanger={true}
+        />
+    </>
   );
 };
 
 export default ExerciseManagerModal;
-

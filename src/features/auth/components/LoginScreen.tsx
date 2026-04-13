@@ -79,11 +79,34 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       return;
     }
 
-    if (password.length < 6) {
-      setError(
-        t("login.errors.passwordTooShort") ||
-          "Password must be at least 6 characters",
-      );
+    // Strong password: 8+ chars, uppercase, digit, symbol
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\;:'",.<>?/]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setError(t("login.errors.passwordWeak"));
+      return;
+    }
+
+    // Minimum Age Validation (13 years)
+    if (!dob) {
+      setError(t("login.errors.dobInvalid"));
+      return;
+    }
+    const birthDate = new Date(dob);
+    const today = new Date();
+    
+    // Prevent future DOB
+    if (birthDate > today) {
+      setError(t("login.errors.dobInvalid"));
+      return;
+    }
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    if (isNaN(age) || age < 13 || age > 120) {
+      setError(t("login.errors.dobInvalid"));
       return;
     }
 
@@ -194,7 +217,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               {error && (
                 <p 
                   data-testid="login-error"
-                  className="text-sm text-red-500 text-center"
+                  className="text-sm text-red-400 text-center"
                 >
                   {error}
                 </p>
@@ -235,7 +258,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               {error && (
                 <p 
                   data-testid="login-error"
-                  className="text-sm text-red-500 text-center"
+                  className="text-sm text-red-400 text-center"
                 >
                   {error}
                 </p>

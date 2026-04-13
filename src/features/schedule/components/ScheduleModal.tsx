@@ -4,6 +4,7 @@ import { useI18n } from '@/shared/context/i18n';
 import Modal from '@/shared/components/ui/Modal';
 import Input from '@/shared/components/ui/Input';
 import Button from '@/shared/components/ui/Button';
+import Alert from '@/shared/components/ui/Alert';
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -109,7 +110,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ isOpen, onClose, onAddSes
             data-testid="schedule-notes-input"
           />
 
-          {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
+          {error && <Alert variant="error" message={error} data-testid="alert" />}
           
           <Button
             type="submit"
