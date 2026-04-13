@@ -39,6 +39,8 @@
       "passwordTooShort": "Password must be at least 6 characters.",
       "passwordWeak": "Password must be at least 8 characters and include uppercase, numbers, and symbols.",
       "dobInvalid": "Invalid Date of Birth (must be at least 13 years old).",
+      "userNotFound": "No account found associated with this email address.",
+      "invalidEmail": "The email format is invalid.",
       "generic": "An unexpected error occurred. Please try again."
     }
   },
@@ -176,6 +178,7 @@
     "emailPlaceholder": "you@example.com",
     "sendResetLink": "Send Reset Link",
     "resetSubmitted": "If an account with that email exists, we've sent a password reset link.",
+    "checkSpam": "If you don't receive the email in a few minutes, please check your junk or spam folder.",
     "editSession": "Edit Session",
     "scheduleSession": "Schedule Session",
     "sessionTitle": "Title",
