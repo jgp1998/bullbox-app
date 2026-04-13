@@ -37,6 +37,10 @@
       "usernameTaken": "Este nombre de usuario ya está en uso.",
       "emailTaken": "Este correo electrónico ya está registrado.",
       "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+      "passwordWeak": "La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, números y símbolos.",
+      "dobInvalid": "Fecha de nacimiento inválida (debes ser mayor de 13 años).",
+      "userNotFound": "No existe ninguna cuenta asociada a este correo electrónico.",
+      "invalidEmail": "El formato del correo electrónico no es válido.",
       "generic": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
     }
   },
@@ -52,16 +56,19 @@
     "addRecord": "Añadir Registro",
     "recordAdded": "Registro de {exercise} añadido exitosamente.",
     "exerciseAdded": "¡Ejercicio '{exercise}' añadido exitosamente!",
+    "advancedOptions": "Opciones Avanzadas",
+    "hideAdvanced": "Ocultar Opciones",
     "errors": {
       "validTime": "Por favor, introduce un tiempo válido.",
       "positiveValue": "Por favor, introduce un valor positivo.",
       "selectExercise": "Por favor, selecciona un ejercicio.",
       "atLeastOneMetric": "Por favor, añade al menos un valor (Peso, Reps o Tiempo).",
       "failedToAdd": "No se pudo añadir el registro. Inténtalo de nuevo.",
-      "advancedOptions": "Opciones Avanzadas",
-      "hideAdvanced": "Ocultar Opciones",
       "advancedToggle": "Funciones Avanzadas",
-      "advancedFeatures": "Mostrar/Ocultar campos especializados"
+      "advancedFeatures": "Mostrar/Ocultar campos especializados",
+      "futureDate": "No puedes registrar entrenamientos en el futuro.",
+      "invalidSeconds": "Los segundos deben ser menores a 60.",
+      "maxTimeReached": "El tiempo máximo es de 999 minutos."
     }
   },
   "weightConverter": {
@@ -96,12 +103,21 @@
   },
   "common": {
     "today": "Hoy",
-    "or": "O"
+    "or": "O",
+    "confirmDelete": "¿Estás seguro de que quieres eliminar este elemento?",
+    "confirmDeleteDescription": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "min": "min",
+    "reps": "reps"
   },
   "personalBests": {
     "title": "Récords Personales",
     "viewDetails": "Ver detalles de {exercise}",
-    "noPBs": "Supera tus límites"
+    "noPBs": "Supera tus límites",
+    "noPBsDescription": "Cada récord comienza en algún lugar. Registra tu primera sesión hoy y comienza tu viaje hacia la grandeza.",
+    "estRM": "1RM est."
   },
   "trainingSchedule": {
     "title": "Agenda de Entrenamiento",
@@ -162,6 +178,7 @@
     "emailPlaceholder": "tu@ejemplo.com",
     "sendResetLink": "Enviar Enlace",
     "resetSubmitted": "Si existe una cuenta con ese email, hemos enviado un enlace para restablecer la contraseña.",
+    "checkSpam": "Si no recibes el correo en unos minutos, por favor revisa tu carpeta de correo no deseado o spam.",
     "editSession": "Editar Sesión",
     "scheduleSession": "Agendar Sesión",
     "sessionTitle": "Título",
@@ -171,7 +188,9 @@
     "sessionNotes": "Notas (Opcional)",
     "sessionNotesPlaceholder": "Enfocarse en la técnica, series 5x5...",
     "saveChanges": "Guardar Cambios",
-    "addSession": "Añadir Sesión"
+    "addSession": "Añadir Sesión",
+    "confirmDeleteTitle": "Confirmar Eliminación",
+    "confirmDeleteMessage": "¿Estás seguro de que quieres eliminar el ejercicio '{exercise}'? No podrás seleccionarlo en futuros entrenamientos."
   },
   "aiAssistant": {
     "title": "Configuración de IA coach",

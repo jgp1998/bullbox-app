@@ -10,6 +10,8 @@ import Card from '@/shared/components/ui/Card';
 import Button from '@/shared/components/ui/Button';
 import Input from '@/shared/components/ui/Input';
 import { useHistory } from '../hooks/useHistory';
+import ConfirmModal from '@/shared/components/ui/ConfirmModal';
+import { useState } from 'react';
 
 interface WorkoutHistoryProps {
     theme: Theme;
@@ -32,6 +34,21 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme, showAiAnalysis =
         handleDeleteRecord,
         handleCloseAnalysis
     } = useHistory();
+
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [recordToDelete, setRecordToDelete] = useState<string | null>(null);
+
+    const openDeleteConfirm = (id: string) => {
+        setRecordToDelete(id);
+        setDeleteConfirmOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (recordToDelete) {
+            handleDeleteRecord(recordToDelete);
+            setRecordToDelete(null);
+        }
+    };
 
     return (
         <Card title={t('workoutHistory.title')}>
@@ -83,7 +100,7 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme, showAiAnalysis =
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    onClick={() => handleDeleteRecord(record.id)}
+                                    onClick={() => openDeleteConfirm(record.id)}
                                     title={t('workoutHistory.deleteRecord')}
                                     icon={<TrashIcon className="w-5 h-5 text-red-500" />}
                                     className="hover:text-red-500"
@@ -107,6 +124,15 @@ const WorkoutHistory: React.FC<WorkoutHistoryProps> = ({ theme, showAiAnalysis =
                     error={error}
                 />
             )}
+
+            <ConfirmModal
+                isOpen={deleteConfirmOpen}
+                onClose={() => setDeleteConfirmOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title={t('modals.confirmDeleteTitle')}
+                message={t('common.confirmDelete')}
+                isDanger={true}
+            />
             
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
