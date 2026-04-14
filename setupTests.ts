@@ -3,11 +3,13 @@ import { vi } from 'vitest';
 
 // Mock Firebase
 vi.mock('firebase/app', () => ({
-  initializeApp: vi.fn(),
+  initializeApp: vi.fn(() => ({ name: '[DEFAULT]' })),
+  getApp: vi.fn(),
+  getApps: vi.fn(() => []),
 }));
 
 vi.mock('firebase/auth', () => ({
-  getAuth: vi.fn(),
+  getAuth: vi.fn(() => ({})),
   signInWithEmailAndPassword: vi.fn(),
   signOut: vi.fn(),
   createUserWithEmailAndPassword: vi.fn(),
@@ -20,7 +22,23 @@ vi.mock('firebase/firestore', () => ({
   doc: vi.fn(),
   getDoc: vi.fn(),
   setDoc: vi.fn(),
+  collection: vi.fn(),
+  query: vi.fn(),
+  where: vi.fn(),
+  onSnapshot: vi.fn(),
 }));
+
+vi.mock('firebase/functions', () => ({
+  getFunctions: vi.fn(),
+  httpsCallable: vi.fn(),
+  connectFunctionsEmulator: vi.fn(),
+}));
+
+vi.mock('firebase/analytics', () => ({
+  getAnalytics: vi.fn(),
+  isSupported: vi.fn().mockResolvedValue(false),
+}));
+
 
 // Mock @services/firebase
 vi.mock('@/services/firebase', () => ({

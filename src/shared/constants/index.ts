@@ -33,15 +33,15 @@ export const themes: Theme[] = [
   {
     name: "Bullbox",
     colors: {
-      "--background": "#023047",
-      "--card": "#023e5a",
-      "--input": "#035378",
+      "--background": "#000000",
+      "--card": "#0a0a0a",
+      "--input": "#141414",
       "--text": "#ffffff",
-      "--muted-text": "#b3cde0",
-      "--primary": "#fb8500",
-      "--secondary": "#219ebc",
-      "--accent": "#8ecae6",
-      "--border": "#035e87",
+      "--muted-text": "#a0a0a0",
+      "--primary": "#FF9D13",
+      "--secondary": "#9F5B09",
+      "--accent": "#FF9D13",
+      "--border": "#222222",
     },
   },
 ];
