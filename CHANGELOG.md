@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/jgp1998/bullbox-app/compare/v1.7.0...v1.8.0) (2026-04-14)
+
+
+### Features
+
+* added feedback page ([86494cc](https://github.com/jgp1998/bullbox-app/commit/86494ccc3dc5af3a64d605708afff5e4be591db3))
+
 ## [1.7.0](https://github.com/jgp1998/bullbox-app/compare/v1.6.0...v1.7.0) (2026-04-13)
 
 
