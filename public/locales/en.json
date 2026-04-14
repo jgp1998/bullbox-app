@@ -11,7 +11,8 @@
     "history": "History",
     "records": "Records",
     "converter": "Converter",
-    "calculator": "Calculator"
+    "calculator": "Calculator",
+    "feedback": "Feedback"
   },
   "login": {
     "tagline": "Log your lifts. Smash your PRs.",
@@ -110,7 +111,8 @@
     "confirm": "Confirm",
     "delete": "Delete",
     "min": "min",
-    "reps": "reps"
+    "reps": "reps",
+    "back": "Back"
   },
   "personalBests": {
     "title": "Personal Bests",
@@ -226,5 +228,41 @@
     "loadingFromCache": "Loading from local memory...",
     "downloadingFromNetwork": "Downloading model weights...",
     "storagePersisted": "Permanent storage enabled"
+  },
+  "feedback": {
+    "navButton": "Feedback",
+    "badge": "Feedback Loop",
+    "modalTitle": "Give Feedback",
+    "modalDescription": "Have an idea to improve BULLBOX? Found a bug? Let us know so we can keep building the best tool for your PRs.",
+    "category": "Category",
+    "categories": {
+      "bug": "Bug",
+      "improvement": "Improvement",
+      "compliment": "Compliment",
+      "other": "Other"
+    },
+    "messageLabel": "Your message",
+    "placeholder": "Tell Coach Bull what's on your mind...",
+    "submit": "Submit to Coach",
+    "successTitle": "Received!",
+    "successMessage": "Your feedback has been sent successfully. Thanks for helping us improve!",
+    "errorSending": "Failed to send feedback. Please try again.",
+    "pageTitle": "Your voice matters",
+    "pageSubtitle": "Help us evolve Bullbox. Your ideas are the engine of our training.",
+    "sidebarTitle": "What are we looking for?",
+    "sidebarItems": {
+      "features": {
+        "title": "New Features",
+        "desc": "What tool are you missing to smash your records?"
+      },
+      "bugs": {
+        "title": "Bugs / Errors",
+        "desc": "If something isn't working right, tell us where and when it happened."
+      },
+      "ux": {
+        "title": "UX Improvements",
+        "desc": "Is any part of the app feeling slow or difficult to use?"
+      }
+    }
   }
 }
