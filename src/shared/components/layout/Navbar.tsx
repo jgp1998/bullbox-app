@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
   if (!user) return null;
 
   const navLinks = [
-    { path: "/", label: "Dashboard", icon: LayoutDashboard },
+    { path: "/", label: t("nav.dashboard") || "Dashboard", icon: LayoutDashboard },
     {
       path: "/entrenar",
       label: t("nav.train") || "Entrenar",
