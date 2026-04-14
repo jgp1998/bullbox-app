@@ -11,7 +11,8 @@
     "history": "Historial",
     "records": "Marcas",
     "converter": "Conversor",
-    "calculator": "Calculadora"
+    "calculator": "Calculadora",
+    "feedback": "Feedback"
   },
   "login": {
     "tagline": "Registra tus levantamientos. Rompe tus récords.",
@@ -110,7 +111,8 @@
     "confirm": "Confirmar",
     "delete": "Eliminar",
     "min": "min",
-    "reps": "reps"
+    "reps": "reps",
+    "back": "Volver"
   },
   "personalBests": {
     "title": "Récords Personales",
@@ -226,5 +228,41 @@
     "loadingFromCache": "Cargando desde la memoria local...",
     "downloadingFromNetwork": "Descargando modelo (solo la primera vez)...",
     "storagePersisted": "Almacenamiento permanente activado"
+  },
+  "feedback": {
+    "navButton": "Feedback",
+    "badge": "Feedback Loop",
+    "modalTitle": "Darnos Feedback",
+    "modalDescription": "¿Tienes alguna idea para mejorar BULLBOX? ¿Has encontrado un error? Cuéntanoslo para seguir construyendo la mejor herramienta para tus récords.",
+    "category": "Categoría",
+    "categories": {
+      "bug": "Error",
+      "improvement": "Mejora",
+      "compliment": "Elogio",
+      "other": "Otro"
+    },
+    "messageLabel": "Tu mensaje",
+    "placeholder": "Cuéntale al Coach Bull qué tienes en mente...",
+    "submit": "Enviar al Coach",
+    "successTitle": "¡Recibido!",
+    "successMessage": "Tu feedback ha sido enviado exitosamente. ¡Gracias por ayudarnos a mejorar!",
+    "errorSending": "No se pudo enviar el feedback. Por favor, inténtalo de nuevo.",
+    "pageTitle": "Tu voz cuenta",
+    "pageSubtitle": "Ayúdanos a evolucionar Bullbox. Tus ideas son el motor de nuestro entrenamiento.",
+    "sidebarTitle": "¿Qué buscamos?",
+    "sidebarItems": {
+      "features": {
+        "title": "Nuevas funciones",
+        "desc": "¿Qué herramienta te falta para reventar tus récords?"
+      },
+      "bugs": {
+        "title": "Errores / Bugs",
+        "desc": "Si algo no va fino, dinos dónde y cuándo ocurrió."
+      },
+      "ux": {
+        "title": "Mejoras de UX",
+        "desc": "¿Alguna parte de la app se te hace pesada o difícil?"
+      }
+    }
   }
 }

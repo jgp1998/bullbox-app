@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { 
-  Menu, 
-  X, 
-  LayoutDashboard, 
-  PlusCircle, 
-  History, 
-  Trophy, 
-  Scale, 
-  Calculator, 
-  LogOut, 
+import {
+  Menu,
+  X,
+  LayoutDashboard,
+  PlusCircle,
+  History,
+  Trophy,
+  Scale,
+  Calculator,
   User,
-  Settings
+  Settings,
+  MessageSquare,
+  LogOut,
 } from "lucide-react";
 import { themes } from "@/shared/constants";
 import { useI18n } from "@/shared/context/i18n";
@@ -24,7 +25,8 @@ import { BullboxLogo } from "@/shared/components/ui/Icons";
 const Navbar: React.FC = () => {
   const location = useLocation();
   const { t, language, setLanguage } = useI18n();
-  const { theme, setTheme, isMobileMenuOpen, setIsMobileMenuOpen } = useUIStore();
+  const { theme, setTheme, isMobileMenuOpen, setIsMobileMenuOpen, openModal } =
+    useUIStore();
   const { user, logout, isLoading } = useAuthStore();
 
   // Close mobile menu on route change
@@ -36,15 +38,31 @@ const Navbar: React.FC = () => {
 
   const navLinks = [
     { path: "/", label: "Dashboard", icon: LayoutDashboard },
-    { path: "/entrenar", label: t('nav.train') || "Entrenar", icon: PlusCircle },
-    { path: "/historial", label: t('nav.history') || "Historial", icon: History },
-    { path: "/marcas", label: t('nav.records') || "Marcas", icon: Trophy },
-    { path: "/conversor", label: t('nav.converter') || "Conversor", icon: Scale },
-    { path: "/calculadora", label: t('nav.calculator') || "Calculadora", icon: Calculator },
+    {
+      path: "/entrenar",
+      label: t("nav.train") || "Entrenar",
+      icon: PlusCircle,
+    },
+    {
+      path: "/historial",
+      label: t("nav.history") || "Historial",
+      icon: History,
+    },
+    { path: "/marcas", label: t("nav.records") || "Marcas", icon: Trophy },
+    {
+      path: "/conversor",
+      label: t("nav.converter") || "Conversor",
+      icon: Scale,
+    },
+    {
+      path: "/calculadora",
+      label: t("nav.calculator") || "Calculadora",
+      icon: Calculator,
+    },
   ];
 
   const isActive = (path: string) => location.pathname === path;
-  const currentLink = navLinks.find(link => isActive(link.path));
+  const currentLink = navLinks.find((link) => isActive(link.path));
 
   return (
     <>
@@ -55,17 +73,19 @@ const Navbar: React.FC = () => {
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-3 group">
                 <BullboxLogo className="w-10 h-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-lg shadow-(--primary)/20" />
-                <h1 
+                <h1
                   data-testid="header-logo"
                   className="text-xl sm:text-2xl font-black text-(--primary) tracking-tighter uppercase italic drop-shadow-sm select-none"
                 >
                   BULL<span className="text-(--text)">BOX</span>
                 </h1>
               </Link>
-              
-              {currentLink && currentLink.path !== '/' && (
+
+              {currentLink && currentLink.path !== "/" && (
                 <div className="flex items-center space-x-2 ml-2 sm:ml-4">
-                  <span className="text-(--muted-text) opacity-30 font-black">/</span>
+                  <span className="text-(--muted-text) opacity-30 font-black">
+                    /
+                  </span>
                   <span className="text-sm sm:text-base font-black text-(--text) uppercase tracking-tighter truncate max-w-[120px] sm:max-w-none">
                     {currentLink.label}
                   </span>
@@ -97,30 +117,46 @@ const Navbar: React.FC = () => {
             {/* Desktop Controls */}
             <div className="hidden lg:flex items-center space-x-3 ml-4">
               <div className="flex items-center space-x-2 bg-(--input) px-2 py-1 rounded-2xl border border-(--border)">
-                  <Input 
-                      id="lang-desktop"
-                      type="select"
-                      value={language}
-                      onChange={(e) => setLanguage(e.target.value as 'en' | 'es')}
-                      options={[
-                          { value: 'en', label: 'EN' },
-                          { value: 'es', label: 'ES' }
-                      ]}
-                      className="w-16 h-8 text-xs border-none bg-transparent"
-                  />
-                  <Input 
-                      id="theme-desktop"
-                      type="select"
-                      value={theme.name}
-                      onChange={(e) => {
-                          const newTheme = themes.find(t => t.name === e.target.value);
-                          if (newTheme) setTheme(newTheme);
-                      }}
-                      options={themes.map(t => ({ value: t.name, label: t.name.toUpperCase() }))}
-                      className="w-24 h-8 text-xs border-none bg-transparent"
-                  />
+                <Input
+                  id="lang-desktop"
+                  type="select"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value as "en" | "es")}
+                  options={[
+                    { value: "en", label: "EN" },
+                    { value: "es", label: "ES" },
+                  ]}
+                  className="w-16 h-8 text-xs border-none bg-transparent"
+                />
+                <Input
+                  id="theme-desktop"
+                  type="select"
+                  value={theme.name}
+                  onChange={(e) => {
+                    const newTheme = themes.find(
+                      (t) => t.name === e.target.value,
+                    );
+                    if (newTheme) setTheme(newTheme);
+                  }}
+                  options={themes.map((t) => ({
+                    value: t.name,
+                    label: t.name.toUpperCase(),
+                  }))}
+                  className="w-24 h-8 text-xs border-none bg-transparent"
+                />
               </div>
-              
+
+              <Link to="/feedback">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-xl border-(--border) hover:bg-(--primary)/10 hover:text-(--primary) hover:border-(--primary)/50"
+                  title={t("feedback.navButton") || "Feedback"}
+                >
+                  <MessageSquare className="w-4 h-4" />
+                </Button>
+              </Link>
+
               <Button
                 onClick={() => logout()}
                 data-testid="logout-button"
@@ -139,7 +175,11 @@ const Navbar: React.FC = () => {
                 className="p-2 rounded-xl text-(--text) hover:bg-(--input) transition-colors"
                 aria-label="Toggle menu"
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
               </button>
             </div>
           </div>
@@ -149,25 +189,29 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu Overlay & Drawer - Now outside nav to fix stacking and filters */}
       <div className="lg:hidden">
         {/* Backdrop */}
-        <div 
+        <div
           className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 z-100 ${
-            isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          }`} 
+            isMobileMenuOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
           onClick={() => setIsMobileMenuOpen(false)}
         />
-        
+
         {/* Drawer */}
-        <div 
+        <div
           className={`fixed right-0 top-0 h-full w-4/5 max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col p-6 z-110 transform transition-transform duration-300 ease-out border-l border-(--border) ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
-          style={{ 
-            backgroundColor: theme.colors['--background'] || '#1a1a1a',
-            opacity: 1 
+          style={{
+            backgroundColor: theme.colors["--background"] || "#1a1a1a",
+            opacity: 1,
           }}
         >
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-xl font-black text-(--text) tracking-tighter italic">MENU</h2>
+            <h2 className="text-xl font-black text-(--text) tracking-tighter italic">
+              MENU
+            </h2>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 rounded-xl bg-(--input) text-(--text) hover:bg-(--primary) hover:text-white transition-colors"
@@ -189,43 +233,65 @@ const Navbar: React.FC = () => {
                       : "text-(--muted-text) hover:bg-(--input) hover:text-(--text) hover:translate-x-1"
                   }`}
                 >
-                  <div className={`p-2 rounded-lg mr-4 ${isActive(link.path) ? "bg-white/20" : "bg-(--input)"}`}>
+                  <div
+                    className={`p-2 rounded-lg mr-4 ${isActive(link.path) ? "bg-white/20" : "bg-(--input)"}`}
+                  >
                     <Icon className="w-5 h-5" />
                   </div>
                   {link.label}
                 </Link>
               );
             })}
+
+            <Link
+              to="/feedback"
+              className="w-full flex items-center p-4 rounded-2xl text-base font-bold text-(--muted-text) hover:bg-(--input) hover:text-(--text) transition-all duration-200 hover:translate-x-1"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <div className="p-2 rounded-lg mr-4 bg-(--input)">
+                <MessageSquare className="w-5 h-5" />
+              </div>
+              {t("feedback.navButton") || "Feedback"}
+            </Link>
           </div>
 
           <div className="mt-auto space-y-6 pt-6 border-t border-(--border)">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-[11px] font-bold text-(--muted-text) uppercase tracking-wider ml-1">Idioma</label>
-                <Input 
-                    id="lang-mobile"
-                    type="select"
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value as 'en' | 'es')}
-                    options={[
-                        { value: 'en', label: 'English' },
-                        { value: 'es', label: 'Español' }
-                    ]}
-                    className="h-12 text-sm rounded-2xl bg-(--input) border-none font-bold"
+                <label className="text-[11px] font-bold text-(--muted-text) uppercase tracking-wider ml-1">
+                  Idioma
+                </label>
+                <Input
+                  id="lang-mobile"
+                  type="select"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value as "en" | "es")}
+                  options={[
+                    { value: "en", label: "English" },
+                    { value: "es", label: "Español" },
+                  ]}
+                  className="h-12 text-sm rounded-2xl bg-(--input) border-none font-bold"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-bold text-(--muted-text) uppercase tracking-wider ml-1">Tema</label>
-                <Input 
-                    id="theme-mobile"
-                    type="select"
-                    value={theme.name}
-                    onChange={(e) => {
-                        const newTheme = themes.find(t => t.name === e.target.value);
-                        if (newTheme) setTheme(newTheme);
-                    }}
-                    options={themes.map(t => ({ value: t.name, label: t.name.split(' ')[0] }))}
-                    className="h-12 text-sm rounded-2xl bg-(--input) border-none font-bold"
+                <label className="text-[11px] font-bold text-(--muted-text) uppercase tracking-wider ml-1">
+                  Tema
+                </label>
+                <Input
+                  id="theme-mobile"
+                  type="select"
+                  value={theme.name}
+                  onChange={(e) => {
+                    const newTheme = themes.find(
+                      (t) => t.name === e.target.value,
+                    );
+                    if (newTheme) setTheme(newTheme);
+                  }}
+                  options={themes.map((t) => ({
+                    value: t.name,
+                    label: t.name.split(" ")[0],
+                  }))}
+                  className="h-12 text-sm rounded-2xl bg-(--input) border-none font-bold"
                 />
               </div>
             </div>
@@ -237,7 +303,7 @@ const Navbar: React.FC = () => {
               className="w-full flex items-center justify-center py-5 rounded-2xl font-black bg-red-500 hover:bg-red-600 border-none shadow-xl shadow-red-500/30 text-white uppercase tracking-wider italic animate-in"
             >
               <LogOut className="w-5 h-5 mr-3" />
-              {t('header.logout') || "Cerrar Sesión"}
+              {t("header.logout") || "Cerrar Sesión"}
             </Button>
           </div>
         </div>

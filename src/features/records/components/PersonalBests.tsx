@@ -47,11 +47,10 @@ const PersonalBests: React.FC<PersonalBestsProps> = ({ records, isLoading, showA
   const { openModal } = useUIStore();
   
   return (
-    <Card title={t('personalBests.title')}>
-      <div className="flex items-center mb-6">
-         <TrophyIcon className="w-6 h-6 mr-2 text-yellow-500" />
-         <h3 className="text-xl font-bold text-(--text)">{t('personalBests.title')}</h3>
-      </div>
+    <Card 
+      title={t('personalBests.title')}
+      icon={<TrophyIcon className="w-6 h-6 text-yellow-500" />}
+    >
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {isLoading ? (
