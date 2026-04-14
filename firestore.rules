@@ -11,6 +11,11 @@ service cloud.firestore {
       }
     }
     
+    // Feedback: authenticated users can submit feedback
+    match /feedback/{feedbackId} {
+      allow create: if request.auth != null;
+    }
+    
     // Denegar el acceso a cualquier otra cosa por defecto
     match /{document=**} {
       allow read, write: if false;

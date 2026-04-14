@@ -78,8 +78,12 @@ describe("Navbar", () => {
     expect(logoHeading).toBeInTheDocument();
     
     // Look for links - at least one should be Dashboard
-    const dashboardLinks = screen.getAllByRole("link").filter(l => l.textContent?.includes("Dashboard"));
+    const dashboardLinks = screen.getAllByRole("link").filter(l => l.textContent?.includes("nav.dashboard"));
     expect(dashboardLinks.length).toBeGreaterThanOrEqual(1);
+
+    // Look for Feedback link
+    const feedbackLinks = screen.getAllByRole("link").filter(l => l.textContent?.includes("feedback.navButton"));
+    expect(feedbackLinks.length).toBeGreaterThanOrEqual(1);
   });
 
   it("toggles the mobile menu visibility state", () => {

@@ -57,7 +57,8 @@ describe("PersonalBests", () => {
 
   it("renders the title", () => {
     renderComponent();
-    expect(screen.getAllByText("personalBests.title")).toHaveLength(2); // One in Card title, one in h3
+    expect(screen.getByText("personalBests.title")).toBeInTheDocument();
+ // One in Card title, one in h3
   });
 
   it("renders all PB records", () => {

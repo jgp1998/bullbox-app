@@ -14,6 +14,7 @@ const RecordsPage = lazy(() => import("@/features/records/RecordsPage"));
 const WeightConverterPage = lazy(() => import("@/features/weight-converter/WeightConverterPage"));
 const RMCalculatorPage = lazy(() => import("@/features/rm-calculator/RMCalculatorPage"));
 const LoginScreen = lazy(() => import("@/features/auth").then(m => ({ default: m.LoginScreen })));
+const FeedbackPage = lazy(() => import("@/features/feedback").then(m => ({ default: m.FeedbackPage })));
 
 // Global components
 const GlobalModalContainer = lazy(() => import("@/shared/components/layout/GlobalModalContainer"));
@@ -58,6 +59,7 @@ const App = () => {
             <Route path="/marcas" element={<RecordsPage />} />
             <Route path="/conversor" element={<WeightConverterPage />} />
             <Route path="/calculadora" element={<RMCalculatorPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
             
             {/* Fallback to Dashboard */}
             <Route path="*" element={<Navigate to="/" replace />} />
