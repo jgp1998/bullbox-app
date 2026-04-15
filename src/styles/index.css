@@ -15,15 +15,15 @@ select option {
 }
 
 :root {
-  --background: #1a1a1a;
-  --card: #2c2c2c;
-  --input: #3a3a3a;
-  --text: #f0f0f0;
-  --muted-text: #d1d1d1;
-  --primary: #e63946;
-  --secondary: #f1faee;
-  --accent: #a8dadc;
-  --border: #4a4a4a;
+  --background: #000000;
+  --card: #0a0a0a;
+  --input: #141414;
+  --text: #ffffff;
+  --muted-text: #a0a0a0;
+  --primary: #FF9D13;
+  --secondary: #9F5B09;
+  --accent: #FF9D13;
+  --border: #222222;
 }
 
 html,
