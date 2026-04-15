@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/jgp1998/bullbox-app/compare/v1.8.0...v1.9.0) (2026-04-15)
+
+
+### Features
+
+* added palette color bullbox ([ae96f47](https://github.com/jgp1998/bullbox-app/commit/ae96f47f5c6c58ac851f245fbb561d50f98ac5eb))
+
 ## [1.8.0](https://github.com/jgp1998/bullbox-app/compare/v1.7.0...v1.8.0) (2026-04-14)
 
 
