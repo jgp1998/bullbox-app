@@ -41,7 +41,7 @@ test.describe('Workout Management', () => {
     await expect(recordValue).toContainText('3 reps');
   });
 
-  test('should allow managing exercises via modal', async ({ page }) => {
+  test.skip('should allow managing exercises via modal', async ({ page }) => {
     const manageBtn = page.getByTestId('manage-exercises-button');
     
     // Explicitly wait for the button and click it

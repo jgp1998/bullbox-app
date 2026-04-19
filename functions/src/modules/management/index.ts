@@ -1,4 +1,4 @@
-import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { onCall } from "firebase-functions/v2/https";
 import { getFirestore } from "firebase-admin/firestore";
 import { validateRole } from "../../shared/middleware/auth.middleware.js";
 
@@ -7,29 +7,29 @@ import { validateRole } from "../../shared/middleware/auth.middleware.js";
  * Requires 'administrator' role.
  */
 export const createInvite = onCall(async (request) => {
-    const { boxId, email, role } = request.data;
+  const { boxId, email, role } = request.data;
 
-    // 1. Security check: Only administrators can create invites
-    await validateRole(request, boxId, ['administrator']);
+  // 1. Security check: Only administrators can create invites
+  await validateRole(request, boxId, ["administrator"]);
 
-    const db = getFirestore();
-    
-    // 2. Business logic: Create the invite record
-    const inviteRef = db.collection('invites').doc();
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7); // 7 days expiration
+  const db = getFirestore();
 
-    const inviteData = {
-        boxId,
-        email,
-        role,
-        status: 'pending',
-        createdAt: new Date(),
-        expiresAt,
-        invitedBy: request.auth?.uid
-    };
+  // 2. Business logic: Create the invite record
+  const inviteRef = db.collection("invites").doc();
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7); // 7 days expiration
 
-    await inviteRef.set(inviteData);
+  const inviteData = {
+    boxId,
+    email,
+    role,
+    status: "pending",
+    createdAt: new Date(),
+    expiresAt,
+    invitedBy: request.auth?.uid,
+  };
 
-    return { success: true, inviteId: inviteRef.id };
+  await inviteRef.set(inviteData);
+
+  return { success: true, inviteId: inviteRef.id };
 });

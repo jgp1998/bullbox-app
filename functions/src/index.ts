@@ -10,7 +10,6 @@ import { GeminiExerciseRepository } from "./modules/exercise/infrastructure/gemi
 import { GetExerciseDetailsUseCase } from "./modules/exercise/application/get_exercise_details.usecase.js";
 
 // RBAC Middleware
-import { validateRole } from "./shared/middleware/auth.middleware.js";
 
 // Define the secret for the Gemini API Key
 const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
