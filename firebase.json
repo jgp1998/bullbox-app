@@ -16,7 +16,6 @@
     }
   ],
   "hosting": {
-    "site": "jornlift-4bd8e",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -49,5 +48,10 @@
         ]
       }
     ]
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true
+    }
   }
 }

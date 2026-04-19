@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "jornlift"
-  }
+    "default": "jornlift",
+    "develop": "bullbox-dev-jgp1998"
+  },
+  "targets": {},
+  "etags": {}
 }
