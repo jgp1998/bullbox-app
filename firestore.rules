@@ -1,22 +1,102 @@
-rules_version='2';
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Permitir acceso a un usuario solo a su propio documento y subcolecciones
+    
+    // --- Helper Functions ---
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function getMembershipData(boxId) {
+      return get(/databases/$(database)/documents/memberships/$(request.auth.uid + '_' + boxId)).data;
+    }
+    
+    function isActiveMember(boxId) {
+      return isAuthenticated() && 
+             getMembershipData(boxId).status == 'active';
+    }
+    
+    function hasRole(boxId, roles) {
+      return isActiveMember(boxId) && 
+             getMembershipData(boxId).role in roles;
+    }
+
+    // --- Rules ---
+
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isOwner(userId);
+    }
+
+    match /boxes/{boxId} {
+      allow read: if isActiveMember(boxId);
+      allow write: if hasRole(boxId, ['administrator']);
       
-      match /{document=**} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Performance data: Fortaleza Lockdown
+      match /performance_data/{athleteId} {
+        
+        function validateRecordConsistency() {
+          return request.resource.data.userId == athleteId && 
+                 request.resource.data.boxId == boxId;
+        }
+
+        allow read: if hasRole(boxId, ['coach', 'administrator']) || 
+                      (isActiveMember(boxId) && request.auth.uid == athleteId);
+        
+        allow create: if (isOwner(athleteId) && validateRecordConsistency()) || 
+                        hasRole(boxId, ['coach', 'administrator']);
+        
+        allow update: if (isOwner(athleteId) && 
+                         validateRecordConsistency() && 
+                         request.resource.data.diff(resource.data).changedKeys().hasOnly([
+                           'weight', 'reps', 'time', 'barWeight', 'volume', 'date', 'exercise'
+                         ])) || 
+                        hasRole(boxId, ['coach', 'administrator']);
+        
+        allow delete: if hasRole(boxId, ['coach', 'administrator']);
+      }
+      
+      // Financial data: Administrative can READ, ONLY administrator can WRITE/CREATE
+      match /financial_data/{userId} {
+        allow read: if hasRole(boxId, ['administrative', 'administrator']);
+        allow create, update, delete: if hasRole(boxId, ['administrator']);
+      }
+
+      match /schedule/{itemId} {
+        allow read: if isActiveMember(boxId);
+        allow write: if hasRole(boxId, ['coach', 'administrative', 'administrator']);
       }
     }
-    
-    // Feedback: authenticated users can submit feedback
-    match /feedback/{feedbackId} {
-      allow create: if request.auth != null;
+
+    match /memberships/{membershipId} {
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || 
+        hasRole(resource.data.boxId, ['administrative', 'administrator'])
+      );
+      allow write: if false; 
     }
-    
-    // Denegar el acceso a cualquier otra cosa por defecto
+
+    match /invites/{inviteId} {
+      // Expiration check: request.time must be within expiresAt
+      function isNotExpired() {
+        return request.time < resource.data.expiresAt;
+      }
+
+      allow read: if isAuthenticated() && isNotExpired() && (
+        hasRole(resource.data.boxId, ['administrative', 'administrator']) ||
+        (resource.data.inviteeUserId != null && request.auth.uid == resource.data.inviteeUserId) ||
+        (resource.data.email != null && request.auth.token.email == resource.data.email)
+      );
+
+      allow create: if hasRole(request.resource.data.boxId, ['administrator']);
+      allow delete, update: if hasRole(resource.data.boxId, ['administrator']);
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

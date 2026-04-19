@@ -4,10 +4,10 @@ import { WorkoutRecord } from '@/shared/types';
 
 describe('historyPreprocessing.service', () => {
     const mockRecords: WorkoutRecord[] = [
-        { id: '1', exercise: 'Back Squat', weight: 100, reps: 5, date: new Date().toISOString() },
-        { id: '2', exercise: 'Back Squat', weight: 105, reps: 5, date: new Date(Date.now() - 86400000).toISOString() },
-        { id: '3', exercise: 'Back Squat', weight: 110, reps: 5, date: new Date(Date.now() - 172800000).toISOString() },
-        { id: '4', exercise: 'Bench Press', weight: 60, reps: 10, date: new Date().toISOString() },
+        { id: '1', exercise: 'Back Squat', weight: 100, reps: 5, date: new Date().toISOString(), userId: 'u1', boxId: 'b1' },
+        { id: '2', exercise: 'Back Squat', weight: 105, reps: 5, date: new Date(Date.now() - 86400000).toISOString(), userId: 'u1', boxId: 'b1' },
+        { id: '3', exercise: 'Back Squat', weight: 110, reps: 5, date: new Date(Date.now() - 172800000).toISOString(), userId: 'u1', boxId: 'b1' },
+        { id: '4', exercise: 'Bench Press', weight: 60, reps: 10, date: new Date().toISOString(), userId: 'u1', boxId: 'b1' },
     ];
 
     it('calculates aggregate summary correctly', () => {
@@ -28,10 +28,10 @@ describe('historyPreprocessing.service', () => {
 
     it('detects stagnation', () => {
         const stagnationRecords: WorkoutRecord[] = [
-            { id: '1', date: '2026-10-01T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5 },
-            { id: '2', date: '2026-10-02T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5 },
-            { id: '3', date: '2026-10-03T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5 },
-            { id: '4', date: '2026-10-04T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5 },
+            { id: '1', date: '2026-10-01T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: '2', date: '2026-10-02T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: '3', date: '2026-10-03T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: '4', date: '2026-10-04T10:00:00Z', exercise: 'Deadlift', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
         ];
         const result = preprocessHistory(stagnationRecords);
         const flag = result.flags.find(f => f.type === 'stagnation_deadlift');
@@ -42,16 +42,16 @@ describe('historyPreprocessing.service', () => {
 
     it('identifies fatigue indicators', () => {
         const fatigueRecords: WorkoutRecord[] = [
-            { id: 'a1', date: '2026-10-05T10:00:00Z', exercise: 'Squat', weight: 50, reps: 5 },
-            { id: 'a2', date: '2026-10-04T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5 },
-            { id: 'a3', date: '2026-10-03T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5 },
-            { id: 'a4', date: '2026-10-02T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5 },
-            { id: 'a5', date: '2026-10-01T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5 },
-            { id: 'b1', date: '2026-10-05T11:00:00Z', exercise: 'Press', weight: 30, reps: 5 },
-            { id: 'b2', date: '2026-10-04T11:00:00Z', exercise: 'Press', weight: 60, reps: 5 },
-            { id: 'b3', date: '2026-10-03T11:00:00Z', exercise: 'Press', weight: 60, reps: 5 },
-            { id: 'b4', date: '2026-10-02T11:00:00Z', exercise: 'Press', weight: 60, reps: 5 },
-            { id: 'b5', date: '2026-10-01T11:00:00Z', exercise: 'Press', weight: 60, reps: 5 },
+            { id: 'a1', date: '2026-10-05T10:00:00Z', exercise: 'Squat', weight: 50, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'a2', date: '2026-10-04T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'a3', date: '2026-10-03T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'a4', date: '2026-10-02T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'a5', date: '2026-10-01T10:00:00Z', exercise: 'Squat', weight: 100, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'b1', date: '2026-10-05T11:00:00Z', exercise: 'Press', weight: 30, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'b2', date: '2026-10-04T11:00:00Z', exercise: 'Press', weight: 60, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'b3', date: '2026-10-03T11:00:00Z', exercise: 'Press', weight: 60, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'b4', date: '2026-10-02T11:00:00Z', exercise: 'Press', weight: 60, reps: 5, userId: 'u1', boxId: 'b1' },
+            { id: 'b5', date: '2026-10-01T11:00:00Z', exercise: 'Press', weight: 60, reps: 5, userId: 'u1', boxId: 'b1' },
         ];
         const result = preprocessHistory(fatigueRecords);
         expect(result.flags.some(f => f.type === 'potential_fatigue')).toBe(true);

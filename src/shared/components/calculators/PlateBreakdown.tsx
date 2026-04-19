@@ -1,5 +1,5 @@
 import React from 'react';
-import type { User } from '@/features/auth/types';
+import type { User } from '@/core/domain/models/User';
 import { OLYMPIC_BARBELLS } from '@/shared/constants';
 import { useI18n } from '@/shared/context/i18n';
 import { calculatePlates, WeightUnit } from '@/shared/utils/calculator';

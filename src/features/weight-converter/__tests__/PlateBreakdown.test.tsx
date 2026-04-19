@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import PlateBreakdown from '@/shared/components/calculators/PlateBreakdown';
-import type { User } from "@/features/auth/types";
+import type { User } from '@/core/domain/models/User';
 
 // Mock context/i18n
 vi.mock("@/shared/context/i18n", () => ({

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import type { User } from '@/features/auth/types';
+import type { User } from '@/core/domain/models/User';
 import type { WorkoutRecord } from '@/shared/types';
 import { CalculatorIcon } from '@/shared/components/ui/Icons';
 import { calculate1RM } from '@/shared/utils/calculator';

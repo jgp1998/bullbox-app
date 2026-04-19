@@ -10,7 +10,8 @@ export interface WorkoutRecord {
   reps?: number;
   time?: number; // total seconds
   barWeight?: number; // weight of the bar in kg
-  userId?: string;
+  userId: string;
+  boxId: string;
   type?: string;
   volume?: number;
 }

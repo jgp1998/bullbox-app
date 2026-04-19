@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import type { WorkoutRecord } from "@/shared/types";
-import type { User } from "@/features/auth/types";
+import type { User } from '@/core/domain/models/User';
 import PercentageCalculator from "../components/PercentageCalculator";
 
 // Mock context/i18n
@@ -97,6 +97,8 @@ describe("PercentageCalculator", () => {
       weight: 100,
       unit: "kg",
       reps: 5,
+      userId: "test-uid",
+      boxId: "test-box",
     },
     {
       id: "2",
@@ -105,6 +107,8 @@ describe("PercentageCalculator", () => {
       weight: 80,
       unit: "kg",
       reps: 1,
+      userId: "test-uid",
+      boxId: "test-box",
     },
   ];
 

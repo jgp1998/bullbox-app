@@ -99,6 +99,13 @@ vi.mock("../hooks", () => ({
     })
 }));
 
+vi.mock("@/features/auth/store/useAuthStore", () => ({
+  useAuthStore: () => ({
+    user: { uid: "test-user-id" },
+    activeBoxId: "test-box-id",
+  }),
+}));
+
 describe("WorkoutForm", () => {
   const mockOnAddRecord = vi.fn();
 

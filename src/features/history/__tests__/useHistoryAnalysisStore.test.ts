@@ -41,6 +41,8 @@ describe("useHistoryAnalysisStore", () => {
       type: "Weight",
       reps: 5,
       weight: 100,
+      userId: 'u1',
+      boxId: 'b1',
     } as HistoryRecord;
 
     await state.getAnalysis(dummyRecord, [dummyRecord]);
@@ -92,6 +94,8 @@ describe("useHistoryAnalysisStore", () => {
       type: "Weight",
       reps: 5,
       weight: 100,
+      userId: 'u1',
+      boxId: 'b1',
     } as HistoryRecord;
 
     await state.getAnalysis(dummyRecord, [dummyRecord]);

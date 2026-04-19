@@ -31,7 +31,7 @@ describe("Records Hooks", () => {
 
   const mockUser = { uid: "user-123" };
   const mockRecords = [
-    { id: "1", exercise: "Squat", weight: 100, reps: 5, date: "2023-01-01" },
+    { id: "1", exercise: "Squat", weight: 100, reps: 5, date: "2023-01-01", userId: "user-123", boxId: "box-456" },
   ];
 
   beforeEach(() => {
@@ -107,6 +107,8 @@ describe("Records Hooks", () => {
         weight: 80,
         reps: 5,
         date: "2023-01-02",
+        userId: "user-123",
+        boxId: "box-456",
       };
 
       await act(async () => {

@@ -8,6 +8,7 @@ import Card from '@/shared/components/ui/Card';
 import Button from '@/shared/components/ui/Button';
 import Input from '@/shared/components/ui/Input';
 import { useUIStore } from '@/shared/store/useUIStore';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { useExercises } from '../hooks';
 
 const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) => void }> = ({ onAddRecord }) => {
@@ -15,6 +16,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
   const { exercises } = useExercises();
   const { t } = useI18n();
   const { showSuccess, showError } = useToast();
+  const { user, activeBoxId } = useAuthStore();
   const [exercise, setExercise] = useState('');
   
   // Get local YYYY-MM-DD string
@@ -93,9 +95,16 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
       return;
     }
 
+    if (!user || !activeBoxId) {
+      setError(t('workoutForm.errors.authRequired'));
+      return;
+    }
+
     const newRecord: Omit<WorkoutRecord, 'id'> = {
       date,
       exercise,
+      userId: user.uid,
+      boxId: activeBoxId,
     };
 
     if (!isNaN(numWeight)) {

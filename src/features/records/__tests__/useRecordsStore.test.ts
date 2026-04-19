@@ -26,6 +26,8 @@ describe("useRecordsStore", () => {
         weight: 100,
         reps: 5,
         unit: "kg",
+        userId: "u1",
+        boxId: "b1",
       },
     ];
 
@@ -52,6 +54,8 @@ describe("useRecordsStore", () => {
           weight: 100,
           reps: 5,
           unit: "kg",
+          userId: "u1",
+          boxId: "b1",
         },
         {
           id: "2",
@@ -60,6 +64,8 @@ describe("useRecordsStore", () => {
           weight: 110,
           reps: 5,
           unit: "kg",
+          userId: "u1",
+          boxId: "b1",
         }, // New best
         {
           id: "3",
@@ -68,6 +74,8 @@ describe("useRecordsStore", () => {
           weight: 80,
           reps: 5,
           unit: "kg",
+          userId: "u1",
+          boxId: "b1",
         },
       ];
 
@@ -92,6 +100,8 @@ describe("useRecordsStore", () => {
           weight: 100,
           reps: 10,
           unit: "kg",
+          userId: "u1",
+          boxId: "b1",
         }, // 1RM ~133
         {
           id: "2",
@@ -100,6 +110,8 @@ describe("useRecordsStore", () => {
           weight: 120,
           reps: 2,
           unit: "kg",
+          userId: "u1",
+          boxId: "b1",
         }, // 1RM ~128
       ];
 
@@ -113,8 +125,8 @@ describe("useRecordsStore", () => {
     it("should handle time-based exercises (lower is better)", () => {
       const store = useRecordsStore.getState();
       const mockRecords: WorkoutRecord[] = [
-        { id: "1", date: "2023-01-01", exercise: "Fran", time: 300 }, // 5 mins
-        { id: "2", date: "2023-01-05", exercise: "Fran", time: 280 }, // 4:40 mins (new best)
+        { id: "1", date: "2023-01-01", exercise: "Fran", time: 300, userId: "u1", boxId: "b1" }, // 5 mins
+        { id: "2", date: "2023-01-05", exercise: "Fran", time: 280, userId: "u1", boxId: "b1" }, // 4:40 mins (new best)
       ];
 
       store.setRecords(mockRecords);
@@ -135,6 +147,8 @@ describe("useRecordsStore", () => {
           weight: 100,
           reps: 1,
           unit: "kg",
+          userId: "u1",
+          boxId: "b1",
         },
         {
           id: "2",
@@ -143,6 +157,8 @@ describe("useRecordsStore", () => {
           weight: 210,
           reps: 1,
           unit: "lbs",
+          userId: "u1",
+          boxId: "b1",
         },
       ];
 
