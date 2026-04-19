@@ -28,6 +28,7 @@ describe("PersonalBests", () => {
       reps: 5,
       unit: "kg",
       userId: "u1",
+      boxId: "b1",
       type: "strength",
       volume: 500
     },
@@ -39,6 +40,7 @@ describe("PersonalBests", () => {
       reps: 8,
       unit: "kg",
       userId: "u1",
+      boxId: "b1",
       type: "strength",
       volume: 640
     },

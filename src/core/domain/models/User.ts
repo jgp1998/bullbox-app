@@ -5,4 +5,5 @@ export interface User {
     gender: 'Male' | 'Female' | 'Other';
     dob: string;
     photoURL?: string;
+    activeBoxId?: string;
 }

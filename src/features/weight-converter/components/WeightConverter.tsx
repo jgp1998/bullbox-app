@@ -1,6 +1,6 @@
 import React from 'react';
 import { useI18n } from '@/shared/context/i18n';
-import { User } from '@/features/auth/types';
+import type { User } from '@/core/domain/models/User';
 import PlateBreakdown from '@/shared/components/calculators/PlateBreakdown';
 import Card from '@/shared/components/ui/Card';
 import Input from '@/shared/components/ui/Input';
