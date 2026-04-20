@@ -34,7 +34,8 @@ export class FirebaseAuthRepository implements AuthRepository {
       username: rest.username,
       gender: rest.gender,
       email: rest.email,
-      dob: rest.dob
+      dob: rest.dob,
+      role: 'athlete'
     });
 
     return FirebaseUserMapper.toDomain(firebaseUser, rest);
@@ -64,7 +65,8 @@ export class FirebaseAuthRepository implements AuthRepository {
         username: data.username,
         email: data.email,
         gender: data.gender,
-        dob: data.dob
+        dob: data.dob,
+        role: data.role || 'athlete'
       };
     }
     return null;

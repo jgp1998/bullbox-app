@@ -3,45 +3,76 @@ import { login } from './helpers/auth';
 
 test.describe('Workout Management', () => {
   test.beforeEach(async ({ page }) => {
+    // Force English language for predictable UI text assertions
+    await page.addInitScript(() => {
+      window.localStorage.setItem('bullboxLanguage', 'en');
+    });
+    
     await login(page);
     
-    // Navigate to the workout registration page explicitly
+    // Navigate to the workout registration page
     await page.goto('/entrenar');
     
-    // Ensure the main form is truly ready and stable
-    const formCard = page.getByTestId('workout-form-card');
-    await expect(formCard).toBeVisible({ timeout: 20000 });
-    // Small delay to ensure React state has settled (avoid "detached from DOM" or hydration issues)
-    await page.waitForTimeout(500);
+    // Ensure the main form is ready
+    await expect(page.getByTestId('workout-form-card')).toBeVisible({ timeout: 20000 });
   });
 
-  test.skip('should add a new exercise record', async ({ page }) => {
-    // Fill out the form
-    // The previous tests failed because they were too fast, using fill with specialized interaction logic
-    await page.getByTestId('weight-input').click({ delay: 100 });
-    await page.getByTestId('weight-input').fill('110');
+  test('should add a new exercise record', async ({ page }) => {
+    // 1. Ensure at least one exercise exists
+    const exerciseSelect = page.getByTestId('exercise-select');
+    // Check if the select is empty or has no options beyond placeholder
+    const optionsCount = await exerciseSelect.locator('option').count();
     
-    await page.getByTestId('reps-input').click({ delay: 100 });
+    if (optionsCount === 0) {
+      // Add 'Back Squat' if no exercises exist
+      await page.getByTestId('manage-exercises-button').click();
+      const modal = page.getByRole('dialog');
+      await modal.locator('input').fill('Back Squat');
+      await modal.locator('button').filter({ hasText: '+' }).click();
+      // Ensure it was added (list length increased or toast)
+      await page.keyboard.press('Escape');
+      // Wait for modal to be gone
+      await expect(modal).not.toBeVisible();
+      // Wait for the dropdown to update
+      await expect(exerciseSelect.locator('option')).toHaveCount(1, { timeout: 5000 });
+    }
+
+    // 2. Fill out the form
+    // Use a small delay before filling to ensure the focus is clear of any vanishing modals
+    await page.waitForTimeout(300);
+    await page.getByTestId('weight-input').fill('110');
     await page.getByTestId('reps-input').fill('3');
     
-    await page.getByTestId('bar-weight-input').click({ delay: 100 });
+    // Toggle advanced options for bar weight
+    await page.getByTestId('advanced-toggle').click();
     await page.getByTestId('bar-weight-input').fill('20');
     
-    // Add record
+    // 3. Add record
     await page.getByTestId('add-record-button').click();
     
-    // Navigate back to the dashboard to see the history
+    // Wait for success toast with regex matching to be language-resilient (English is forced)
+    await expect(page.locator('text=/record added successfully/i')).toBeVisible({ timeout: 12000 });
+    
+    // 4. Navigate back to the dashboard to see the history
     await page.goto('/');
     
-    // Check if the record appears in history
-    // We look for the record that specifically contains the value we just added
+    // 5. Check if the record appears in history
+    // Cloud Firestore might be slow, so we use a generous timeout and potentially a reload
     const recordValue = page.getByTestId('record-value').filter({ hasText: '110 kg' }).first();
-    await expect(recordValue).toBeVisible({ timeout: 20000 });
+    
+    try {
+      await expect(recordValue).toBeVisible({ timeout: 15000 });
+    } catch (e) {
+      // Retry with a reload if not visible (sometimes needed for real-time updates to catch up)
+      await page.reload();
+      await expect(recordValue).toBeVisible({ timeout: 10000 });
+    }
+    
     await expect(recordValue).toContainText('110 kg');
     await expect(recordValue).toContainText('3 reps');
   });
 
-  test.skip('should allow managing exercises via modal', async ({ page }) => {
+  test('should allow managing exercises via modal', async ({ page }) => {
     const manageBtn = page.getByTestId('manage-exercises-button');
     
     // Explicitly wait for the button and click it

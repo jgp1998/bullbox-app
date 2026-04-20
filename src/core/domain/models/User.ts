@@ -1,3 +1,5 @@
+import { UserRole } from './Role';
+
 export interface User {
     uid: string;
     username: string;
@@ -6,4 +8,5 @@ export interface User {
     dob: string;
     photoURL?: string;
     activeBoxId?: string;
+    role: UserRole;
 }

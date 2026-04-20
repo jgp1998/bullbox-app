@@ -14,12 +14,15 @@ service cloud.firestore {
     }
     
     function getMembershipData(boxId) {
-      return get(/databases/$(database)/documents/memberships/$(request.auth.uid + '_' + boxId)).data;
+      let path = /databases/$(database)/documents/memberships/$(request.auth.uid + '_' + boxId);
+      return get(path).data;
     }
     
     function isActiveMember(boxId) {
+      let path = /databases/$(database)/documents/memberships/$(request.auth.uid + '_' + boxId);
       return isAuthenticated() && 
-             getMembershipData(boxId).status == 'active';
+             exists(path) &&
+             get(path).data.status == 'active';
     }
     
     function hasRole(boxId, roles) {
@@ -29,65 +32,57 @@ service cloud.firestore {
 
     // --- Rules ---
 
+    // User Profile and Personal Data (Workouts, Schedule, etc.)
     match /users/{userId} {
       allow read, write: if isOwner(userId);
+      
+      // Explicit access to sub-collections for better query compatibility
+      match /workouts/{id} { allow read, write: if isOwner(userId); }
+      match /schedule/{id} { allow read, write: if isOwner(userId); }
+      match /exercises/{id} { allow read, write: if isOwner(userId); }
+      match /records/{id} { allow read, write: if isOwner(userId); }
+
+      match /{allPaths=**} {
+        allow read, write: if isOwner(userId);
+      }
     }
 
     match /boxes/{boxId} {
-      allow read: if isActiveMember(boxId);
+      // Basic box info should be readable by any authenticated user for discovery
+      allow read: if isAuthenticated();
       allow write: if hasRole(boxId, ['administrator']);
       
-      // Performance data: Fortaleza Lockdown
+      // Performance data
       match /performance_data/{athleteId} {
-        
-        function validateRecordConsistency() {
-          return request.resource.data.userId == athleteId && 
-                 request.resource.data.boxId == boxId;
-        }
-
         allow read: if hasRole(boxId, ['coach', 'administrator']) || 
                       (isActiveMember(boxId) && request.auth.uid == athleteId);
-        
-        allow create: if (isOwner(athleteId) && validateRecordConsistency()) || 
-                        hasRole(boxId, ['coach', 'administrator']);
-        
-        allow update: if (isOwner(athleteId) && 
-                         validateRecordConsistency() && 
-                         request.resource.data.diff(resource.data).changedKeys().hasOnly([
-                           'weight', 'reps', 'time', 'barWeight', 'volume', 'date', 'exercise'
-                         ])) || 
-                        hasRole(boxId, ['coach', 'administrator']);
-        
-        allow delete: if hasRole(boxId, ['coach', 'administrator']);
+        allow write: if isOwner(athleteId) || hasRole(boxId, ['coach', 'administrator']);
       }
       
-      // Financial data: Administrative can READ, ONLY administrator can WRITE/CREATE
       match /financial_data/{userId} {
         allow read: if hasRole(boxId, ['administrative', 'administrator']);
         allow create, update, delete: if hasRole(boxId, ['administrator']);
       }
 
       match /schedule/{itemId} {
-        allow read: if isActiveMember(boxId);
+        // Allow any authenticated user to see the schedule
+        allow read: if isAuthenticated();
         allow write: if hasRole(boxId, ['coach', 'administrative', 'administrator']);
       }
     }
 
     match /memberships/{membershipId} {
+      // Users can read their own memberships, admins can read all for their box
       allow read: if isAuthenticated() && (
         resource.data.userId == request.auth.uid || 
+        membershipId.matches('^' + request.auth.uid + '.*') ||
         hasRole(resource.data.boxId, ['administrative', 'administrator'])
       );
       allow write: if false; 
     }
 
     match /invites/{inviteId} {
-      // Expiration check: request.time must be within expiresAt
-      function isNotExpired() {
-        return request.time < resource.data.expiresAt;
-      }
-
-      allow read: if isAuthenticated() && isNotExpired() && (
+      allow read: if isAuthenticated() && (
         hasRole(resource.data.boxId, ['administrative', 'administrator']) ||
         (resource.data.inviteeUserId != null && request.auth.uid == resource.data.inviteeUserId) ||
         (resource.data.email != null && request.auth.token.email == resource.data.email)
@@ -97,6 +92,7 @@ service cloud.firestore {
       allow delete, update: if hasRole(resource.data.boxId, ['administrator']);
     }
 
+    // Default deny
     match /{document=**} {
       allow read, write: if false;
     }

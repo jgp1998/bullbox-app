@@ -87,6 +87,7 @@ describe("PercentageCalculator", () => {
     gender: "Male",
     email: "test@test.com",
     dob: "1990-01-01",
+    role: "athlete",
   };
 
   const mockRecords: WorkoutRecord[] = [

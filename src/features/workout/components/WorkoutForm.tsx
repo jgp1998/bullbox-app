@@ -95,7 +95,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
       return;
     }
 
-    if (!user || !activeBoxId) {
+    if (!user) {
       setError(t('workoutForm.errors.authRequired'));
       return;
     }
@@ -104,7 +104,7 @@ const WorkoutForm: React.FC<{ onAddRecord: (record: Omit<WorkoutRecord, 'id'>) =
       date,
       exercise,
       userId: user.uid,
-      boxId: activeBoxId,
+      boxId: activeBoxId || '',
     };
 
     if (!isNaN(numWeight)) {

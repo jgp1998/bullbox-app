@@ -64,7 +64,8 @@ describe('historyPreprocessing.service', () => {
             username: 'test',
             email: 'test@test.com',
             gender: 'Male' as const,
-            dob: '1990-01-01'
+            dob: '1990-01-01',
+            role: 'athlete' as const
         };
         const result = preprocessHistory([], mockUser);
         const expectedAge = new Date().getFullYear() - 1990;
