@@ -110,7 +110,8 @@ describe("LoginScreen", () => {
         email: "new@example.com",
         dob: "1990-01-01",
         gender: "Male",
-        password: "Password123!"
+        password: "Password123!",
+        role: "athlete"
       });
     });
   });

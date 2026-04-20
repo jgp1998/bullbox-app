@@ -9,7 +9,8 @@ export class FirebaseUserMapper {
       username: userData?.username || firebaseUser.displayName || '',
       gender: userData?.gender || 'Other',
       dob: userData?.dob || '',
-      photoURL: firebaseUser.photoURL || undefined
+      photoURL: firebaseUser.photoURL || undefined,
+      role: userData?.role || 'athlete'
     };
   }
 }

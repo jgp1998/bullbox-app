@@ -117,6 +117,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         email,
         dob,
         gender,
+        role: 'athlete' as const,
       };
 
       await register({ ...newUser, password });

@@ -29,7 +29,8 @@ describe('useAuthStore', () => {
         email: 'test@example.com',
         username: 'testuser',
         gender: 'Male' as const,
-        dob: '2000-01-01'
+        dob: '2000-01-01',
+        role: 'athlete' as const
     };
 
     beforeEach(() => {
