@@ -30,15 +30,19 @@ export class FirebaseAuthRepository implements AuthRepository {
     const { user: firebaseUser } = await createUserWithEmailAndPassword(auth, userData.email, password);
     
     // Guardar datos adicionales en Firestore
-    await setDoc(doc(db, 'users', firebaseUser.uid), {
+    const firestoreData = {
       username: rest.username,
       gender: rest.gender,
       email: rest.email,
       dob: rest.dob,
-      role: rest.role
-    });
+      role: rest.role || 'athlete' // Fallback explicit to athlete
+    };
 
-    return FirebaseUserMapper.toDomain(firebaseUser, rest);
+    console.log('[Registration] Payload to Firestore:', firestoreData);
+
+    await setDoc(doc(db, 'users', firebaseUser.uid), firestoreData);
+
+    return FirebaseUserMapper.toDomain(firebaseUser, { ...rest, role: firestoreData.role });
   }
 
   async resetUserPassword(email: string): Promise<void> {
