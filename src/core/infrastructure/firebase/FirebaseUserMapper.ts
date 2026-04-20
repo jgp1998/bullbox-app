@@ -10,7 +10,7 @@ export class FirebaseUserMapper {
       gender: userData?.gender || 'Other',
       dob: userData?.dob || '',
       photoURL: firebaseUser.photoURL || undefined,
-      role: userData?.role || 'athlete'
+      role: userData?.role
     };
   }
 }
