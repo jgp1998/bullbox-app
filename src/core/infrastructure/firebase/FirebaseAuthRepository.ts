@@ -35,7 +35,7 @@ export class FirebaseAuthRepository implements AuthRepository {
       gender: rest.gender,
       email: rest.email,
       dob: rest.dob,
-      role: 'athlete'
+      role: rest.role
     });
 
     return FirebaseUserMapper.toDomain(firebaseUser, rest);
