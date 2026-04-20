@@ -10,7 +10,7 @@ export interface AuthState {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    register: (newUser: Omit<User, 'uid'> & { password: string }) => Promise<void>;
+    register: (newUser: Omit<User, 'uid' | 'role'> & { password: string }) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     setUser: (user: User | null) => void;
     setMemberships: (memberships: Membership[]) => void;
